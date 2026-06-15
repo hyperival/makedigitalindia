@@ -1,124 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Make Digital India | Construction & Real Estate OS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Make Digital India | Construction & Real Estate OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <div class="logo">Make Digital India</div>
-            <ul class="nav-links">
-                <li><a href="#products">Solutions</a></li>
-                <li><a href="#implementation">Implementation</a></li>
-                <li><a href="#" class="login-btn">Client Login</a></li>
-                <li><a href="#" class="btn btn-primary">Book a Demo</a></li>
-            </ul>
+  <!-- ── NAVBAR ─────────────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <div class="logo">make<span>digital</span>india</div>
+      <ul class="nav-links">
+        <li><a href="#solutions">Solutions</a></li>
+        <li><a href="#industries">Industries</a></li>
+        <li><a href="#how">Portfolio</a></li>
+        <li><a href="#how">About</a></li>
+        <li><a href="#cta" class="btn-nav">Get a Demo</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── HERO ───────────────────────────────────────────────── -->
+  <header class="hero">
+    <div class="hero-geo" aria-hidden="true"></div>
+    <div class="container hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Built for Indian Businesses
+      </div>
+      <div class="hero-eyebrow">Your business, fully</div>
+      <h1>digital &amp; automated</h1>
+      <p class="hero-sub">
+        We build custom operations software for businesses across India — tailored to how you actually work. WhatsApp-first, Hindi-ready, no legacy bloat.
+      </p>
+      <div class="hero-buttons">
+        <a href="#cta" class="btn-primary-hero">
+          Book a Live Demo
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#solutions" class="btn-ghost-hero">Explore Modules</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="stat-dot"></span>20+ systems deployed</div>
+        <div class="hero-stat"><span class="stat-dot"></span>10+ businesses digitised</div>
+        <div class="hero-stat"><span class="stat-dot"></span>WhatsApp + AI integrated</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── METRICS STRIP ──────────────────────────────────────── -->
+  <section class="metrics">
+    <div class="container">
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <div class="metric-num">20+</div>
+          <div class="metric-lbl">Systems built</div>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="container hero-content">
-            <h1>The Complete Operating System for Construction & Real Estate.</h1>
-            <p>Replace clunky ERPs, manual registers, and WhatsApp chaos. Make Digital India provides zero-friction mobile apps for your site teams and powerful web analytics for your boardroom.</p>
-            <div class="hero-buttons">
-                <a href="#" class="btn btn-primary btn-large">Book a Live Demo</a>
-                <a href="#products" class="btn btn-secondary btn-large">Explore Modules</a>
-            </div>
+        <div class="metric-item">
+          <div class="metric-num">10+</div>
+          <div class="metric-lbl">Sites digitised</div>
         </div>
-    </header>
-
-    <!-- Social Proof -->
-    <section class="social-proof">
-        <div class="container">
-            <p>Trusted by industry leaders to digitize daily operations, prevent material pilferage, and accelerate project handovers. <strong>Read the HDG India Case Study.</strong></p>
+        <div class="metric-item">
+          <div class="metric-num">6+</div>
+          <div class="metric-lbl">WhatsApp integrations</div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- The Problem Section -->
-    <section class="problem-section container">
-        <div class="problem-text">
-            <h2>Stop paying for software your field staff won't use.</h2>
-            <p>Traditional ERP software is built for accountants sitting in AC offices. We built our ecosystem for the dust and speed of the construction site. With WhatsApp AI voice inputs and simple mobile apps, your site engineers log data in seconds, giving management 100% real-time visibility.</p>
+  <!-- ── SOLUTIONS ──────────────────────────────────────────── -->
+  <section id="solutions" class="solutions">
+    <div class="container">
+      <div class="section-eyebrow">Solutions we offer</div>
+      <h2 class="section-title">The SaaS modules</h2>
+      <p class="section-sub">Purpose-built for construction, real estate, and field operations — not adapted from an ERP.</p>
+      <div class="solutions-grid">
+
+        <div class="sol-card">
+          <div class="sol-icon green">📦</div>
+          <h3>Inventory &amp; IMS</h3>
+          <p>Multi-site, WhatsApp AI</p>
         </div>
-    </section>
 
-    <!-- Product Suites -->
-    <section id="products" class="products-section">
-        <div class="container">
-            <h2 class="section-title">The SaaS Modules</h2>
-            <div class="grid">
-                
-                <!-- Suite 1 -->
-                <div class="card">
-                    <div class="card-icon">📦</div>
-                    <h3>Supply Chain & Inventory</h3>
-                    <p>Get 100% visibility over materials. Field staff log multi-site challans and consumption via a simple mobile app or a WhatsApp voice note. Automatically generate purchase orders when stock hits critical levels.</p>
-                </div>
-
-                <!-- Suite 2 -->
-                <div class="card">
-                    <div class="card-icon">🏗️</div>
-                    <h3>Project Management & BIM</h3>
-                    <p>Connect live 3D building models directly to on-ground progress. Track Earned Value Management (SPI/CPI), forecast delays, and view visual floor-by-floor progress updates submitted daily.</p>
-                </div>
-
-                <!-- Suite 3 -->
-                <div class="card">
-                    <div class="card-icon">👥</div>
-                    <h3>Workforce & HR Automation</h3>
-                    <p>Eliminate proxy attendance with GPS + Camera-verified mobile punch-ins and Hindi voice confirmations. Manage your entire workforce from a central HR dashboard handling payroll and leave approvals.</p>
-                </div>
-
-                <!-- Suite 4 -->
-                <div class="card">
-                    <div class="card-icon">💼</div>
-                    <h3>Financials & Operations</h3>
-                    <p>Secure your cash flow with a structured 5-stage Payment Tracker and automated weekly summaries. Drive accountability with daily auto-generated checklists and enforced PC task workflows.</p>
-                </div>
-
-            </div>
+        <div class="sol-card">
+          <div class="sol-icon teal">✅</div>
+          <h3>Attendance</h3>
+          <p>GPS + camera + Hindi voice</p>
         </div>
-    </section>
 
-    <!-- Implementation Roadmap -->
-    <section id="implementation" class="implementation-section">
-        <div class="container">
-            <h2 class="section-title">Live Across Your Sites in 7 Days</h2>
-            <p class="section-subtitle">We don't just hand you a login and wish you luck. Our team ensures a frictionless rollout with zero downtime.</p>
-            <div class="timeline">
-                <div class="timeline-step">
-                    <h4>Day 1: System Configuration</h4>
-                    <p>We map your sites, employee hierarchies, and material master lists into the portal.</p>
-                </div>
-                <div class="timeline-step">
-                    <h4>Day 3: Data Import</h4>
-                    <p>We port over your existing vendor lists, inventory balances, and HR data securely.</p>
-                </div>
-                <div class="timeline-step">
-                    <h4>Day 5: Field Training</h4>
-                    <p>A quick, 30-minute orientation for site engineers on using the Mobile App and WhatsApp AI.</p>
-                </div>
-                <div class="timeline-step">
-                    <h4>Day 7: Go Live</h4>
-                    <p>Your command center is fully operational and tracking real-time site data.</p>
-                </div>
-            </div>
+        <div class="sol-card">
+          <div class="sol-icon gold">🧾</div>
+          <h3>Task &amp; Checklists</h3>
+          <p>Auto scoring, leaderboard</p>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Make Digital India. All rights reserved.</p>
+        <div class="sol-card">
+          <div class="sol-icon coral">💼</div>
+          <h3>Payment Tracker</h3>
+          <p>5-stage, auto-archive</p>
         </div>
-    </footer>
+
+        <div class="sol-card">
+          <div class="sol-icon purple">🏗️</div>
+          <h3>BIM Tracker</h3>
+          <p>3D model + EVM</p>
+        </div>
+
+        <div class="sol-card">
+          <div class="sol-icon blue">💬</div>
+          <h3>WhatsApp AI Agents</h3>
+          <p>Voice, Hindi, Hinglish</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW WE WORK ─────────────────────────────────────────── -->
+  <section id="how" class="how">
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="section-eyebrow">How we work</div>
+      <h2 class="how-title">Live across your sites in 7 days.</h2>
+      <div class="how-grid">
+        <div class="how-step">
+          <div class="step-num">01</div>
+          <div class="step-icon">🔍</div>
+          <h4>Free Audit</h4>
+          <p>We map your manual processes and identify every point of friction.</p>
+        </div>
+        <div class="how-step">
+          <div class="step-num">02</div>
+          <div class="step-icon">✏️</div>
+          <h4>Design</h4>
+          <p>Custom to your workflow. No generic templates handed to field teams.</p>
+        </div>
+        <div class="how-step">
+          <div class="step-num">03</div>
+          <div class="step-icon">⚙️</div>
+          <h4>Build</h4>
+          <p>Live in weeks, not months. Data migration and training included.</p>
+        </div>
+        <div class="how-step">
+          <div class="step-num">04</div>
+          <div class="step-icon">💬</div>
+          <h4>Support</h4>
+          <p>Ongoing via WhatsApp. Your team never gets left with a ticket queue.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INDUSTRIES ─────────────────────────────────────────── -->
+  <section id="industries" class="industries">
+    <div class="container">
+      <div class="section-eyebrow">Industries we serve</div>
+      <h2 class="section-title">Built for your sector</h2>
+      <div class="ind-tabs">
+        <button class="ind-tab" onclick="showInd('construction', this)">Construction</button>
+        <button class="ind-tab" onclick="showInd('manufacturing', this)">Manufacturing</button>
+        <button class="ind-tab" onclick="showInd('realestate', this)">Real Estate</button>
+        <button class="ind-tab" onclick="showInd('retail', this)">Retail &amp; SME</button>
+        <button class="ind-tab" onclick="showInd('healthcare', this)">Healthcare</button>
+        <button class="ind-tab active" onclick="showInd('logistics', this)">Logistics</button>
+      </div>
+      <div id="panel-construction" class="ind-panel">
+        <h3>Construction</h3>
+        <p>Site-level material tracking, challan management, GPS attendance, and 3D BIM progress updates — built for engineers who are on-site, not at a desk.</p>
+        <div class="ind-tags">
+          <span class="ind-tag">Material IMS</span>
+          <span class="ind-tag">GPS attendance</span>
+          <span class="ind-tag">BIM tracker</span>
+          <span class="ind-tag">Subcontractor billing</span>
+        </div>
+      </div>
+      <div id="panel-manufacturing" class="ind-panel">
+        <h3>Manufacturing</h3>
+        <p>Production line checklists, machine downtime logs, worker shift tracking, and WhatsApp-based QC sign-offs — built for plant managers who move fast.</p>
+        <div class="ind-tags">
+          <span class="ind-tag">Production checklists</span>
+          <span class="ind-tag">Machine logs</span>
+          <span class="ind-tag">Shift tracking</span>
+          <span class="ind-tag">WhatsApp QC</span>
+        </div>
+      </div>
+      <div id="panel-realestate" class="ind-panel">
+        <h3>Real Estate</h3>
+        <p>Project handover tracking, customer payment pipelines, snag-list management, and unit-wise progress dashboards — end to end without an ERP license.</p>
+        <div class="ind-tags">
+          <span class="ind-tag">Payment tracker</span>
+          <span class="ind-tag">Snag lists</span>
+          <span class="ind-tag">Handover</span>
+          <span class="ind-tag">Unit dashboard</span>
+        </div>
+      </div>
+      <div id="panel-retail" class="ind-panel">
+        <h3>Retail &amp; SME</h3>
+        <p>Inventory across multiple stores, daily sales reports via WhatsApp, staff attendance and incentive tracking — all from a single mobile app your team will actually use.</p>
+        <div class="ind-tags">
+          <span class="ind-tag">Multi-store IMS</span>
+          <span class="ind-tag">Daily sales</span>
+          <span class="ind-tag">Staff attendance</span>
+          <span class="ind-tag">Incentive tracking</span>
+        </div>
+      </div>
+      <div id="panel-healthcare" class="ind-panel">
+        <h3>Healthcare</h3>
+        <p>Ward round checklists, consumable inventory, staff duty schedules, and maintenance request tracking — keeping your teams accountable without paperwork.</p>
+        <div class="ind-tags">
+          <span class="ind-tag">Ward checklists</span>
+          <span class="ind-tag">Consumables</span>
+          <span class="ind-tag">Duty schedules</span>
+          <span class="ind-tag">Maintenance</span>
+        </div>
+      </div>
+      <div id="panel-logistics" class="ind-panel active">
+        <h3>Logistics</h3>
+        <p>Fleet tracking, delivery checklists, driver attendance, and auto-invoice generation — helping logistics businesses go paperless without disrupting existing workflows.</p>
+        <div class="ind-tags">
+          <span class="ind-tag">Fleet tracker</span>
+          <span class="ind-tag">Delivery checklists</span>
+          <span class="ind-tag">Driver attendance</span>
+          <span class="ind-tag">Auto-invoice</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ────────────────────────────────────────────────── -->
+  <section id="cta" class="cta-section">
+    <div class="container">
+      <div class="cta-orn">Operations Dashboard</div>
+      <h2>Tell us your biggest manual headache.</h2>
+      <p>We'll show you how to automate it — free, no commitment.</p>
+      <a href="mailto:hello@makedigitalindia.com" class="btn-primary-hero">
+        Book a Free Audit
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">make<span>digital</span>india</div>
+      <p>&copy; 2026 Make Digital India. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    function showInd(id, btn) {
+      document.querySelectorAll('.ind-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.ind-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+  </script>
 
 </body>
 </html>
