@@ -1,605 +1,1146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Make Digital India | Construction & Real Estate OS</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HDG India — Class 1A CPWD Contractor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+/* ── TOKENS ─────────────────────────────── */
+:root{
+  --f:#0a1f16;--f2:#0d2b1f;--f3:#132d20;--f4:#1a3d2a;--f5:#245c3c;
+  --s:#3d7a56;--s2:#4e9468;
+  --g:#8a6c2a;--g2:#b08d3c;--g3:#d4ab54;--g4:#e8cc7a;
+  --iv:#f7f4ee;--iv2:#f0ece3;--iv3:#e8e3d8;--iv4:#ddd7cc;
+  --ink:#1c1a16;--ink2:#3a3630;--ink3:#6b6358;--ink4:#8a8278;
+  --white:#fff;
+  --tr:.22s cubic-bezier(.4,0,.2,1);
+  --bdr:rgba(196,160,90,.15);
+}
+
+/* ── RESET ──────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{font-family:'Jost',sans-serif;background:var(--iv);color:var(--ink);overflow-x:hidden;line-height:1.6;}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.15;}
+a{text-decoration:none;color:inherit;}
+
+/* ── PAGE SYSTEM ────────────────────────── */
+.page{display:none;}
+.page.active{display:block;}
+
+/* ── LOADER ─────────────────────────────── */
+#loader{position:fixed;inset:0;z-index:9999;background:var(--f);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;transition:opacity .6s,visibility .6s;}
+#loader.gone{opacity:0;visibility:hidden;}
+.loader-logo{font-family:'Playfair Display',serif;font-size:1.8rem;color:rgba(240,234,220,.8);letter-spacing:.04em;}
+.loader-logo span{color:var(--g4);}
+.loader-bar-wrap{width:180px;height:2px;background:rgba(196,160,90,.15);border-radius:2px;overflow:hidden;}
+.loader-bar{height:100%;width:0;background:linear-gradient(90deg,var(--g2),var(--g4));border-radius:2px;animation:lbar 1.4s ease forwards;}
+@keyframes lbar{to{width:100%;}}
+
+/* ── SCROLL TO TOP ──────────────────────── */
+#stt{position:fixed;bottom:2rem;right:2rem;z-index:90;width:40px;height:40px;border-radius:8px;background:var(--f4);border:1px solid var(--bdr);color:var(--g4);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translateY(10px);transition:all var(--tr);pointer-events:none;font-size:.8rem;}
+#stt.vis{opacity:1;transform:translateY(0);pointer-events:all;}
+#stt:hover{background:var(--f5);transform:translateY(-2px);}
+
+/* ─────────────────────────────────────────
+   LANDING PAGE
+───────────────────────────────────────── */
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;background:var(--f);border-bottom:1px solid rgba(196,160,90,.12);box-shadow:0 4px 24px rgba(0,0,0,.2);}
+.nav::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(196,160,90,.5) 40%,rgba(232,204,122,.7) 50%,rgba(196,160,90,.5) 60%,transparent);}
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.nav-emblem{width:38px;height:38px;border-radius:7px;background:rgba(0,0,0,.3);border:1px solid rgba(196,160,90,.3);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:rgba(196,160,90,.9);letter-spacing:1.5px;}
+.nav-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:600;color:#f0ead8;line-height:1.2;}
+.nav-name small{display:block;font-family:'Jost',sans-serif;font-size:.58rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:rgba(196,160,90,.5);margin-top:1px;}
+.nav-right{display:flex;align-items:center;gap:.5rem;}
+.nav-links{display:flex;align-items:center;gap:.1rem;list-style:none;}
+.nav-links a{color:rgba(240,234,220,.5);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-weight:500;padding:.38rem .75rem;border-radius:5px;border:1px solid transparent;transition:all var(--tr);}
+.nav-links a:hover{color:var(--g4);border-color:rgba(196,160,90,.18);background:rgba(196,160,90,.06);}
+.nav-login-btn{background:rgba(196,160,90,.12) !important;border-color:rgba(196,160,90,.3) !important;color:var(--g4) !important;display:flex;align-items:center;gap:.4rem;}
+.nav-login-btn:hover{background:rgba(196,160,90,.25) !important;}
+
+/* HERO */
+.hero{min-height:100vh;padding-top:62px;background:var(--f);display:grid;grid-template-columns:55% 45%;position:relative;overflow:hidden;}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.hero-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 50% 55% at 72% 38%,rgba(196,160,90,.06) 0%,transparent 65%),radial-gradient(ellipse 30% 40% at 10% 78%,rgba(36,92,60,.16) 0%,transparent 55%);}
+.hero-l{display:flex;flex-direction:column;justify-content:center;padding:5rem 3.5rem 4rem 5rem;position:relative;z-index:2;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;background:rgba(196,160,90,.08);border:1px solid rgba(196,160,90,.2);color:var(--g4);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;padding:.35rem .95rem;border-radius:3px;margin-bottom:1.75rem;width:fit-content;}
+.hero-eyebrow span{width:6px;height:6px;background:var(--g4);border-radius:50%;box-shadow:0 0 8px rgba(232,204,122,.7);}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,4.5vw,4.4rem);font-weight:700;color:#f0ead8;line-height:1.06;letter-spacing:-.01em;margin-bottom:1.5rem;}
+.hero-h1 em{font-style:italic;color:var(--g4);}
+.hero-h1 .sub{display:block;font-size:.34em;font-weight:400;font-style:normal;color:rgba(240,234,220,.35);letter-spacing:.12em;text-transform:uppercase;margin-top:.55rem;font-family:'Jost',sans-serif;}
+.hero-lead{color:rgba(240,234,220,.5);font-size:.95rem;line-height:1.85;max-width:490px;margin-bottom:2.25rem;font-weight:300;}
+.hero-btns{display:flex;gap:.8rem;flex-wrap:wrap;}
+.btn-gold{background:linear-gradient(135deg,var(--g2),var(--g3));color:var(--f);padding:.8rem 1.85rem;border:none;border-radius:7px;font-family:'Jost',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;letter-spacing:.04em;display:inline-flex;align-items:center;gap:.45rem;box-shadow:0 4px 20px rgba(176,141,60,.3);transition:all var(--tr);}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(176,141,60,.42);}
+.btn-ghost{background:transparent;color:rgba(240,234,220,.65);padding:.8rem 1.85rem;border:1px solid rgba(240,234,220,.16);border-radius:7px;font-size:.85rem;display:inline-flex;align-items:center;gap:.45rem;transition:all var(--tr);cursor:pointer;}
+.btn-ghost:hover{border-color:rgba(196,160,90,.38);color:var(--g4);background:rgba(196,160,90,.05);}
+.hero-trust{display:flex;align-items:center;gap:1.8rem;margin-top:2.75rem;padding-top:2.25rem;border-top:1px solid rgba(196,160,90,.1);}
+.ts-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:600;color:var(--g4);line-height:1;letter-spacing:-.02em;}
+.ts-unit{font-size:1.1rem;}
+.ts-lbl{font-size:.6rem;color:rgba(240,234,220,.32);letter-spacing:.14em;text-transform:uppercase;margin-top:.18rem;}
+.ts-div{width:1px;height:36px;background:rgba(196,160,90,.12);}
+.hero-r{display:flex;flex-direction:column;justify-content:center;padding:5rem 5rem 4rem 2rem;position:relative;z-index:2;}
+.cred-stack{display:flex;flex-direction:column;gap:.9rem;}
+.cred-card{background:rgba(255,255,255,.04);border:1px solid rgba(196,160,90,.12);border-radius:12px;padding:1.4rem 1.6rem;backdrop-filter:blur(6px);transition:all var(--tr);}
+.cred-card:hover{background:rgba(255,255,255,.07);border-color:rgba(196,160,90,.25);}
+.cred-card.feat{background:rgba(196,160,90,.06);border-color:rgba(196,160,90,.28);box-shadow:0 0 0 1px rgba(196,160,90,.08),0 12px 36px rgba(0,0,0,.22);}
+.cc-head{display:flex;align-items:center;gap:.8rem;margin-bottom:.85rem;}
+.cc-icon{width:36px;height:36px;border-radius:7px;flex-shrink:0;background:rgba(196,160,90,.1);border:1px solid rgba(196,160,90,.18);display:flex;align-items:center;justify-content:center;font-size:.85rem;}
+.cc-lbl{font-size:.6rem;color:rgba(196,160,90,.55);letter-spacing:.15em;text-transform:uppercase;font-weight:600;}
+.cc-val{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--g4);line-height:1.2;}
+.cc-body{font-size:.78rem;color:rgba(240,234,220,.42);line-height:1.7;}
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.75rem;}
+.reg-item{background:rgba(255,255,255,.04);border:1px solid rgba(196,160,90,.07);border-radius:6px;padding:.55rem .8rem;}
+.reg-item .k{font-size:.56rem;color:rgba(240,234,220,.28);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.15rem;}
+.reg-item .v{font-size:.76rem;color:rgba(240,234,220,.6);font-family:'DM Mono',monospace;}
+.avail-bar{display:flex;align-items:center;gap:.8rem;background:rgba(255,255,255,.03);border:1px solid rgba(196,160,90,.08);border-radius:9px;padding:.9rem 1.15rem;}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;box-shadow:0 0 7px rgba(74,222,128,.5);animation:pg 2.5s ease-in-out infinite;}
+.avail-text{flex:1;font-size:.76rem;color:rgba(240,234,220,.5);}
+.avail-text strong{display:block;color:rgba(240,234,220,.78);font-weight:500;margin-bottom:.08rem;}
+.avail-badge{font-size:.58rem;color:#4ade80;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.18);border-radius:3px;padding:.18rem .5rem;font-family:'DM Mono',monospace;}
+@keyframes pg{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.4)}50%{box-shadow:0 0 0 5px rgba(74,222,128,0)}}
+
+/* TRUST STRIP */
+.trust-strip{background:#08180f;border-top:1px solid rgba(196,160,90,.08);border-bottom:1px solid rgba(196,160,90,.08);padding:1.35rem 3rem;}
+.ts-label{text-align:center;font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(196,160,90,.35);margin-bottom:1rem;}
+.ts-chips{display:flex;flex-wrap:wrap;gap:.5rem .9rem;justify-content:center;}
+.ts-chip{color:rgba(240,234,220,.35);font-size:.72rem;font-weight:500;padding:.24rem .75rem;border:1px solid rgba(196,160,90,.08);border-radius:3px;letter-spacing:.04em;transition:all .2s;cursor:default;}
+.ts-chip:hover{border-color:rgba(196,160,90,.28);color:var(--g3);}
+
+/* SECTIONS */
+section{padding:5.5rem 5rem;}
+.sec-eye{display:flex;align-items:center;gap:.6rem;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--s2);margin-bottom:.8rem;}
+.sec-eye::before{content:'';width:22px;height:2px;background:var(--s2);border-radius:2px;}
+.sec-h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3vw,2.8rem);font-weight:600;color:var(--ink);line-height:1.18;margin-bottom:.85rem;}
+.sec-rule{width:32px;height:2px;background:linear-gradient(90deg,var(--f4),var(--g2));border-radius:2px;margin-bottom:2.5rem;}
+.sec-lead{color:var(--ink3);font-size:.93rem;line-height:1.85;max-width:560px;font-weight:300;}
+.dark-s .sec-eye{color:var(--g3);}
+.dark-s .sec-eye::before{background:var(--g3);}
+.dark-s .sec-h2{color:#f0ead8;}
+.dark-s .sec-rule{background:linear-gradient(90deg,var(--g2),var(--g4));}
+.dark-s .sec-lead{color:rgba(240,234,220,.42);}
+
+/* TRACK */
+.track{background:var(--white);}
+.track-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--iv3);border:1px solid var(--iv3);border-radius:12px;overflow:hidden;margin-bottom:2.75rem;}
+.track-stat{background:var(--white);padding:2.25rem 1.75rem;text-align:center;transition:background var(--tr);}
+.track-stat:hover{background:var(--iv);}
+.track-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:var(--f3);line-height:1;letter-spacing:-.02em;}
+.track-unit{font-size:1.1rem;color:var(--g2);}
+.track-lbl{font-size:.65rem;color:var(--ink4);letter-spacing:.12em;text-transform:uppercase;margin-top:.45rem;line-height:1.4;}
+.track-sub{font-size:.7rem;color:var(--ink4);margin-top:.2rem;font-style:italic;}
+.sectors{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;}
+.sector-card{background:var(--iv);border:1px solid var(--iv3);border-radius:10px;padding:1.35rem;display:flex;align-items:flex-start;gap:.9rem;transition:all var(--tr);position:relative;overflow:hidden;}
+.sector-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--iv3);transition:background var(--tr);}
+.sector-card:hover{border-color:rgba(13,43,31,.15);box-shadow:0 2px 12px rgba(13,43,31,.08);transform:translateY(-2px);}
+.sector-card:hover::before{background:linear-gradient(to bottom,var(--f3),var(--g2));}
+.sector-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:.3rem;}
+.sector-desc{font-size:.76rem;color:var(--ink3);line-height:1.6;}
+
+/* SERVICES */
+.services{background:var(--iv2);}
+.stabs{display:flex;gap:.45rem;margin-bottom:2.25rem;flex-wrap:wrap;}
+.stab{background:transparent;border:1px solid var(--iv4);color:var(--ink3);padding:.5rem 1.1rem;border-radius:6px;font-family:'Jost',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;transition:all var(--tr);letter-spacing:.03em;}
+.stab.active,.stab:hover{background:var(--f);color:var(--g4);border-color:var(--f);}
+.svc-panel{display:none;}
+.svc-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:2.75rem;align-items:start;}
+.sp-title{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:600;color:var(--ink);margin-bottom:.65rem;}
+.sp-desc{font-size:.86rem;color:var(--ink3);line-height:1.85;margin-bottom:1.5rem;font-weight:300;}
+.sp-scope-lbl{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--f5);font-weight:600;margin-bottom:.75rem;}
+.sp-list{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.sp-list li{display:flex;align-items:flex-start;gap:.7rem;font-size:.82rem;color:var(--ink2);line-height:1.55;}
+.sp-list li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--g2);margin-top:.5em;flex-shrink:0;}
+.sp-stds{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.4rem;}
+.sp-std{font-size:.6rem;font-weight:600;letter-spacing:.06em;padding:.2rem .6rem;border-radius:3px;background:rgba(26,61,42,.08);color:var(--f5);border:1px solid rgba(26,61,42,.12);}
+.sp-highlights{display:flex;flex-direction:column;gap:.75rem;}
+.sp-hl{background:var(--white);border:1px solid var(--iv4);border-radius:9px;padding:1.2rem;transition:all var(--tr);}
+.sp-hl:hover{border-color:rgba(13,43,31,.14);box-shadow:0 2px 10px rgba(13,43,31,.07);}
+.sph-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.45rem;}
+.sph-icon{width:30px;height:30px;border-radius:6px;background:linear-gradient(135deg,var(--f),var(--f3));display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sph-icon i{color:rgba(232,204,122,.7);font-size:.75rem;}
+.sph-title{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:600;color:var(--ink);}
+.sph-body{font-size:.76rem;color:var(--ink3);line-height:1.65;}
+
+/* PROJECTS */
+.projects{background:linear-gradient(175deg,var(--f) 0%,var(--f2) 50%,var(--f) 100%);position:relative;overflow:hidden;}
+.projects::before{content:'';position:absolute;inset:0;opacity:.03;background-image:linear-gradient(rgba(196,160,90,1) 1px,transparent 1px),linear-gradient(90deg,rgba(196,160,90,1) 1px,transparent 1px);background-size:60px 60px;}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;position:relative;z-index:1;}
+.proj-card{background:rgba(255,255,255,.04);border:1px solid rgba(196,160,90,.08);border-radius:12px;overflow:hidden;transition:all .28s;}
+.proj-card:hover{background:rgba(255,255,255,.07);border-color:rgba(196,160,90,.22);transform:translateY(-4px);box-shadow:0 18px 44px rgba(0,0,0,.28);}
+.proj-header{padding:1.35rem 1.35rem 1rem;border-bottom:1px solid rgba(196,160,90,.07);display:flex;align-items:flex-start;justify-content:space-between;gap:.7rem;}
+.proj-client{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:rgba(196,160,90,.55);}
+.proj-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:rgba(240,234,220,.82);margin-top:.28rem;line-height:1.3;}
+.proj-status{flex-shrink:0;font-size:.56rem;font-weight:600;letter-spacing:.06em;padding:.2rem .55rem;border-radius:3px;text-transform:uppercase;margin-top:.1rem;}
+.s-done{background:rgba(74,222,128,.08);color:#4ade80;border:1px solid rgba(74,222,128,.18);}
+.s-live{background:rgba(196,160,90,.1);color:var(--g3);border:1px solid rgba(196,160,90,.22);}
+.proj-body{padding:1rem 1.35rem 1.35rem;}
+.proj-desc{font-size:.76rem;color:rgba(240,234,220,.38);line-height:1.7;margin-bottom:.9rem;}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
+.proj-tag{font-size:.58rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.18rem .5rem;border-radius:3px;background:rgba(36,92,60,.22);color:rgba(78,148,104,.85);border:1px solid rgba(36,92,60,.28);}
+
+/* WHY */
+.why{background:var(--iv2);}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;}
+.why-card{background:var(--white);border:1px solid var(--iv3);border-radius:12px;padding:1.85rem;transition:all var(--tr);}
+.why-card:hover{border-color:rgba(13,43,31,.14);box-shadow:0 6px 24px rgba(13,43,31,.1);transform:translateY(-3px);}
+.wc-icon{font-size:1.8rem;margin-bottom:1.1rem;}
+.wc-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:.55rem;}
+.wc-body{font-size:.8rem;color:var(--ink3);line-height:1.75;font-weight:300;}
+
+/* FAQ */
+.faq{background:var(--iv);}
+.faq-list{display:flex;flex-direction:column;gap:.65rem;max-width:780px;}
+.faq-item{background:var(--white);border:1px solid var(--iv3);border-radius:9px;overflow:hidden;}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:1.15rem 1.4rem;cursor:pointer;font-size:.86rem;font-weight:500;color:var(--ink);transition:all .2s;gap:1rem;}
+.faq-q:hover{background:var(--iv);color:var(--f3);}
+.faq-q i{color:var(--ink4);font-size:.72rem;flex-shrink:0;transition:transform .25s;}
+.faq-item.open .faq-q i{transform:rotate(180deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.faq-item.open .faq-a{max-height:280px;}
+.faq-a-inner{padding:.2rem 1.4rem 1.15rem;font-size:.8rem;color:var(--ink3);line-height:1.8;border-top:1px solid var(--iv3);}
+
+/* CONTACT */
+.contact-section{background:var(--iv2);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.contact-details{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.75rem;}
+.cd-item{display:flex;gap:.85rem;align-items:flex-start;}
+.cd-icon{width:36px;height:36px;border-radius:7px;flex-shrink:0;background:rgba(26,61,42,.07);border:1px solid rgba(26,61,42,.1);display:flex;align-items:center;justify-content:center;}
+.cd-icon i{color:var(--f5);font-size:.8rem;}
+.cd-lbl{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--f5);font-weight:600;margin-bottom:.12rem;}
+.cd-val{font-size:.82rem;color:var(--ink2);line-height:1.6;}
+.contact-form{background:var(--white);border:1px solid var(--iv3);border-radius:13px;padding:2.1rem;box-shadow:0 2px 12px rgba(13,43,31,.06);}
+.form-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;color:var(--ink);margin-bottom:1.35rem;}
+.fg{margin-bottom:.8rem;}
+.fg label{display:block;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink4);margin-bottom:.35rem;}
+.fg input,.fg textarea,.fg select{width:100%;background:var(--iv);border:1px solid var(--iv4);border-radius:6px;padding:.65rem .9rem;color:var(--ink);font-family:'Jost',sans-serif;font-size:.84rem;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--f5);box-shadow:0 0 0 3px rgba(26,61,42,.06);}
+.fg textarea{resize:vertical;min-height:85px;}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+.submit-btn{width:100%;background:linear-gradient(135deg,var(--f),var(--f3));color:#f0ead8;padding:.85rem;border:none;border-radius:8px;font-family:'Jost',sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;letter-spacing:.04em;transition:all var(--tr);box-shadow:0 4px 18px rgba(13,43,31,.22);display:flex;align-items:center;justify-content:center;gap:.55rem;}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(13,43,31,.32);}
+.submit-btn.success{background:linear-gradient(135deg,#1a4a3a,#2f7560) !important;}
+.form-note{text-align:center;font-size:.66rem;color:var(--ink4);margin-top:.65rem;}
+
+/* FOOTER */
+footer{background:#07130c;padding:3rem 5rem 2rem;border-top:1px solid rgba(196,160,90,.08);}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2.75rem;margin-bottom:2.25rem;padding-bottom:2.25rem;border-bottom:1px solid rgba(196,160,90,.07);}
+.footer-logo{display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem;}
+.footer-name{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:600;color:rgba(240,234,220,.55);}
+.footer-name small{display:block;font-family:'Jost',sans-serif;font-size:.56rem;color:rgba(196,160,90,.36);letter-spacing:.15em;text-transform:uppercase;}
+.footer-about{font-size:.73rem;color:rgba(240,234,220,.28);line-height:1.75;margin-bottom:.9rem;}
+.footer-reg{font-size:.63rem;font-family:'DM Mono',monospace;color:rgba(196,160,90,.3);line-height:1.6;}
+.footer-col-title{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(196,160,90,.38);font-weight:600;margin-bottom:.9rem;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.45rem;}
+.footer-links a{color:rgba(240,234,220,.3);font-size:.76rem;transition:color .2s;}
+.footer-links a:hover{color:var(--g4);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;font-size:.66rem;color:rgba(240,234,220,.18);}
+.footer-bottom a{color:rgba(240,234,220,.28);margin-left:1.2rem;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+
+/* ─────────────────────────────────────────
+   LOGIN PAGE
+───────────────────────────────────────── */
+.login-page{min-height:100vh;background:var(--f);display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;}
+.login-page canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.login-left{display:flex;flex-direction:column;justify-content:center;padding:4rem 3.5rem;position:relative;z-index:2;}
+.login-brand{display:flex;align-items:center;gap:10px;margin-bottom:3.5rem;cursor:pointer;}
+.login-emblem{width:42px;height:42px;border-radius:9px;background:rgba(0,0,0,.35);border:1px solid rgba(196,160,90,.32);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:12px;font-weight:700;color:rgba(196,160,90,.9);letter-spacing:1.5px;}
+.login-brand-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:#f0ead8;}
+.login-brand-name small{display:block;font-family:'Jost',sans-serif;font-size:.58rem;color:rgba(196,160,90,.45);letter-spacing:.18em;text-transform:uppercase;}
+.login-tagline{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:600;color:#f0ead8;line-height:1.12;margin-bottom:1rem;}
+.login-tagline em{font-style:italic;color:var(--g4);}
+.login-sub{color:rgba(240,234,220,.42);font-size:.88rem;line-height:1.85;font-weight:300;max-width:400px;margin-bottom:2.5rem;}
+.login-stats{display:flex;gap:2rem;}
+.ls-stat .n{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:600;color:var(--g4);line-height:1;}
+.ls-stat .l{font-size:.58rem;color:rgba(240,234,220,.28);letter-spacing:.14em;text-transform:uppercase;margin-top:.18rem;}
+.login-right{display:flex;align-items:center;justify-content:center;padding:4rem 4rem 4rem 2rem;position:relative;z-index:2;}
+.login-box{background:rgba(255,255,255,.05);border:1px solid rgba(196,160,90,.16);border-radius:16px;padding:2.5rem;backdrop-filter:blur(10px);width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.35);}
+.login-box-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:600;color:#f0ead8;margin-bottom:.4rem;}
+.login-box-sub{font-size:.8rem;color:rgba(240,234,220,.38);margin-bottom:2rem;}
+.role-tabs{display:flex;gap:.45rem;margin-bottom:1.75rem;background:rgba(0,0,0,.2);border-radius:8px;padding:.3rem;}
+.role-tab{flex:1;padding:.6rem;border:none;background:transparent;color:rgba(240,234,220,.45);border-radius:6px;font-family:'Jost',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+.role-tab.active{background:rgba(196,160,90,.15);color:var(--g4);border:1px solid rgba(196,160,90,.25);}
+.lf-group{margin-bottom:.9rem;}
+.lf-label{display:block;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(240,234,220,.35);font-weight:600;margin-bottom:.38rem;}
+.lf-input{width:100%;background:rgba(0,0,0,.2);border:1px solid rgba(196,160,90,.1);border-radius:7px;padding:.75rem 1rem;color:#f0ead8;font-family:'Jost',sans-serif;font-size:.86rem;outline:none;transition:border-color .2s;}
+.lf-input::placeholder{color:rgba(240,234,220,.22);}
+.lf-input:focus{border-color:rgba(196,160,90,.35);background:rgba(0,0,0,.25);}
+.lf-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;}
+.lf-check{display:flex;align-items:center;gap:.5rem;font-size:.76rem;color:rgba(240,234,220,.38);cursor:pointer;}
+.lf-check input{accent-color:var(--g3);}
+.lf-forgot{font-size:.74rem;color:rgba(196,160,90,.6);transition:color .2s;cursor:pointer;}
+.lf-forgot:hover{color:var(--g4);}
+.login-btn{width:100%;background:linear-gradient(135deg,var(--g2),var(--g3));color:var(--f);padding:.9rem;border:none;border-radius:8px;font-family:'Jost',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;letter-spacing:.04em;box-shadow:0 4px 18px rgba(176,141,60,.3);transition:all var(--tr);display:flex;align-items:center;justify-content:center;gap:.5rem;}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(176,141,60,.42);}
+.login-divider{text-align:center;font-size:.7rem;color:rgba(240,234,220,.2);margin:1.25rem 0;position:relative;}
+.login-divider::before,.login-divider::after{content:'';position:absolute;top:50%;width:38%;height:1px;background:rgba(196,160,90,.08);}
+.login-divider::before{left:0;}.login-divider::after{right:0;}
+.demo-info{background:rgba(196,160,90,.06);border:1px solid rgba(196,160,90,.12);border-radius:8px;padding:.85rem 1rem;font-size:.74rem;color:rgba(240,234,220,.45);line-height:1.7;}
+.demo-info strong{color:var(--g4);font-weight:600;}
+
+/* ─────────────────────────────────────────
+   DASHBOARD
+───────────────────────────────────────── */
+.dash-page{min-height:100vh;background:#0f1f16;display:flex;font-family:'Jost',sans-serif;}
+
+/* SIDEBAR */
+.sidebar{width:240px;flex-shrink:0;background:#0a1810;border-right:1px solid rgba(196,160,90,.1);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sb-logo{display:flex;align-items:center;gap:.7rem;padding:1.4rem 1.25rem;border-bottom:1px solid rgba(196,160,90,.08);}
+.sb-emblem{width:34px;height:34px;border-radius:7px;background:rgba(0,0,0,.3);border:1px solid rgba(196,160,90,.28);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:10px;font-weight:700;color:rgba(196,160,90,.9);letter-spacing:1px;flex-shrink:0;}
+.sb-name{font-family:'Playfair Display',serif;font-size:.82rem;font-weight:600;color:rgba(240,234,220,.7);line-height:1.2;}
+.sb-name small{display:block;font-family:'Jost',sans-serif;font-size:.52rem;color:rgba(196,160,90,.38);letter-spacing:.15em;text-transform:uppercase;}
+.sb-user-card{margin:.9rem .9rem .4rem;background:rgba(196,160,90,.05);border:1px solid rgba(196,160,90,.1);border-radius:9px;padding:.85rem .9rem;display:flex;align-items:center;gap:.7rem;}
+.sb-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--f4),var(--f5));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:600;color:var(--g3);font-size:.75rem;flex-shrink:0;}
+.sb-user-name{font-size:.8rem;font-weight:500;color:rgba(240,234,220,.75);line-height:1.2;}
+.sb-user-role{font-size:.62rem;color:rgba(196,160,90,.5);text-transform:uppercase;letter-spacing:.1em;}
+.sb-section{padding:.65rem .9rem .3rem;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(196,160,90,.3);font-weight:600;}
+.sb-nav{display:flex;flex-direction:column;gap:.18rem;padding:0 .7rem;}
+.sb-link{display:flex;align-items:center;gap:.65rem;padding:.65rem .75rem;border-radius:7px;font-size:.8rem;color:rgba(240,234,220,.4);cursor:pointer;transition:all .2s;border:1px solid transparent;font-family:'Jost',sans-serif;background:none;width:100%;text-align:left;}
+.sb-link i{font-size:.9rem;width:16px;text-align:center;flex-shrink:0;}
+.sb-link:hover{color:rgba(240,234,220,.7);background:rgba(255,255,255,.04);}
+.sb-link.active{color:var(--g4);background:rgba(196,160,90,.08);border-color:rgba(196,160,90,.14);}
+.sb-link .badge{margin-left:auto;font-size:.58rem;background:rgba(196,160,90,.15);color:var(--g3);padding:.12rem .45rem;border-radius:3px;font-family:'DM Mono',monospace;}
+.sb-bottom{margin-top:auto;padding:.9rem .9rem 1.2rem;}
+.sb-logout{display:flex;align-items:center;gap:.6rem;padding:.65rem .75rem;border-radius:7px;font-size:.78rem;color:rgba(240,234,220,.3);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;font-family:'Jost',sans-serif;}
+.sb-logout:hover{color:rgba(220,80,80,.8);background:rgba(220,80,80,.06);}
+
+/* MAIN DASH */
+.dash-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.dash-topbar{height:56px;background:#0a1810;border-bottom:1px solid rgba(196,160,90,.08);display:flex;align-items:center;justify-content:space-between;padding:0 1.75rem;flex-shrink:0;}
+.dash-topbar-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:rgba(240,234,220,.72);}
+.dash-topbar-right{display:flex;align-items:center;gap:.85rem;}
+.topbar-chip{font-size:.68rem;color:rgba(240,234,220,.35);background:rgba(255,255,255,.04);border:1px solid rgba(196,160,90,.08);border-radius:5px;padding:.28rem .7rem;font-family:'DM Mono',monospace;}
+.topbar-notif{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.04);border:1px solid rgba(196,160,90,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(240,234,220,.4);font-size:.8rem;transition:all .2s;position:relative;}
+.topbar-notif:hover{background:rgba(255,255,255,.08);color:var(--g4);}
+.notif-dot{position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:#4ade80;border:1px solid #0a1810;}
+.dash-content{flex:1;overflow-y:auto;padding:1.5rem 1.75rem;}
+.dash-panel{display:none;}
+.dash-panel.active{display:block;}
+
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;margin-bottom:1.5rem;}
+.kpi-card{background:rgba(255,255,255,.04);border:1px solid rgba(196,160,90,.1);border-radius:11px;padding:1.25rem;transition:all .2s;}
+.kpi-card:hover{background:rgba(255,255,255,.07);border-color:rgba(196,160,90,.2);}
+.kpi-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem;}
+.kpi-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
+.kpi-icon.green{background:rgba(74,222,128,.1);color:#4ade80;}
+.kpi-icon.gold{background:rgba(196,160,90,.12);color:var(--g3);}
+.kpi-icon.blue{background:rgba(59,130,246,.1);color:#60a5fa;}
+.kpi-icon.amber{background:rgba(251,191,36,.08);color:#fbbf24;}
+.kpi-badge{font-size:.6rem;color:#4ade80;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.15);border-radius:3px;padding:.15rem .45rem;font-family:'DM Mono',monospace;}
+.kpi-badge.warn{color:#fbbf24;background:rgba(251,191,36,.06);border-color:rgba(251,191,36,.15);}
+.kpi-num{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:600;color:rgba(240,234,220,.85);line-height:1;margin-bottom:.22rem;}
+.kpi-lbl{font-size:.65rem;color:rgba(240,234,220,.3);letter-spacing:.1em;text-transform:uppercase;}
+
+/* CHARTS ROW */
+.charts-row{display:grid;grid-template-columns:1.6fr 1fr;gap:.85rem;margin-bottom:1.5rem;}
+.dash-widget{background:rgba(255,255,255,.04);border:1px solid rgba(196,160,90,.1);border-radius:11px;padding:1.25rem;}
+.dw-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;}
+.dw-title{font-size:.78rem;font-weight:600;color:rgba(240,234,220,.7);letter-spacing:.04em;}
+.dw-meta{font-size:.62rem;color:rgba(240,234,220,.25);font-family:'DM Mono',monospace;}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:110px;}
+.bc-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;}
+.bc-bar{width:100%;border-radius:4px 4px 0 0;background:rgba(196,160,90,.2);transition:height .5s ease;position:relative;min-height:4px;}
+.bc-bar.gold{background:linear-gradient(to top,var(--g2),var(--g4));}
+.bc-bar.green{background:linear-gradient(to top,#1a5c38,#4ade80);}
+.bc-label{font-size:.6rem;color:rgba(240,234,220,.25);font-family:'DM Mono',monospace;}
+.donut-wrap{display:flex;align-items:center;justify-content:center;gap:1.5rem;}
+.donut-legend{display:flex;flex-direction:column;gap:.55rem;}
+.dl-item{display:flex;align-items:center;gap:.55rem;font-size:.72rem;color:rgba(240,234,220,.5);}
+.dl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* TABLES ROW */
+.tables-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:1.5rem;}
+.dash-table{width:100%;border-collapse:collapse;}
+.dash-table th{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(240,234,220,.25);font-weight:600;padding:.6rem .8rem;text-align:left;border-bottom:1px solid rgba(196,160,90,.07);}
+.dash-table td{font-size:.75rem;color:rgba(240,234,220,.55);padding:.7rem .8rem;border-bottom:1px solid rgba(196,160,90,.04);}
+.dash-table tr:last-child td{border-bottom:none;}
+.dash-table tr:hover td{background:rgba(255,255,255,.02);}
+.status-pill{font-size:.58rem;font-weight:600;padding:.18rem .55rem;border-radius:3px;text-transform:uppercase;font-family:'DM Mono',monospace;}
+.sp-active{background:rgba(74,222,128,.08);color:#4ade80;border:1px solid rgba(74,222,128,.15);}
+.sp-review{background:rgba(196,160,90,.1);color:var(--g3);border:1px solid rgba(196,160,90,.2);}
+.sp-hold{background:rgba(251,191,36,.07);color:#fbbf24;border:1px solid rgba(251,191,36,.15);}
+.sp-paid{background:rgba(74,222,128,.08);color:#4ade80;}
+.sp-pending{background:rgba(196,160,90,.1);color:var(--g3);}
+.sp-overdue{background:rgba(220,80,80,.08);color:#f87171;border:1px solid rgba(220,80,80,.15);}
+
+/* LIVE ACTIVITY */
+.live-feed{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem;}
+.live-item{display:flex;align-items:center;gap:.75rem;background:rgba(255,255,255,.03);border:1px solid rgba(196,160,90,.06);border-radius:8px;padding:.7rem .9rem;}
+.live-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.live-dot.green{background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,.5);}
+.live-dot.gold{background:var(--g3);box-shadow:0 0 6px rgba(196,160,90,.5);}
+.live-dot.blue{background:#60a5fa;box-shadow:0 0 6px rgba(96,165,250,.5);}
+.live-text{font-size:.75rem;color:rgba(240,234,220,.5);flex:1;}
+.live-text strong{color:rgba(240,234,220,.75);}
+.live-time{font-size:.62rem;color:rgba(240,234,220,.22);font-family:'DM Mono',monospace;}
+
+/* MOBILE NAV */
+.mob-menu{display:none;}
+@media(max-width:1200px){
+  section{padding:5rem 3rem;}
+  nav{padding:0 1.5rem;}
+  .hero-l{padding:4rem 2.5rem 3.5rem 3rem;}
+  .hero-r{padding:4rem 3rem 3.5rem 1.5rem;}
+  footer{padding:3rem 3rem 2rem;}
+  .footer-top{grid-template-columns:1.2fr 1fr 1fr;gap:2rem;}
+}
+@media(max-width:900px){
+  section{padding:4rem 1.5rem;}
+  .hero{grid-template-columns:1fr;}
+  .hero-r{display:none;}
+  .nav-links{display:none;}
+  .login-page{grid-template-columns:1fr;}
+  .login-left{display:none;}
+  .login-right{padding:2rem 1.5rem;}
+  .login-box{max-width:100%;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .charts-row{grid-template-columns:1fr;}
+  .tables-row{grid-template-columns:1fr;}
+  .sidebar{width:200px;}
+  .sectors{grid-template-columns:1fr 1fr;}
+  .proj-grid{grid-template-columns:1fr 1fr;}
+  .why-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  footer{padding:2.5rem 1.5rem 1.5rem;}
+  .svc-panel.active{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  section{padding:3.5rem 1.1rem;}
+  .sectors{grid-template-columns:1fr;}
+  .proj-grid{grid-template-columns:1fr;}
+  .kpi-grid{grid-template-columns:1fr 1fr;}
+  .fg-row{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr;}
+  .track-grid{grid-template-columns:1fr 1fr;}
+  .hero-trust{flex-wrap:wrap;gap:1.1rem;}
+}
+</style>
 </head>
 <body>
 
-<!-- ── PAGE LOADER ─────────────────────────────────────────── -->
-<div id="page-loader">
-  <div class="loader-logo">make<span>digital</span>india</div>
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">HDG<span>india</span></div>
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
 </div>
 
-<!-- ── SCROLL TO TOP ──────────────────────────────────────── -->
-<button id="scroll-top" aria-label="Scroll to top">↑</button>
+<!-- SCROLL TOP -->
+<button id="stt" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
 
-<!-- ── NAVBAR ─────────────────────────────────────────────── -->
-<nav class="navbar" id="navbar">
-  <div class="container nav-container">
-    <div class="logo">make<span>digital</span>india</div>
-    <ul class="nav-links">
-      <li><a href="#solutions">Solutions</a></li>
-      <li><a href="#industries">Industries</a></li>
-      <li><a href="#how">How We Work</a></li>
-      <li><a href="#testimonials">About</a></li>
-      <li><a href="login.html" class="btn-nav">Portal Login</a></li>
-    </ul>
+<!-- ══════════════════════════════════════════
+     PAGE 1: LANDING
+══════════════════════════════════════════ -->
+<div id="page-landing" class="page active">
+
+<nav class="nav" id="mainNav">
+  <div class="nav-logo" onclick="goto('landing')">
+    <div class="nav-emblem">HDG</div>
+    <div class="nav-name">M/S Harcharan Dass Gupta<small>Class 1A CPWD · Est. 1986</small></div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#track">Track Record</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact-s">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="nav-links" style="display:flex;list-style:none;"><li><a class="nav-login-btn" onclick="goto('login')" style="cursor:pointer;"><i class="fas fa-sign-in-alt"></i> Client Portal</a></li></a>
   </div>
 </nav>
 
-<!-- ── HERO ───────────────────────────────────────────────── -->
-<header class="hero" id="hero">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-geo" aria-hidden="true"></div>
-  <div class="hero-geo-2" aria-hidden="true"></div>
-  <div class="container">
-    <div class="hero-layout">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span class="hero-badge-dot"></span>
-          Built for Indian Businesses
-        </div>
-        <div class="hero-eyebrow">Your business, fully</div>
-        <h1>digital &amp; automated</h1>
-        <p class="hero-sub">
-          We build custom operations software for businesses across India — tailored to how you actually work. WhatsApp-first, Hindi-ready, no legacy bloat.
-        </p>
-        <div class="hero-buttons">
-          <a href="#cta" class="btn-primary-hero">
-            Book a Live Demo
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-          <a href="#solutions" class="btn-ghost-hero">Explore Modules</a>
-        </div>
-        <div class="hero-stats">
-          <div class="hero-stat"><span class="stat-dot"></span>20+ systems deployed</div>
-          <div class="hero-stat"><span class="stat-dot"></span>10+ businesses digitised</div>
-          <div class="hero-stat"><span class="stat-dot"></span>WhatsApp + AI integrated</div>
-        </div>
-      </div>
-
-      <!-- Floating dashboard visual -->
-      <div class="hero-visual">
-        <div class="hero-dashboard">
-          <div class="dash-header">
-            <div class="dash-title">Operations Live</div>
-            <div class="dash-dots">
-              <div class="dash-dot"></div>
-              <div class="dash-dot"></div>
-              <div class="dash-dot"></div>
-            </div>
-          </div>
-          <div class="dash-stats">
-            <div class="dash-stat">
-              <div class="dash-stat-num" id="dash-n1">0</div>
-              <div class="dash-stat-lbl">Sites Active</div>
-            </div>
-            <div class="dash-stat">
-              <div class="dash-stat-num" id="dash-n2">0</div>
-              <div class="dash-stat-lbl">Workers In</div>
-            </div>
-            <div class="dash-stat">
-              <div class="dash-stat-num" id="dash-n3">0%</div>
-              <div class="dash-stat-lbl">On Schedule</div>
-            </div>
-          </div>
-          <div class="dash-chart">
-            <div class="dash-chart-label">Material Flow — This Week</div>
-            <div class="dash-bars">
-              <div class="dash-bar" style="height:38%;--delay:.8s"></div>
-              <div class="dash-bar" style="height:55%;--delay:.9s"></div>
-              <div class="dash-bar" style="height:42%;--delay:1s"></div>
-              <div class="dash-bar gold" style="height:72%;--delay:1.1s"></div>
-              <div class="dash-bar" style="height:60%;--delay:1.2s"></div>
-              <div class="dash-bar gold" style="height:85%;--delay:1.3s"></div>
-              <div class="dash-bar" style="height:68%;--delay:1.4s"></div>
-            </div>
-          </div>
-          <div class="dash-activity">
-            <div class="dash-act-item"><span class="act-dot green"></span>Cement IMS synced — Site 3</div>
-            <div class="dash-act-item"><span class="act-dot gold"></span>Payment released — Rajan Infra</div>
-            <div class="dash-act-item"><span class="act-dot blue"></span>Attendance marked — 47 workers</div>
-          </div>
-        </div>
-        <!-- Floating cards -->
-        <div class="float-card float-card-1">
-          <div class="float-icon">✅</div>
-          <span>BIM 84% complete</span>
-        </div>
-        <div class="float-card float-card-2">
-          <div class="float-icon">💬</div>
-          <span>WhatsApp AI active</span>
-        </div>
-      </div>
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-glow"></div>
+  <div class="hero-l">
+    <div class="hero-eyebrow"><span></span>Class 1A CPWD · Established 1986</div>
+    <h1 class="hero-h1">
+      India's Trusted<br><em>Class 1A CPWD</em><br>Government Contractor
+      <span class="sub">Since 1986 · Civil · MEP · Interiors · Specialized Systems</span>
+    </h1>
+    <p class="hero-lead">Government institutions, defense establishments, premier universities — M/S Harcharan Dass Gupta has delivered complex construction projects reliably for 38 years under CPWD's highest classification.</p>
+    <div class="hero-btns">
+      <button class="btn-gold" onclick="document.getElementById('contact-s').scrollIntoView({behavior:'smooth'})"><i class="fas fa-paper-plane"></i>Request a Quote</button>
+      <button class="btn-ghost" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">View Projects <i class="fas fa-arrow-right"></i></button>
+    </div>
+    <div class="hero-trust">
+      <div><div class="ts-num" id="c1">0<span class="ts-unit">+</span></div><div class="ts-lbl">Years<br>Established</div></div>
+      <div class="ts-div"></div>
+      <div><div class="ts-num">1A</div><div class="ts-lbl">CPWD<br>Class</div></div>
+      <div class="ts-div"></div>
+      <div><div class="ts-num" id="c2">0<span class="ts-unit">+</span></div><div class="ts-lbl">Projects<br>Completed</div></div>
     </div>
   </div>
-</header>
-
-<!-- ── METRICS STRIP ──────────────────────────────────────── -->
-<section class="metrics">
-  <div class="container">
-    <div class="metrics-grid">
-      <div class="metric-item reveal">
-        <div class="metric-num counter" data-target="20" data-suffix="+">0</div>
-        <div class="metric-lbl">Systems built</div>
+  <div class="hero-r">
+    <div class="cred-stack">
+      <div class="cred-card feat">
+        <div class="cc-head">
+          <div class="cc-icon">🏛️</div>
+          <div><div class="cc-lbl">Registration Status</div><div class="cc-val">Class 1A — CPWD Registered</div></div>
+        </div>
+        <div class="cc-body">India's highest classification for government construction. Eligible for all central government and PSU contracts without value ceiling.</div>
+        <div class="reg-grid">
+          <div class="reg-item"><div class="k">Established</div><div class="v">1986</div></div>
+          <div class="reg-item"><div class="k">Category</div><div class="v">Class 1A</div></div>
+          <div class="reg-item"><div class="k">Base</div><div class="v">New Delhi</div></div>
+          <div class="reg-item"><div class="k">Coverage</div><div class="v">Pan-India</div></div>
+        </div>
       </div>
-      <div class="metric-item reveal reveal-delay-1">
-        <div class="metric-num counter" data-target="10" data-suffix="+">0</div>
-        <div class="metric-lbl">Sites digitised</div>
+      <div class="cred-card">
+        <div class="cc-head">
+          <div class="cc-icon">📋</div>
+          <div><div class="cc-lbl">Service Scope</div><div class="cc-val">Full-Cycle Delivery</div></div>
+        </div>
+        <div class="cc-body">Civil, MEP, Interiors, and Specialized Systems — all under one contract. Single-point accountability from groundbreaking to handover.</div>
       </div>
-      <div class="metric-item reveal reveal-delay-2">
-        <div class="metric-num counter" data-target="6" data-suffix="+">0</div>
-        <div class="metric-lbl">WhatsApp integrations</div>
+      <div class="avail-bar">
+        <div class="avail-dot"></div>
+        <div class="avail-text"><strong>Accepting New Tenders</strong>FY 2025–26 capacity available for institutional and government mandates.</div>
+        <div class="avail-badge">OPEN</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── SOLUTIONS ──────────────────────────────────────────── -->
-<section id="solutions" class="solutions">
-  <div class="container">
-    <div class="section-eyebrow reveal">Solutions we offer</div>
-    <h2 class="section-title reveal">The SaaS modules</h2>
-    <p class="section-sub reveal">Purpose-built for construction, real estate, and field operations — not adapted from an ERP.</p>
-    <div class="solutions-grid">
-      <div class="sol-card reveal reveal-delay-1">
-        <div class="sol-icon green">📦</div>
-        <h3>Inventory &amp; IMS</h3>
-        <p>Multi-site material tracking with WhatsApp AI for real-time stock queries from the field.</p>
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="ts-label">Trusted by leading government &amp; institutional clients</div>
+  <div class="ts-chips">
+    <div class="ts-chip">Delhi Police</div><div class="ts-chip">University of Delhi</div><div class="ts-chip">CPWD</div><div class="ts-chip">BSF</div><div class="ts-chip">DSIIDC</div><div class="ts-chip">Gurugram University</div><div class="ts-chip">University of Ladakh</div><div class="ts-chip">NBCC (Navratna CPSE)</div><div class="ts-chip">ISRO</div><div class="ts-chip">Jaypee Infratech</div><div class="ts-chip">HSIIDC</div><div class="ts-chip">Punjab National Bank</div><div class="ts-chip">Hindustan Prefab Ltd.</div><div class="ts-chip">HSVP</div>
+  </div>
+</div>
+
+<!-- TRACK RECORD -->
+<section class="track" id="track">
+  <div class="sec-eye reveal">Track Record</div>
+  <div class="sec-h2 reveal">38 Years of Proven Delivery</div>
+  <div class="sec-rule reveal"></div>
+  <div class="sec-lead reveal" style="margin-bottom:2.5rem;">From extreme-altitude campuses in Ladakh to defense establishments and national institutions — HDG has executed complex, large-scale projects across diverse geographies without a single contract dispute.</div>
+  <div class="track-grid reveal">
+    <div class="track-stat"><div class="track-num">50<span class="track-unit">+</span></div><div class="track-lbl">Projects Completed</div><div class="track-sub">Since 1986</div></div>
+    <div class="track-stat"><div class="track-num">₹500<span class="track-unit">Cr+</span></div><div class="track-lbl">Contract Value Delivered</div><div class="track-sub">Government &amp; Institutional</div></div>
+    <div class="track-stat"><div class="track-num">6</div><div class="track-lbl">States &amp; UTs Covered</div><div class="track-sub">Delhi · Haryana · UP · J&amp;K · Ladakh · Punjab</div></div>
+  </div>
+  <div class="sectors reveal" style="margin-top:1.1rem;">
+    <div class="sector-card"><div style="font-size:1.5rem;flex-shrink:0;margin-top:.1rem;">🏛️</div><div><div class="sector-name">Government &amp; PSU</div><div class="sector-desc">CPWD, NBCC, DSIIDC, HSIIDC — central and state bodies trusting HDG for mission-critical infrastructure.</div></div></div>
+    <div class="sector-card"><div style="font-size:1.5rem;flex-shrink:0;margin-top:.1rem;">🎓</div><div><div class="sector-name">Educational Institutions</div><div class="sector-desc">University of Delhi, Gurugram University, University of Ladakh — full campus from civil to MEP to interiors.</div></div></div>
+    <div class="sector-card"><div style="font-size:1.5rem;flex-shrink:0;margin-top:.1rem;">🛡️</div><div><div class="sector-name">Defense &amp; Security</div><div class="sector-desc">BSF, Delhi Police — high-security facility construction with strict compliance and confidentiality requirements.</div></div></div>
+    <div class="sector-card"><div style="font-size:1.5rem;flex-shrink:0;margin-top:.1rem;">🚀</div><div><div class="sector-name">Research &amp; Science</div><div class="sector-desc">ISRO facility infrastructure — precision civil and MEP works meeting critical-system protocols.</div></div></div>
+    <div class="sector-card"><div style="font-size:1.5rem;flex-shrink:0;margin-top:.1rem;">🏦</div><div><div class="sector-name">Financial Institutions</div><div class="sector-desc">Punjab National Bank branch fit-outs delivered to banking-grade specifications with zero disruption.</div></div></div>
+    <div class="sector-card"><div style="font-size:1.5rem;flex-shrink:0;margin-top:.1rem;">🏗️</div><div><div class="sector-name">Residential &amp; Commercial</div><div class="sector-desc">NBCC multi-tower housing, HSVP residential, and commercial complexes across North India.</div></div></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="sec-eye reveal">What We Do</div>
+  <div class="sec-h2 reveal">Our Services</div>
+  <div class="sec-rule reveal"></div>
+  <div class="stabs reveal">
+    <button class="stab active" onclick="showSvc('civil',this)">Civil Construction</button>
+    <button class="stab" onclick="showSvc('mep',this)">MEP Works</button>
+    <button class="stab" onclick="showSvc('interiors',this)">Interiors &amp; Fit-Out</button>
+    <button class="stab" onclick="showSvc('specialized',this)">Specialized Systems</button>
+  </div>
+  <div class="svc-panel active" id="sv-civil">
+    <div><div class="sp-title">Civil Construction</div><div class="sp-desc">HDG's core competency — RCC-framed structures, load-bearing masonry, foundation engineering, and large-scale multi-storey buildings. Delivered to IS code standards for 38 years.</div><div class="sp-scope-lbl">Scope of Work</div><ul class="sp-list"><li>Foundation design — raft, pile, and isolated footings</li><li>RCC multi-storey structures up to 15+ floors</li><li>Load-bearing masonry construction</li><li>Site development — roads, drainage, landscaping</li><li>Renovation, retrofitting, and structural strengthening</li><li>Extreme-altitude and difficult-terrain construction</li></ul><div class="sp-stds"><span class="sp-std">IS 456:2000</span><span class="sp-std">IS 1893</span><span class="sp-std">IS 13920</span><span class="sp-std">NBC 2016</span><span class="sp-std">CPWD DSR</span></div></div>
+    <div class="sp-highlights"><div class="sp-hl"><div class="sph-head"><div class="sph-icon"><i class="fas fa-mountain"></i></div><div class="sph-title">Extreme Conditions Expertise</div></div><div class="sph-body">Delivered University of Ladakh campus at high altitude — one of the most demanding construction environments in India.</div></div><div class="sp-hl"><div class="sph-head"><div class="sph-icon"><i class="fas fa-shield-alt"></i></div><div class="sph-title">Defense-Grade Compliance</div></div><div class="sph-body">BSF and Delhi Police facilities completed on schedule with full security clearance compliance.</div></div><div class="sp-hl"><div class="sph-head"><div class="sph-icon"><i class="fas fa-chart-line"></i></div><div class="sph-title">Real-Time Progress Tracking</div></div><div class="sph-body">Floor-by-floor milestones tracked digitally. Clients have live visibility into planned vs actual progress.</div></div></div>
+  </div>
+  <div class="svc-panel" id="sv-mep">
+    <div><div class="sp-title">MEP Works</div><div class="sp-desc">Mechanical, Electrical, and Plumbing systems designed and installed to national standards — integrated within civil timelines to eliminate coordination gaps.</div><div class="sp-scope-lbl">Scope of Work</div><ul class="sp-list"><li>LT/HT electrical systems, substation, and distribution panels</li><li>Internal and external electrification and lighting</li><li>HVAC — centralized, split, and ducted systems</li><li>Plumbing, sanitation, and sewage treatment plants</li><li>Fire-fighting — sprinklers, hydrants, and detection</li><li>Generator and UPS backup systems</li></ul><div class="sp-stds"><span class="sp-std">IE Rules 1956</span><span class="sp-std">NBC Fire</span><span class="sp-std">IS 1646</span><span class="sp-std">ASHRAE</span><span class="sp-std">CPWD Specs</span></div></div>
+    <div class="sp-highlights"><div class="sp-hl"><div class="sph-head"><div class="sph-icon"><i class="fas fa-bolt"></i></div><div class="sph-title">Integrated Electrical Works</div></div><div class="sph-body">Full electrical scope from HT substation to final outlets — coordinated with civil from foundation stage.</div></div><div class="sp-hl"><div class="sph-head"><div class="sph-icon"><i class="fas fa-fire-extinguisher"></i></div><div class="sph-title">Fire Safety Systems</div></div><div class="sph-body">NBC-compliant detection, suppression, and hydrant systems including NOC-ready documentation.</div></div><div class="sp-hl"><div class="sph-head"><div class="sph-icon"><i class="fas fa-wind"></i></div><div class="sph-title">HVAC Design &amp; Install</div></div><div class="sph-body">Institutional-load HVAC including Gurugram University's multi-block centralized infrastructure.</div></div></div>
+  </div>
+  <div class="svc-panel" id="sv-interiors">
+    <div><div class="sp-title">Interiors &amp; Fit-Out</div><div class="sp-desc">Functional, compliant, and durable interiors for government offices, banking branches, and academic spaces — in-house teams, no subcontracting guesswork.</div><div class="sp-scope-lbl">Scope of Work</div><ul class="sp-list"><li>False ceiling — gypsum, grid, and metal systems</li><li>Flooring — vitrified, marble, granite, raised access</li><li>Partitioning — glass, gypsum, modular systems</li><li>Joinery — doors, windows, furniture, and millwork</li><li>Wall finishes — painting, panelling, wallcovering</li><li>Kitchen and pantry fitouts for institutional occupancies</li></ul><div class="sp-stds"><span class="sp-std">IS 1489</span><span class="sp-std">NBC Interior</span><span class="sp-std">BIS Paints</span><span class="sp-std">CPWD Spec</span></div></div>
+    <div class="sp-highlights"><div class="sp-hl"><div class="sph-head"><div class="sph-icon"><i class="fas fa-landmark"></i></div><div class="sph-title">Banking Branch Fit-Out</div></div><div class="sph-body">PNB branch interiors to RBI specifications — security grilles, cash counters, vault integration, zero operational disruption.</div></div><div class="sp-hl"><div class="sph-head"><div class="sph-icon"><i class="fas fa-check-circle"></i></div><div class="sph-title">Snag-Free Handover</div></div><div class="sph-body">Structured pre-handover inspection checklist ensures zero defect handover on every project.</div></div></div>
+  </div>
+  <div class="svc-panel" id="sv-specialized">
+    <div><div class="sp-title">Specialized Systems</div><div class="sp-desc">Precision-engineered systems for research facilities, defense establishments, and high-security environments that standard contractors cannot undertake.</div><div class="sp-scope-lbl">Scope of Work</div><ul class="sp-list"><li>Clean room and controlled environment construction</li><li>Security systems — CCTV, access control, perimeter</li><li>Data centre and server room infrastructure</li><li>Laboratory infrastructure — fume hoods, gas manifolds</li><li>Solar PV and renewable energy installations</li><li>Heavy-duty industrial flooring and coatings</li></ul><div class="sp-stds"><span class="sp-std">ISO 14644</span><span class="sp-std">TIA-942</span><span class="sp-std">ISRO QA</span><span class="sp-std">MNRE</span><span class="sp-std">MHA Guidelines</span></div></div>
+    <div class="sp-highlights"><div class="sp-hl"><div class="sph-head"><div class="sph-icon"><i class="fas fa-rocket"></i></div><div class="sph-title">ISRO Facility Work</div></div><div class="sph-body">Civil and MEP infrastructure for ISRO — executed to precision tolerances required by India's space agency.</div></div><div class="sp-hl"><div class="sph-head"><div class="sph-icon"><i class="fas fa-lock"></i></div><div class="sph-title">High-Security Installations</div></div><div class="sph-body">Security perimeter, access control, and CCTV for BSF and Delhi Police — clearance-compliant and operationally tested.</div></div></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects dark-s" id="projects">
+  <div class="sec-eye reveal">Portfolio</div>
+  <div class="sec-h2 reveal">Selected Projects</div>
+  <div class="sec-rule reveal"></div>
+  <div class="proj-grid">
+    <div class="proj-card reveal"><div class="proj-header"><div><div class="proj-client">University of Ladakh · NBCC</div><div class="proj-title">Ladakh University Campus</div></div><div class="proj-status s-done">Completed</div></div><div class="proj-body"><div class="proj-desc">Multi-block academic campus at high altitude — science block, admin block, residential facilities. Full civil, MEP, and interior scope in extreme-climate conditions.</div><div class="proj-tags"><span class="proj-tag">Civil</span><span class="proj-tag">MEP</span><span class="proj-tag">Interiors</span><span class="proj-tag">High Altitude</span></div></div></div>
+    <div class="proj-card reveal"><div class="proj-header"><div><div class="proj-client">Jaypee Infratech</div><div class="proj-title">Jaypee Noida — Science &amp; Tech Block</div></div><div class="proj-status s-live">Ongoing</div></div><div class="proj-body"><div class="proj-desc">9-floor RCC structure with specialized laboratories, smart classrooms, and centralized MEP. Progress tracked digitally floor-by-floor.</div><div class="proj-tags"><span class="proj-tag">Civil</span><span class="proj-tag">Structural</span><span class="proj-tag">MEP</span><span class="proj-tag">Labs</span></div></div></div>
+    <div class="proj-card reveal"><div class="proj-header"><div><div class="proj-client">ISRO</div><div class="proj-title">ISRO Facility Infrastructure</div></div><div class="proj-status s-done">Completed</div></div><div class="proj-body"><div class="proj-desc">Specialized civil and MEP infrastructure for India's space agency. High-precision, critical-system compliance — zero defects on handover.</div><div class="proj-tags"><span class="proj-tag">Specialized</span><span class="proj-tag">Civil</span><span class="proj-tag">MEP</span></div></div></div>
+    <div class="proj-card reveal"><div class="proj-header"><div><div class="proj-client">BSF</div><div class="proj-title">BSF Residential &amp; Operational Facilities</div></div><div class="proj-status s-done">Completed</div></div><div class="proj-body"><div class="proj-desc">Residential quarters, operational buildings, and compound works for Border Security Force. Strict security compliance met.</div><div class="proj-tags"><span class="proj-tag">Defense</span><span class="proj-tag">Civil</span><span class="proj-tag">Compliance</span></div></div></div>
+    <div class="proj-card reveal"><div class="proj-header"><div><div class="proj-client">Gurugram University</div><div class="proj-title">Academic &amp; Administrative Blocks</div></div><div class="proj-status s-done">Completed</div></div><div class="proj-body"><div class="proj-desc">Multi-storey academic and admin blocks with MEP, fire safety, HVAC, and full interiors for the newly established state university.</div><div class="proj-tags"><span class="proj-tag">Civil</span><span class="proj-tag">MEP</span><span class="proj-tag">HVAC</span></div></div></div>
+    <div class="proj-card reveal"><div class="proj-header"><div><div class="proj-client">Punjab National Bank</div><div class="proj-title">PNB Branch Fit-Outs</div></div><div class="proj-status s-done">Completed</div></div><div class="proj-body"><div class="proj-desc">Interior fit-out and MEP works across multiple PNB branches — banking-grade specifications with zero operational disruption.</div><div class="proj-tags"><span class="proj-tag">Interiors</span><span class="proj-tag">MEP</span><span class="proj-tag">Banking</span></div></div></div>
+    <div class="proj-card reveal"><div class="proj-header"><div><div class="proj-client">NBCC · Navratna CPSE</div><div class="proj-title">NBCC Housing &amp; Commercial</div></div><div class="proj-status s-done">Completed</div></div><div class="proj-body"><div class="proj-desc">Multi-tower residential and commercial construction under NBCC. Civil, MEP, and finishing across multiple NCR sites.</div><div class="proj-tags"><span class="proj-tag">Residential</span><span class="proj-tag">Civil</span><span class="proj-tag">MEP</span></div></div></div>
+    <div class="proj-card reveal"><div class="proj-header"><div><div class="proj-client">University of Delhi · CPWD</div><div class="proj-title">Delhi University Campus</div></div><div class="proj-status s-done">Completed</div></div><div class="proj-body"><div class="proj-desc">Civil construction, renovation, and MEP upgrades across Delhi University under CPWD supervision with heritage-sensitive practices.</div><div class="proj-tags"><span class="proj-tag">Civil</span><span class="proj-tag">Renovation</span><span class="proj-tag">CPWD</span></div></div></div>
+    <div class="proj-card reveal"><div class="proj-header"><div><div class="proj-client">DSIIDC</div><div class="proj-title">Industrial Development Complex</div></div><div class="proj-status s-done">Completed</div></div><div class="proj-body"><div class="proj-desc">Large-scale industrial and commercial construction for Delhi State Industrial &amp; Infrastructure Development Corporation.</div><div class="proj-tags"><span class="proj-tag">Civil</span><span class="proj-tag">MEP</span><span class="proj-tag">Industrial</span></div></div></div>
+  </div>
+</section>
+
+<!-- WHY HDG -->
+<section class="why" id="why">
+  <div class="sec-eye reveal">Why Choose HDG</div>
+  <div class="sec-h2 reveal">The HDG Difference</div>
+  <div class="sec-rule reveal"></div>
+  <div class="why-grid">
+    <div class="why-card reveal"><div class="wc-icon">🏛️</div><div class="wc-title">Government's Preferred Contractor</div><div class="wc-body">Class 1A CPWD registration — India's highest classification. Preferred by CPWD, NBCC, DSIIDC, HSIIDC over 38 years. No conflict, no delay, no dispute on record.</div></div>
+    <div class="why-card reveal"><div class="wc-icon">🎯</div><div class="wc-title">Single-Point Accountability</div><div class="wc-body">One contract. Civil, MEP, Interiors, and Specialized Systems under HDG — eliminating coordination gaps and blame-shifting that multi-contractor setups create.</div></div>
+    <div class="why-card reveal"><div class="wc-icon">📡</div><div class="wc-title">Technology-Backed Visibility</div><div class="wc-body">Real-time project progress, inventory, workforce data, and live site cameras — complete transparency as standard, not a premium.</div></div>
+    <div class="why-card reveal"><div class="wc-icon">🌐</div><div class="wc-title">Proven Geographic Reach</div><div class="wc-body">Delivered across Delhi, Haryana, UP, Punjab, J&amp;K, and Ladakh — including extreme-altitude construction. Pan-India capacity with local discipline.</div></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="sec-eye reveal">Common Questions</div>
+  <div class="sec-h2 reveal">Frequently Asked Questions</div>
+  <div class="sec-rule reveal"></div>
+  <div class="faq-list reveal">
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is the minimum project value HDG accepts? <i class="fas fa-chevron-down"></i></div><div class="faq-a"><div class="faq-a-inner">HDG primarily engages with projects above ₹1 Crore. As a Class 1A CPWD contractor we are structured for mid-to-large scale government and institutional work. Smaller packages are evaluated case-by-case for strategic clients.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Which states does HDG operate in? <i class="fas fa-chevron-down"></i></div><div class="faq-a"><div class="faq-a-inner">HDG has active delivery experience across Delhi, Haryana, Uttar Pradesh, Punjab, Jammu &amp; Kashmir, and Ladakh. Pan-India requirements are evaluated per-project.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Does HDG handle both civil and MEP under one contract? <i class="fas fa-chevron-down"></i></div><div class="faq-a"><div class="faq-a-inner">Yes. Single-contract delivery covering Civil, MEP, Interiors, and Specialized Systems is one of HDG's core differentiators — eliminating the coordination gap that causes most delays.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is HDG eligible for CPWD, NBCC, and central agency tenders? <i class="fas fa-chevron-down"></i></div><div class="faq-a"><div class="faq-a-inner">Yes. HDG holds Class 1A CPWD registration — the highest classification — making the firm eligible for all central government contracts without a value ceiling. We have active empanelment with NBCC, DSIIDC, HSIIDC, and others.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What documents are available for pre-qualification? <i class="fas fa-chevron-down"></i></div><div class="faq-a"><div class="faq-a-inner">HDG can provide: CPWD Class 1A certificate, company profile, project completion certificates, ESI/PF compliance, GST registration, PAN, audited financials, and a technical capability statement.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is HDG's current project availability? <i class="fas fa-chevron-down"></i></div><div class="faq-a"><div class="faq-a-inner">HDG is accepting new tenders for FY 2025–26. We maintain capacity for 3–5 concurrent large projects with dedicated project manager assignments. Contact us for an honest assessment.</div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact-s">
+  <div class="sec-eye reveal">Let's Build Together</div>
+  <div class="sec-h2 reveal">Get In Touch</div>
+  <div class="sec-rule reveal"></div>
+  <div class="contact-grid">
+    <div class="reveal">
+      <p style="color:var(--ink3);font-size:.88rem;line-height:1.85;margin-bottom:1.75rem;font-weight:300;">Available for site visits, feasibility assessments, and competitive tendering across government, institutional, and defense projects.</p>
+      <div class="contact-details">
+        <div class="cd-item"><div class="cd-icon"><i class="fas fa-phone-alt"></i></div><div><div class="cd-lbl">Phone</div><div class="cd-val">+91 99580 57878 / +91 78383 58412</div></div></div>
+        <div class="cd-item"><div class="cd-icon"><i class="fas fa-envelope"></i></div><div><div class="cd-lbl">Email</div><div class="cd-val">info@hdgconstructions.in</div></div></div>
+        <div class="cd-item"><div class="cd-icon"><i class="fas fa-map-marker-alt"></i></div><div><div class="cd-lbl">Registered Office</div><div class="cd-val">103, Sai Bhawan, Ranjit Nagar Commercial Complex, New Delhi – 110008</div></div></div>
+        <div class="cd-item"><div class="cd-icon"><i class="fas fa-clock"></i></div><div><div class="cd-lbl">Office Hours</div><div class="cd-val">Monday – Saturday, 9:00 AM – 6:00 PM IST</div></div></div>
       </div>
-      <div class="sol-card reveal reveal-delay-2">
-        <div class="sol-icon teal">✅</div>
-        <h3>Attendance</h3>
-        <p>GPS + camera verification with Hindi voice commands — works without smartphones for floor workers.</p>
-      </div>
-      <div class="sol-card reveal reveal-delay-3">
-        <div class="sol-icon gold">🧾</div>
-        <h3>Task &amp; Checklists</h3>
-        <p>Auto-scoring daily tasks with team leaderboards that drive accountability across large crews.</p>
-      </div>
-      <div class="sol-card reveal reveal-delay-1">
-        <div class="sol-icon coral">💼</div>
-        <h3>Payment Tracker</h3>
-        <p>5-stage payment pipelines with auto-archive, approval chains, and instant WhatsApp notifications.</p>
-      </div>
-      <div class="sol-card reveal reveal-delay-2">
-        <div class="sol-icon purple">🏗️</div>
-        <h3>BIM Tracker</h3>
-        <p>3D model progress linked to Earned Value Management — know exactly where each project stands.</p>
-      </div>
-      <div class="sol-card reveal reveal-delay-3">
-        <div class="sol-icon blue">💬</div>
-        <h3>WhatsApp AI Agents</h3>
-        <p>Voice-enabled, Hindi/Hinglish AI that handles stock queries, attendance, and escalations automatically.</p>
-      </div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-title">Send an Enquiry</div>
+      <div class="fg-row"><div class="fg"><label>Full Name *</label><input type="text" id="f-name" placeholder="Your full name"/></div><div class="fg"><label>Designation</label><input type="text" id="f-desig" placeholder="Your role / title"/></div></div>
+      <div class="fg"><label>Organisation *</label><input type="text" id="f-org" placeholder="Company or department"/></div>
+      <div class="fg-row"><div class="fg"><label>Phone *</label><input type="tel" id="f-phone" placeholder="+91 00000 00000"/></div><div class="fg"><label>Email</label><input type="email" id="f-email" placeholder="your@email.com"/></div></div>
+      <div class="fg"><label>Project Type *</label><select id="f-type"><option value="">Select category</option><option>Civil Construction</option><option>MEP Works</option><option>Interior Fit-Out</option><option>Specialized Systems</option><option>Full Project — Civil + MEP + Interiors</option><option>Tender Pre-Qualification Documents</option></select></div>
+      <div class="fg"><label>Project Brief *</label><textarea id="f-brief" placeholder="Project location, scope, and timeline…"></textarea></div>
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()"><i class="fas fa-paper-plane"></i>Submit Enquiry</button>
+      <p class="form-note">We do not share your details with third parties.</p>
     </div>
   </div>
 </section>
 
-<!-- ── HOW WE WORK ─────────────────────────────────────────── -->
-<section id="how" class="how">
-  <div class="how-grid-lines" aria-hidden="true"></div>
-  <div class="container" style="position:relative;z-index:1;">
-    <div class="section-eyebrow reveal">How we work</div>
-    <h2 class="how-title reveal">Live across your sites in 7 days.</h2>
-    <div class="how-grid">
-      <div class="how-step reveal reveal-delay-1">
-        <div class="step-num">01</div>
-        <div class="step-icon">🔍</div>
-        <h4>Free Audit</h4>
-        <p>We map your manual processes and identify every point of friction before writing a line of code.</p>
-      </div>
-      <div class="how-step reveal reveal-delay-2">
-        <div class="step-num">02</div>
-        <div class="step-icon">✏️</div>
-        <h4>Design</h4>
-        <p>Custom to your workflow. No generic templates handed to field teams who've never seen a CRM.</p>
-      </div>
-      <div class="how-step reveal reveal-delay-3">
-        <div class="step-num">03</div>
-        <div class="step-icon">⚙️</div>
-        <h4>Build</h4>
-        <p>Live in weeks, not months. Data migration and on-site training are included — not billed extra.</p>
-      </div>
-      <div class="how-step reveal reveal-delay-4">
-        <div class="step-num">04</div>
-        <div class="step-icon">💬</div>
-        <h4>Support</h4>
-        <p>Ongoing via WhatsApp. Your team never gets left with a ticket queue and a 3-day SLA.</p>
-      </div>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo"><div class="nav-emblem">HDG</div><div class="footer-name">M/S Harcharan Dass Gupta<small>Class 1A CPWD Contractor</small></div></div>
+      <p class="footer-about">Delivering civil construction, MEP, interiors, and specialized systems for government, defense, and institutional clients since 1986.</p>
+      <div class="footer-reg">Reg. Office: 103, Sai Bhawan, Ranjit Nagar<br>Commercial Complex, New Delhi – 110008<br>CPWD Class 1A · Est. 1986</div>
     </div>
+    <div><div class="footer-col-title">Services</div><ul class="footer-links"><li><a href="#services" onclick="showSvc('civil')">Civil Construction</a></li><li><a href="#services" onclick="showSvc('mep')">MEP Works</a></li><li><a href="#services" onclick="showSvc('interiors')">Interiors &amp; Fit-Out</a></li><li><a href="#services" onclick="showSvc('specialized')">Specialized Systems</a></li></ul></div>
+    <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="#track">Track Record</a></li><li><a href="#projects">Projects</a></li><li><a href="#why">Why HDG</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+    <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li><a href="tel:+919958057878">+91 99580 57878</a></li><li><a href="mailto:info@hdgconstructions.in">info@hdgconstructions.in</a></li><li><a href="#contact-s" onclick="goto('landing')">Send Enquiry</a></li><li><a onclick="goto('login')" style="cursor:pointer;">Client Portal Login</a></li></ul></div>
   </div>
-</section>
-
-<!-- ── INDUSTRIES ─────────────────────────────────────────── -->
-<section id="industries" class="industries">
-  <div class="container">
-    <div class="section-eyebrow reveal">Industries we serve</div>
-    <h2 class="section-title reveal">Built for your sector</h2>
-    <div class="ind-tabs reveal">
-      <button class="ind-tab" onclick="showInd('construction', this)">Construction</button>
-      <button class="ind-tab" onclick="showInd('manufacturing', this)">Manufacturing</button>
-      <button class="ind-tab" onclick="showInd('realestate', this)">Real Estate</button>
-      <button class="ind-tab" onclick="showInd('retail', this)">Retail &amp; SME</button>
-      <button class="ind-tab" onclick="showInd('healthcare', this)">Healthcare</button>
-      <button class="ind-tab active" onclick="showInd('logistics', this)">Logistics</button>
-    </div>
-    <div id="panel-construction" class="ind-panel">
-      <h3>Construction</h3>
-      <p>Site-level material tracking, challan management, GPS attendance, and 3D BIM progress updates — built for engineers who are on-site, not at a desk.</p>
-      <div class="ind-tags">
-        <span class="ind-tag">Material IMS</span>
-        <span class="ind-tag">GPS attendance</span>
-        <span class="ind-tag">BIM tracker</span>
-        <span class="ind-tag">Subcontractor billing</span>
-      </div>
-    </div>
-    <div id="panel-manufacturing" class="ind-panel">
-      <h3>Manufacturing</h3>
-      <p>Production line checklists, machine downtime logs, worker shift tracking, and WhatsApp-based QC sign-offs — built for plant managers who move fast.</p>
-      <div class="ind-tags">
-        <span class="ind-tag">Production checklists</span>
-        <span class="ind-tag">Machine logs</span>
-        <span class="ind-tag">Shift tracking</span>
-        <span class="ind-tag">WhatsApp QC</span>
-      </div>
-    </div>
-    <div id="panel-realestate" class="ind-panel">
-      <h3>Real Estate</h3>
-      <p>Project handover tracking, customer payment pipelines, snag-list management, and unit-wise progress dashboards — end to end without an ERP license.</p>
-      <div class="ind-tags">
-        <span class="ind-tag">Payment tracker</span>
-        <span class="ind-tag">Snag lists</span>
-        <span class="ind-tag">Handover</span>
-        <span class="ind-tag">Unit dashboard</span>
-      </div>
-    </div>
-    <div id="panel-retail" class="ind-panel">
-      <h3>Retail &amp; SME</h3>
-      <p>Inventory across multiple stores, daily sales reports via WhatsApp, staff attendance and incentive tracking — all from a single mobile app your team will actually use.</p>
-      <div class="ind-tags">
-        <span class="ind-tag">Multi-store IMS</span>
-        <span class="ind-tag">Daily sales</span>
-        <span class="ind-tag">Staff attendance</span>
-        <span class="ind-tag">Incentive tracking</span>
-      </div>
-    </div>
-    <div id="panel-healthcare" class="ind-panel">
-      <h3>Healthcare</h3>
-      <p>Ward round checklists, consumable inventory, staff duty schedules, and maintenance request tracking — keeping your teams accountable without paperwork.</p>
-      <div class="ind-tags">
-        <span class="ind-tag">Ward checklists</span>
-        <span class="ind-tag">Consumables</span>
-        <span class="ind-tag">Duty schedules</span>
-        <span class="ind-tag">Maintenance</span>
-      </div>
-    </div>
-    <div id="panel-logistics" class="ind-panel active">
-      <h3>Logistics</h3>
-      <p>Fleet tracking, delivery checklists, driver attendance, and auto-invoice generation — helping logistics businesses go paperless without disrupting existing workflows.</p>
-      <div class="ind-tags">
-        <span class="ind-tag">Fleet tracker</span>
-        <span class="ind-tag">Delivery checklists</span>
-        <span class="ind-tag">Driver attendance</span>
-        <span class="ind-tag">Auto-invoice</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── TESTIMONIALS ────────────────────────────────────────── -->
-<section id="testimonials" class="testimonials">
-  <div class="container">
-    <div class="section-eyebrow reveal" style="color:rgba(196,160,90,.7)">What clients say</div>
-    <h2 class="section-title reveal" style="color:rgba(240,236,228,.85)">Trusted by teams across India</h2>
-    <div class="testi-grid">
-      <div class="testi-card reveal reveal-delay-1">
-        <div class="testi-stars">
-          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
-        </div>
-        <p class="testi-text">"Our site supervisors were marking attendance on paper registers. Within two weeks of MDI deploying the GPS system, we had real-time visibility across four sites. It just works."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">RK</div>
-          <div>
-            <div class="testi-name">Rajesh Kumar</div>
-            <div class="testi-role">Director, Saraswati Constructions</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card reveal reveal-delay-2">
-        <div class="testi-stars">
-          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
-        </div>
-        <p class="testi-text">"Payment follow-ups used to consume half my week. The 5-stage tracker with WhatsApp alerts cut that to under an hour. Our cash flow visibility improved overnight."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">PS</div>
-          <div>
-            <div class="testi-name">Priya Sharma</div>
-            <div class="testi-role">CFO, Horizon Real Estate</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card reveal reveal-delay-3">
-        <div class="testi-stars">
-          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
-        </div>
-        <p class="testi-text">"The WhatsApp AI handles stock queries in Hindi from our warehouse team at 2 AM. We didn't think that was possible without a massive IT budget. MDI made it happen in days."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">AM</div>
-          <div>
-            <div class="testi-name">Arjun Mehta</div>
-            <div class="testi-role">Operations Head, SwiftLog India</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── CTA ────────────────────────────────────────────────── -->
-<section id="cta" class="cta-section">
-  <div class="cta-orb cta-orb-1"></div>
-  <div class="cta-orb cta-orb-2"></div>
-  <div class="container">
-    <div class="cta-orn reveal">Free Audit · No Commitment</div>
-    <h2 class="reveal">Tell us your biggest manual headache.</h2>
-    <p class="reveal">We'll show you how to automate it — free, in a single call.</p>
-    <a href="mailto:hello@makedigitalindia.com" class="btn-primary-hero reveal">
-      Book a Free Audit
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-    </a>
-  </div>
-</section>
-
-<!-- ── FOOTER ─────────────────────────────────────────────── -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <div class="footer-logo">make<span>digital</span>india</div>
-    <p>&copy; 2026 Make Digital India. All rights reserved.</p>
-    <ul class="footer-links">
-      <li><a href="#">Privacy</a></li>
-      <li><a href="#">Terms</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </div>
+  <div class="footer-bottom"><span>© 2025 M/S Harcharan Dass Gupta. All rights reserved.</span><div><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div></div>
 </footer>
+</div><!-- /page-landing -->
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
+     PAGE 2: LOGIN
+══════════════════════════════════════════ -->
+<div id="page-login" class="page">
+<div class="login-page">
+  <canvas id="loginCanvas"></canvas>
+  <div class="login-left">
+    <div class="login-brand" onclick="goto('landing')">
+      <div class="login-emblem">HDG</div>
+      <div class="login-brand-name">M/S Harcharan Dass Gupta<small>Class 1A CPWD Contractor</small></div>
+    </div>
+    <div class="login-tagline">Your projects,<br><em>fully visible.</em></div>
+    <p class="login-sub">Track real-time progress, inventory, attendance, and payments across all active HDG sites from a single dashboard.</p>
+    <div class="login-stats">
+      <div class="ls-stat"><div class="n">12</div><div class="l">Active Sites</div></div>
+      <div class="ls-stat"><div class="n">247</div><div class="l">Workers Live</div></div>
+      <div class="ls-stat"><div class="n">94%</div><div class="l">On Schedule</div></div>
+    </div>
+  </div>
+  <div class="login-right">
+    <div class="login-box">
+      <div class="login-box-title">Welcome back</div>
+      <div class="login-box-sub">Sign in to access the HDG project portal</div>
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="setRole('admin',this)"><i class="fas fa-user-shield"></i> HDG Admin</button>
+        <button class="role-tab" onclick="setRole('pm',this)"><i class="fas fa-hard-hat"></i> Project Manager</button>
+        <button class="role-tab" onclick="setRole('client',this)"><i class="fas fa-building"></i> Client</button>
+      </div>
+      <div class="lf-group"><label class="lf-label">Email Address</label><input class="lf-input" type="email" id="li-email" placeholder="your@email.com" value="admin@hdgindia.com"/></div>
+      <div class="lf-group"><label class="lf-label">Password</label><input class="lf-input" type="password" id="li-pass" placeholder="••••••••" value="hdg2025"/></div>
+      <div class="lf-row">
+        <label class="lf-check"><input type="checkbox" checked/> Remember me</label>
+        <span class="lf-forgot">Forgot password?</span>
+      </div>
+      <button class="login-btn" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> <span id="login-btn-text">Sign In</span></button>
+      <div class="login-divider">demo credentials</div>
+      <div class="demo-info">
+        <strong>Admin:</strong> admin@hdgindia.com / hdg2025<br>
+        <strong>PM:</strong> pm@hdgindia.com / hdg2025<br>
+        <strong>Client:</strong> client@hdgindia.com / hdg2025
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /page-login -->
+
+<!-- ══════════════════════════════════════════
+     PAGE 3: DASHBOARD
+══════════════════════════════════════════ -->
+<div id="page-dash" class="page">
+<div class="dash-page">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-emblem">HDG</div>
+      <div class="sb-name">HDGindia<small>Operations Portal</small></div>
+    </div>
+    <div class="sb-user-card">
+      <div class="sb-avatar" id="sb-av">AD</div>
+      <div><div class="sb-user-name" id="sb-uname">Admin User</div><div class="sb-user-role" id="sb-urole">Administrator</div></div>
+    </div>
+    <div class="sb-section">Main</div>
+    <div class="sb-nav">
+      <button class="sb-link active" onclick="showPanel('overview',this)"><i class="fas fa-th-large"></i> Overview</button>
+      <button class="sb-link" onclick="showPanel('projects',this)"><i class="fas fa-hard-hat"></i> Projects <span class="badge">9</span></button>
+      <button class="sb-link" onclick="showPanel('inventory',this)"><i class="fas fa-boxes"></i> Inventory</button>
+      <button class="sb-link" onclick="showPanel('attendance',this)"><i class="fas fa-user-check"></i> Attendance</button>
+      <button class="sb-link" onclick="showPanel('payments',this)"><i class="fas fa-file-invoice-dollar"></i> Payments</button>
+    </div>
+    <div class="sb-section">Operations</div>
+    <div class="sb-nav">
+      <button class="sb-link" onclick="showPanel('sites',this)"><i class="fas fa-map-marker-alt"></i> Live Sites</button>
+      <button class="sb-link" onclick="showPanel('reports',this)"><i class="fas fa-chart-bar"></i> Reports</button>
+      <button class="sb-link" onclick="showPanel('documents',this)"><i class="fas fa-folder"></i> Documents</button>
+    </div>
+    <div class="sb-bottom">
+      <button class="sb-link" style="margin-bottom:.4rem;"><i class="fas fa-cog"></i> Settings</button>
+      <button class="sb-logout" onclick="goto('login')"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <div class="dash-topbar-title" id="dash-panel-title">Overview</div>
+      <div class="dash-topbar-right">
+        <div class="topbar-chip" id="dash-date">18 Jun 2026, 09:42</div>
+        <div class="topbar-chip">FY 2025–26</div>
+        <div class="topbar-notif"><i class="fas fa-bell"></i><div class="notif-dot"></div></div>
+        <div class="topbar-notif" onclick="goto('login')"><i class="fas fa-user-circle"></i></div>
+      </div>
+    </div>
+    <div class="dash-content">
+
+      <!-- OVERVIEW -->
+      <div class="dash-panel active" id="dp-overview">
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon green"><i class="fas fa-hard-hat"></i></div><div class="kpi-badge">+2 this month</div></div><div class="kpi-num">12</div><div class="kpi-lbl">Active Sites</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon gold"><i class="fas fa-rupee-sign"></i></div><div class="kpi-badge">94% collected</div></div><div class="kpi-num">₹48.2Cr</div><div class="kpi-lbl">Active Contract Value</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon blue"><i class="fas fa-users"></i></div><div class="kpi-badge">live now</div></div><div class="kpi-num">247</div><div class="kpi-lbl">Workers On Site</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon amber"><i class="fas fa-boxes"></i></div><div class="kpi-badge warn">3 low stock</div></div><div class="kpi-num">1,842</div><div class="kpi-lbl">Inventory Items</div></div>
+        </div>
+        <div class="charts-row">
+          <div class="dash-widget">
+            <div class="dw-head"><div class="dw-title">Monthly Billing — FY 2025–26 (₹ Cr)</div><div class="dw-meta">Apr–Mar</div></div>
+            <div class="bar-chart" id="billing-chart"></div>
+          </div>
+          <div class="dash-widget">
+            <div class="dw-head"><div class="dw-title">Project Status</div><div class="dw-meta">9 total</div></div>
+            <div class="donut-wrap">
+              <canvas id="donut-chart" width="120" height="120"></canvas>
+              <div class="donut-legend">
+                <div class="dl-item"><div class="dl-dot" style="background:#4ade80;"></div>Completed (6)</div>
+                <div class="dl-item"><div class="dl-dot" style="background:var(--g3);"></div>Ongoing (2)</div>
+                <div class="dl-item"><div class="dl-dot" style="background:#60a5fa;"></div>Tendering (1)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tables-row">
+          <div class="dash-widget">
+            <div class="dw-head"><div class="dw-title">Active Projects</div><div class="dw-meta">Updated just now</div></div>
+            <table class="dash-table">
+              <thead><tr><th>Project</th><th>Client</th><th>Progress</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Jaypee Noida S&amp;T Block</td><td style="color:rgba(240,234,220,.3);">Jaypee</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--g3);">72%</td><td><span class="status-pill sp-active">Active</span></td></tr>
+                <tr><td>Ladakh University Ph.2</td><td style="color:rgba(240,234,220,.3);">NBCC</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--g3);">48%</td><td><span class="status-pill sp-review">Review</span></td></tr>
+                <tr><td>DSIIDC Complex Ph.3</td><td style="color:rgba(240,234,220,.3);">DSIIDC</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--g3);">91%</td><td><span class="status-pill sp-active">Active</span></td></tr>
+                <tr><td>PNB Branch Renovation</td><td style="color:rgba(240,234,220,.3);">PNB</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#fbbf24;">15%</td><td><span class="status-pill sp-hold">On Hold</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="dash-widget">
+            <div class="dw-head"><div class="dw-title">Recent Payments</div><div class="dw-meta">Last 7 days</div></div>
+            <table class="dash-table">
+              <thead><tr><th>Party</th><th>Amount</th><th>Type</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Jaypee Milestone 4</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹3.2Cr</td><td style="color:rgba(240,234,220,.3);font-size:.7rem;">Receivable</td><td><span class="status-pill sp-paid">Paid</span></td></tr>
+                <tr><td>Steel supplier - Rajan</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹48L</td><td style="color:rgba(240,234,220,.3);font-size:.7rem;">Payable</td><td><span class="status-pill sp-pending">Pending</span></td></tr>
+                <tr><td>NBCC Running Bill 7</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹1.8Cr</td><td style="color:rgba(240,234,220,.3);font-size:.7rem;">Receivable</td><td><span class="status-pill sp-pending">Pending</span></td></tr>
+                <tr><td>Labour contractor May</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹12L</td><td style="color:rgba(240,234,220,.3);font-size:.7rem;">Payable</td><td><span class="status-pill sp-overdue">Overdue</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="dw-head" style="margin-bottom:.75rem;"><div class="dw-title">Live Activity Feed</div><div class="dw-meta">Real-time</div></div>
+        <div class="live-feed">
+          <div class="live-item"><div class="live-dot green"></div><div class="live-text"><strong>Attendance marked</strong> — 47 workers clocked in at Jaypee Noida</div><div class="live-time">09:38 AM</div></div>
+          <div class="live-item"><div class="live-dot gold"></div><div class="live-text"><strong>Payment released</strong> — ₹48L to Rajan Steel Suppliers approved by Admin</div><div class="live-time">09:22 AM</div></div>
+          <div class="live-item"><div class="live-dot blue"></div><div class="live-text"><strong>Inventory alert</strong> — Cement stock at Ladakh site below 20% threshold</div><div class="live-time">09:15 AM</div></div>
+          <div class="live-item"><div class="live-dot green"></div><div class="live-text"><strong>Milestone completed</strong> — Floor 6 slab poured at Jaypee S&amp;T Block</div><div class="live-time">08:54 AM</div></div>
+          <div class="live-item"><div class="live-dot gold"></div><div class="live-text"><strong>Document uploaded</strong> — NBCC Running Bill #7 submitted for approval</div><div class="live-time">08:30 AM</div></div>
+        </div>
+      </div>
+
+      <!-- PROJECTS PANEL -->
+      <div class="dash-panel" id="dp-projects">
+        <div class="kpi-grid" style="margin-bottom:1.25rem;">
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon green"><i class="fas fa-check-circle"></i></div></div><div class="kpi-num">6</div><div class="kpi-lbl">Completed</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon gold"><i class="fas fa-spinner"></i></div></div><div class="kpi-num">2</div><div class="kpi-lbl">Ongoing</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon blue"><i class="fas fa-file-contract"></i></div></div><div class="kpi-num">1</div><div class="kpi-lbl">Tendering</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon amber"><i class="fas fa-rupee-sign"></i></div></div><div class="kpi-num">₹500Cr+</div><div class="kpi-lbl">Total Delivered</div></div>
+        </div>
+        <div class="dash-widget">
+          <div class="dw-head"><div class="dw-title">All Projects</div><div class="dw-meta">FY 2025–26</div></div>
+          <table class="dash-table">
+            <thead><tr><th>Project</th><th>Client</th><th>Value</th><th>Progress</th><th>Status</th><th>PM</th></tr></thead>
+            <tbody>
+              <tr><td>Jaypee Noida S&amp;T Block</td><td style="color:rgba(240,234,220,.35);">Jaypee Infratech</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹18Cr</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--g3);">72%</td><td><span class="status-pill sp-active">Active</span></td><td style="color:rgba(240,234,220,.4);font-size:.72rem;">R. Sharma</td></tr>
+              <tr><td>Ladakh University Ph.2</td><td style="color:rgba(240,234,220,.35);">NBCC</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹22Cr</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--g3);">48%</td><td><span class="status-pill sp-review">Review</span></td><td style="color:rgba(240,234,220,.4);font-size:.72rem;">A. Kumar</td></tr>
+              <tr><td>DSIIDC Complex Ph.3</td><td style="color:rgba(240,234,220,.35);">DSIIDC</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹8.2Cr</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--g3);">91%</td><td><span class="status-pill sp-active">Active</span></td><td style="color:rgba(240,234,220,.4);font-size:.72rem;">M. Verma</td></tr>
+              <tr><td>PNB Branch Renovation</td><td style="color:rgba(240,234,220,.35);">Punjab Natl. Bank</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹1.4Cr</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#fbbf24;">15%</td><td><span class="status-pill sp-hold">On Hold</span></td><td style="color:rgba(240,234,220,.4);font-size:.72rem;">S. Gupta</td></tr>
+              <tr><td>Ladakh University Ph.1</td><td style="color:rgba(240,234,220,.35);">NBCC</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹45Cr</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#4ade80;">100%</td><td><span class="status-pill sp-paid">Done</span></td><td style="color:rgba(240,234,220,.4);font-size:.72rem;">A. Kumar</td></tr>
+              <tr><td>ISRO Facility Infra</td><td style="color:rgba(240,234,220,.35);">ISRO</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹12Cr</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#4ade80;">100%</td><td><span class="status-pill sp-paid">Done</span></td><td style="color:rgba(240,234,220,.4);font-size:.72rem;">R. Sharma</td></tr>
+              <tr><td>BSF Residential Qtrs</td><td style="color:rgba(240,234,220,.35);">BSF</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹9.5Cr</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#4ade80;">100%</td><td><span class="status-pill sp-paid">Done</span></td><td style="color:rgba(240,234,220,.4);font-size:.72rem;">P. Singh</td></tr>
+              <tr><td>Gurugram University</td><td style="color:rgba(240,234,220,.35);">Gurugram Univ.</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹28Cr</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#4ade80;">100%</td><td><span class="status-pill sp-paid">Done</span></td><td style="color:rgba(240,234,220,.4);font-size:.72rem;">M. Verma</td></tr>
+              <tr><td>NBCC Housing NCR</td><td style="color:rgba(240,234,220,.35);">NBCC</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹65Cr</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#4ade80;">100%</td><td><span class="status-pill sp-paid">Done</span></td><td style="color:rgba(240,234,220,.4);font-size:.72rem;">A. Kumar</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- INVENTORY PANEL -->
+      <div class="dash-panel" id="dp-inventory">
+        <div class="kpi-grid" style="margin-bottom:1.25rem;">
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon green"><i class="fas fa-boxes"></i></div></div><div class="kpi-num">1,842</div><div class="kpi-lbl">Total Items</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon amber"><i class="fas fa-exclamation-triangle"></i></div><div class="kpi-badge warn">alert</div></div><div class="kpi-num">3</div><div class="kpi-lbl">Low Stock Alerts</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon blue"><i class="fas fa-truck"></i></div></div><div class="kpi-num">7</div><div class="kpi-lbl">Orders Pending</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon gold"><i class="fas fa-rupee-sign"></i></div></div><div class="kpi-num">₹2.4Cr</div><div class="kpi-lbl">Stock Value</div></div>
+        </div>
+        <div class="dash-widget">
+          <div class="dw-head"><div class="dw-title">Material Stock — All Sites</div><div class="dw-meta">Live</div></div>
+          <table class="dash-table">
+            <thead><tr><th>Material</th><th>Site</th><th>Stock</th><th>Unit</th><th>Min Level</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>OPC Cement (43G)</td><td style="color:rgba(240,234,220,.35);">Jaypee Noida</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">420</td><td style="color:rgba(240,234,220,.3);">bags</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(240,234,220,.35);">200</td><td><span class="status-pill sp-active">OK</span></td></tr>
+              <tr><td>TMT Rebar Fe500</td><td style="color:rgba(240,234,220,.35);">Jaypee Noida</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">8.4</td><td style="color:rgba(240,234,220,.3);">MT</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(240,234,220,.35);">10</td><td><span class="status-pill sp-overdue">Low</span></td></tr>
+              <tr><td>OPC Cement (43G)</td><td style="color:rgba(240,234,220,.35);">Ladakh Ph.2</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">85</td><td style="color:rgba(240,234,220,.3);">bags</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(240,234,220,.35);">500</td><td><span class="status-pill sp-overdue">Critical</span></td></tr>
+              <tr><td>River Sand</td><td style="color:rgba(240,234,220,.35);">DSIIDC Ph.3</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">24</td><td style="color:rgba(240,234,220,.3);">cft</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(240,234,220,.35);">50</td><td><span class="status-pill sp-hold">Low</span></td></tr>
+              <tr><td>Bricks (1st class)</td><td style="color:rgba(240,234,220,.35);">Jaypee Noida</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">12,400</td><td style="color:rgba(240,234,220,.3);">nos</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(240,234,220,.35);">5000</td><td><span class="status-pill sp-active">OK</span></td></tr>
+              <tr><td>CPVC Pipes 25mm</td><td style="color:rgba(240,234,220,.35);">DSIIDC Ph.3</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">340</td><td style="color:rgba(240,234,220,.3);">m</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(240,234,220,.35);">100</td><td><span class="status-pill sp-active">OK</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ATTENDANCE PANEL -->
+      <div class="dash-panel" id="dp-attendance">
+        <div class="kpi-grid" style="margin-bottom:1.25rem;">
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon green"><i class="fas fa-user-check"></i></div><div class="kpi-badge">live</div></div><div class="kpi-num">247</div><div class="kpi-lbl">Workers Present</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon amber"><i class="fas fa-user-times"></i></div></div><div class="kpi-num">18</div><div class="kpi-lbl">Absent Today</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon blue"><i class="fas fa-percentage"></i></div></div><div class="kpi-num">93%</div><div class="kpi-lbl">Attendance Rate</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon gold"><i class="fas fa-hard-hat"></i></div></div><div class="kpi-num">265</div><div class="kpi-lbl">Total Workforce</div></div>
+        </div>
+        <div class="dash-widget">
+          <div class="dw-head"><div class="dw-title">Site-Wise Attendance — Today</div><div class="dw-meta">18 Jun 2026</div></div>
+          <table class="dash-table">
+            <thead><tr><th>Site</th><th>Present</th><th>Absent</th><th>Strength</th><th>Rate</th><th>Foreman</th></tr></thead>
+            <tbody>
+              <tr><td>Jaypee Noida S&amp;T</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#4ade80;">47</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#f87171;">3</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(240,234,220,.35);">50</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--g3);">94%</td><td style="color:rgba(240,234,220,.35);font-size:.72rem;">Raju K.</td></tr>
+              <tr><td>Ladakh University</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#4ade80;">68</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#f87171;">7</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(240,234,220,.35);">75</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#fbbf24;">91%</td><td style="color:rgba(240,234,220,.35);font-size:.72rem;">Mohan L.</td></tr>
+              <tr><td>DSIIDC Complex</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#4ade80;">82</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#f87171;">4</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(240,234,220,.35);">86</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--g3);">95%</td><td style="color:rgba(240,234,220,.35);font-size:.72rem;">Suresh M.</td></tr>
+              <tr><td>PNB Renovation</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#4ade80;">12</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#f87171;">2</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(240,234,220,.35);">14</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;color:#fbbf24;">86%</td><td style="color:rgba(240,234,220,.35);font-size:.72rem;">Anil S.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PAYMENTS PANEL -->
+      <div class="dash-panel" id="dp-payments">
+        <div class="kpi-grid" style="margin-bottom:1.25rem;">
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon green"><i class="fas fa-arrow-down"></i></div></div><div class="kpi-num">₹5.2Cr</div><div class="kpi-lbl">Receivables Due</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon gold"><i class="fas fa-arrow-up"></i></div></div><div class="kpi-num">₹1.8Cr</div><div class="kpi-lbl">Payables Pending</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon amber"><i class="fas fa-exclamation-circle"></i></div><div class="kpi-badge warn">overdue</div></div><div class="kpi-num">₹48L</div><div class="kpi-lbl">Overdue Amount</div></div>
+          <div class="kpi-card"><div class="kpi-top"><div class="kpi-icon blue"><i class="fas fa-check-double"></i></div></div><div class="kpi-num">₹3.2Cr</div><div class="kpi-lbl">Cleared This Month</div></div>
+        </div>
+        <div class="dash-widget">
+          <div class="dw-head"><div class="dw-title">Payment Tracker — All Transactions</div><div class="dw-meta">Jun 2026</div></div>
+          <table class="dash-table">
+            <thead><tr><th>Description</th><th>Project</th><th>Amount</th><th>Type</th><th>Due Date</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Milestone 4 — Floor 6</td><td style="color:rgba(240,234,220,.35);font-size:.7rem;">Jaypee Noida</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹3.2Cr</td><td style="color:rgba(240,234,220,.3);font-size:.7rem;">Receivable</td><td style="font-family:'DM Mono',monospace;font-size:.68rem;color:rgba(240,234,220,.3);">14 Jun</td><td><span class="status-pill sp-paid">Received</span></td></tr>
+              <tr><td>Running Bill #7</td><td style="color:rgba(240,234,220,.35);font-size:.7rem;">Ladakh Ph.2</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹1.8Cr</td><td style="color:rgba(240,234,220,.3);font-size:.7rem;">Receivable</td><td style="font-family:'DM Mono',monospace;font-size:.68rem;color:rgba(240,234,220,.3);">25 Jun</td><td><span class="status-pill sp-pending">Pending</span></td></tr>
+              <tr><td>Steel Supply — May</td><td style="color:rgba(240,234,220,.35);font-size:.7rem;">Jaypee Noida</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹48L</td><td style="color:rgba(240,234,220,.3);font-size:.7rem;">Payable</td><td style="font-family:'DM Mono',monospace;font-size:.68rem;color:#f87171;">10 Jun</td><td><span class="status-pill sp-overdue">Overdue</span></td></tr>
+              <tr><td>Labour — Rajan Infra</td><td style="color:rgba(240,234,220,.35);font-size:.7rem;">DSIIDC</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹22L</td><td style="color:rgba(240,234,220,.3);font-size:.7rem;">Payable</td><td style="font-family:'DM Mono',monospace;font-size:.68rem;color:rgba(240,234,220,.3);">30 Jun</td><td><span class="status-pill sp-pending">Pending</span></td></tr>
+              <tr><td>Completion Bill — Ph.1</td><td style="color:rgba(240,234,220,.35);font-size:.7rem;">DSIIDC</td><td style="font-family:'DM Mono',monospace;font-size:.72rem;">₹1.4Cr</td><td style="color:rgba(240,234,220,.3);font-size:.7rem;">Receivable</td><td style="font-family:'DM Mono',monospace;font-size:.68rem;color:rgba(240,234,220,.3);">20 Jun</td><td><span class="status-pill sp-review">In Review</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PLACEHOLDER PANELS -->
+      <div class="dash-panel" id="dp-sites"><div class="dash-widget" style="margin-bottom:1rem;"><div class="dw-head"><div class="dw-title">Live Sites Map</div><div class="dw-meta">12 active</div></div><div style="height:320px;background:rgba(196,160,90,.04);border:1px dashed rgba(196,160,90,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(240,234,220,.2);font-size:.82rem;"><i class="fas fa-map-marked-alt" style="font-size:2rem;margin-right:.75rem;"></i>Interactive site map coming soon</div></div></div>
+      <div class="dash-panel" id="dp-reports"><div class="dash-widget"><div class="dw-head"><div class="dw-title">Reports &amp; Analytics</div></div><div style="height:280px;background:rgba(196,160,90,.04);border:1px dashed rgba(196,160,90,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(240,234,220,.2);font-size:.82rem;"><i class="fas fa-chart-bar" style="font-size:2rem;margin-right:.75rem;"></i>Reports module coming soon</div></div></div>
+      <div class="dash-panel" id="dp-documents"><div class="dash-widget"><div class="dw-head"><div class="dw-title">Document Repository</div></div><div style="height:280px;background:rgba(196,160,90,.04);border:1px dashed rgba(196,160,90,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(240,234,220,.2);font-size:.82rem;"><i class="fas fa-folder-open" style="font-size:2rem;margin-right:.75rem;"></i>Document store coming soon</div></div></div>
+
+    </div>
+  </div>
+</div>
+</div><!-- /page-dash -->
+
+<!-- ══════════════════════════════════════════
      JAVASCRIPT
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <script>
-/* ── PAGE LOADER ─────────────────────────────────────────── */
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const loader = document.getElementById('page-loader');
-    loader.classList.add('hidden');
-    setTimeout(() => loader.remove(), 700);
-  }, 1600);
-});
-
-/* ── HERO PARTICLE CANVAS ────────────────────────────────── */
-(function () {
-  const canvas = document.getElementById('hero-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [], animId;
-
-  function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  const GOLD = 'rgba(196,160,90,';
-  const GREEN = 'rgba(58,143,114,';
-
-  function mkParticle() {
-    const isGold = Math.random() > .6;
-    return {
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.8 + .4,
-      vx: (Math.random() - .5) * .35,
-      vy: (Math.random() - .5) * .35,
-      a: Math.random(),
-      da: (Math.random() - .5) * .005,
-      color: isGold ? GOLD : GREEN
-    };
-  }
-
-  for (let i = 0; i < 90; i++) particles.push(mkParticle());
-
-  let mx = -9999, my = -9999;
-  document.getElementById('hero').addEventListener('mousemove', e => {
-    const rect = canvas.getBoundingClientRect();
-    mx = e.clientX - rect.left;
-    my = e.clientY - rect.top;
-  });
-  document.getElementById('hero').addEventListener('mouseleave', () => { mx = my = -9999; });
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      p.a += p.da;
-      if (p.a <= 0 || p.a >= 1) p.da *= -1;
-      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-
-      // subtle mouse repel
-      const dx = p.x - mx, dy = p.y - my;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist < 80) {
-        p.x += dx/dist * 1.2;
-        p.y += dy/dist * 1.2;
-      }
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color + p.a + ')';
-      ctx.fill();
-    });
-
-    // connect nearby particles
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i+1; j < particles.length; j++) {
-        const a = particles[i], b = particles[j];
-        const dx = a.x-b.x, dy = a.y-b.y;
-        const d = Math.sqrt(dx*dx+dy*dy);
-        if (d < 90) {
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = GOLD + ((.15*(1-d/90))) + ')';
-          ctx.lineWidth = .4;
-          ctx.stroke();
-        }
-      }
-    }
-    animId = requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-/* ── NAVBAR HIDE ON SCROLL ───────────────────────────────── */
-(function () {
-  const nav = document.getElementById('navbar');
-  let lastY = 0;
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    if (y > lastY && y > 80) {
-      nav.classList.add('hidden');
-    } else {
-      nav.classList.remove('hidden');
-    }
-    lastY = y;
-  }, { passive: true });
-})();
-
-/* ── SCROLL-TO-TOP BUTTON ────────────────────────────────── */
-(function () {
-  const btn = document.getElementById('scroll-top');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 400) btn.classList.add('visible');
-    else btn.classList.remove('visible');
-  }, { passive: true });
-  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-})();
-
-/* ── SCROLL REVEAL (IntersectionObserver) ────────────────── */
-(function () {
-  const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-  if (!window.IntersectionObserver) {
-    els.forEach(el => el.classList.add('visible'));
-    return;
-  }
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  els.forEach(el => io.observe(el));
-})();
-
-/* ── ANIMATED COUNTERS ───────────────────────────────────── */
-(function () {
-  function animateCounter(el) {
-    const target = parseInt(el.dataset.target, 10);
-    const suffix = el.dataset.suffix || '';
-    const duration = 1200;
-    const start = performance.now();
-    function update(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      // ease out
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.floor(eased * target) + suffix;
-      if (progress < 1) requestAnimationFrame(update);
-    }
-    requestAnimationFrame(update);
-  }
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        animateCounter(e.target);
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  document.querySelectorAll('.counter').forEach(el => io.observe(el));
-})();
-
-/* ── DASHBOARD COUNTER ANIMATION ─────────────────────────── */
-(function () {
-  const targets = [
-    { id: 'dash-n1', to: 12, suffix: '' },
-    { id: 'dash-n2', to: 247, suffix: '' },
-    { id: 'dash-n3', to: 94, suffix: '%' }
-  ];
-  function run() {
-    targets.forEach(({ id, to, suffix }) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      let start = null;
-      const duration = 1800;
-      function step(ts) {
-        if (!start) start = ts;
-        const p = Math.min((ts - start) / duration, 1);
-        const eased = 1 - Math.pow(1-p, 3);
-        el.textContent = Math.floor(eased * to) + suffix;
-        if (p < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    });
-  }
-  // fire after loader hides (~1.7s)
-  setTimeout(run, 1900);
-})();
-
-/* ── INDUSTRY TABS ───────────────────────────────────────── */
-function showInd(id, btn) {
-  document.querySelectorAll('.ind-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.ind-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  btn.classList.add('active');
+/* ── PAGE ROUTING ────────────────────────── */
+let currentRole = 'admin';
+function goto(pg){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const id='page-'+pg;
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(pg==='login') initLoginCanvas();
+  if(pg==='dash') initDash();
 }
 
-/* ── SMOOTH SCROLL FOR NAV ANCHORS ──────────────────────── */
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+/* ── LOADER ─────────────────────────────── */
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('gone');
+    initHeroCanvas();
+    animateHeroCounters();
+    initReveal();
+  },1500);
+});
+
+/* ── HERO PARTICLE CANVAS ────────────────── */
+function initHeroCanvas(){
+  const canvas=document.getElementById('heroCanvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
+  window.addEventListener('resize',resize);resize();
+  const G='rgba(196,160,90,',GR='rgba(58,143,114,';
+  for(let i=0;i<80;i++)pts.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.4,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,a:Math.random(),da:(Math.random()-.5)*.005,c:Math.random()>.6?G:GR});
+  let mx=-9999,my=-9999;
+  canvas.parentElement.addEventListener('mousemove',e=>{const r=canvas.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;});
+  canvas.parentElement.addEventListener('mouseleave',()=>{mx=my=-9999;});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.a+=p.da;
+      if(p.a<=0||p.a>=1)p.da*=-1;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      const dx=p.x-mx,dy=p.y-my,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<75){p.x+=dx/d*1.1;p.y+=dy/d*1.1;}
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c+p.a+')';ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const a=pts[i],b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<85){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=G+((.12*(1-d/85)))+')';ctx.lineWidth=.35;ctx.stroke();}
     }
-  });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+function initLoginCanvas(){
+  const canvas=document.getElementById('loginCanvas');
+  if(!canvas||canvas._init)return;
+  canvas._init=true;
+  const ctx=canvas.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
+  window.addEventListener('resize',resize);resize();
+  const G='rgba(196,160,90,';
+  for(let i=0;i<60;i++)pts.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.3,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,a:Math.random()*0.6+0.1,da:(Math.random()-.5)*.004});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.a+=p.da;
+      if(p.a<=0.1||p.a>=0.7)p.da*=-1;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=G+p.a+')';ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const a=pts[i],b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<90){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=G+((.1*(1-d/90)))+')';ctx.lineWidth=.3;ctx.stroke();}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+/* ── HERO COUNTERS ───────────────────────── */
+function animateHeroCounters(){
+  animCount('c1',38,500);animCount('c2',50,700);
+}
+function animCount(id,target,delay){
+  setTimeout(()=>{
+    const el=document.getElementById(id);if(!el)return;
+    const unit=el.querySelector('.ts-unit');
+    let n=0;const step=target/50;
+    const iv=setInterval(()=>{n=Math.min(n+step,target);el.firstChild.nodeValue=Math.floor(n);if(n>=target)clearInterval(iv);},30);
+  },delay);
+}
+
+/* ── SCROLL REVEAL ───────────────────────── */
+function initReveal(){
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('vis'),i*55);io.unobserve(e.target);}});
+  },{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}
+
+/* ── SCROLL TO TOP ───────────────────────── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('stt').classList.toggle('vis',window.scrollY>500);
 });
 
-/* ── SOL CARD TILT ON HOVER ──────────────────────────────── */
-document.querySelectorAll('.sol-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top)  / rect.height - 0.5;
-    card.style.transform = `translateY(-8px) scale(1.01) rotateX(${-y*6}deg) rotateY(${x*6}deg)`;
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
-});
+/* ── SERVICES TABS ───────────────────────── */
+function showSvc(id,btn){
+  document.querySelectorAll('.svc-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));
+  const p=document.getElementById('sv-'+id);if(p)p.classList.add('active');
+  if(btn)btn.classList.add('active');
+}
+
+/* ── FAQ ─────────────────────────────────── */
+function toggleFaq(el){
+  const item=el.parentElement;const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+
+/* ── CONTACT FORM ────────────────────────── */
+function submitForm(){
+  const btn=document.getElementById('submitBtn');
+  const name=document.getElementById('f-name').value.trim();
+  const org=document.getElementById('f-org').value.trim();
+  const phone=document.getElementById('f-phone').value.trim();
+  const brief=document.getElementById('f-brief').value.trim();
+  if(!name||!org||!phone||!brief){alert('Please fill all required fields.');return;}
+  btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Submitting…';
+  setTimeout(()=>{btn.classList.add('success');btn.innerHTML='<i class="fas fa-check"></i> Submitted — We\'ll be in touch within 24 hours';},1400);
+}
+
+/* ── LOGIN ───────────────────────────────── */
+function setRole(role,btn){
+  currentRole=role;
+  document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const map={admin:'admin@hdgindia.com',pm:'pm@hdgindia.com',client:'client@hdgindia.com'};
+  document.getElementById('li-email').value=map[role]||'';
+}
+
+function doLogin(){
+  const btn=document.querySelector('.login-btn');
+  const txt=document.getElementById('login-btn-text');
+  const email=document.getElementById('li-email').value;
+  const pass=document.getElementById('li-pass').value;
+  if(!email||!pass){alert('Please enter credentials.');return;}
+  txt.textContent='Signing in…';btn.disabled=true;
+  setTimeout(()=>{
+    txt.textContent='Sign In';btn.disabled=false;
+    // set dashboard user info
+    const roleMap={
+      'admin@hdgindia.com':{name:'Admin User',role:'Administrator',av:'AD'},
+      'pm@hdgindia.com':{name:'Rajesh Sharma',role:'Project Manager',av:'RS'},
+      'client@hdgindia.com':{name:'NBCC Client',role:'Government Client',av:'NC'}
+    };
+    const u=roleMap[email]||{name:'User',role:'Staff',av:'US'};
+    document.getElementById('sb-uname').textContent=u.name;
+    document.getElementById('sb-urole').textContent=u.role;
+    document.getElementById('sb-av').textContent=u.av;
+    goto('dash');
+  },1200);
+}
+
+/* ── DASHBOARD ───────────────────────────── */
+function showPanel(id,btn){
+  document.querySelectorAll('.dash-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(b=>b.classList.remove('active'));
+  const p=document.getElementById('dp-'+id);if(p)p.classList.add('active');
+  if(btn)btn.classList.add('active');
+  const titles={overview:'Overview',projects:'Projects',inventory:'Inventory',attendance:'Attendance',payments:'Payments',sites:'Live Sites',reports:'Reports',documents:'Documents'};
+  document.getElementById('dash-panel-title').textContent=titles[id]||id;
+}
+
+function initDash(){
+  // billing bar chart
+  const vals=[2.4,3.1,2.8,4.2,3.9,5.1,4.6,6.2,5.8,7.1,6.4,8.2];
+  const months=['A','M','J','J','A','S','O','N','D','J','F','M'];
+  const max=Math.max(...vals);
+  const chart=document.getElementById('billing-chart');
+  if(chart&&!chart._init){chart._init=true;
+    chart.innerHTML='';
+    vals.forEach((v,i)=>{
+      const wrap=document.createElement('div');wrap.className='bc-bar-wrap';
+      const bar=document.createElement('div');bar.className='bc-bar'+(i>=9?' gold':'');
+      bar.style.height='4px';
+      const lbl=document.createElement('div');lbl.className='bc-label';lbl.textContent=months[i];
+      wrap.appendChild(bar);wrap.appendChild(lbl);chart.appendChild(wrap);
+      setTimeout(()=>{bar.style.height=((v/max)*100)+'%';bar.style.transition='height .6s ease';},100+i*60);
+    });
+  }
+  // donut
+  const dc=document.getElementById('donut-chart');
+  if(dc&&!dc._init){dc._init=true;
+    const ctx=dc.getContext('2d');
+    const data=[{v:6,c:'#4ade80'},{v:2,c:'#d4ab54'},{v:1,c:'#60a5fa'}];
+    const total=9;let start=-Math.PI/2;
+    data.forEach(d=>{
+      const angle=(d.v/total)*2*Math.PI;
+      ctx.beginPath();ctx.moveTo(60,60);ctx.arc(60,60,52,start,start+angle);ctx.closePath();ctx.fillStyle=d.c;ctx.fill();
+      start+=angle;
+    });
+    ctx.beginPath();ctx.arc(60,60,30,0,Math.PI*2);ctx.fillStyle='#0a1810';ctx.fill();
+    ctx.fillStyle='rgba(240,234,220,.6)';ctx.font='600 13px Jost, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('9',60,60);
+  }
+  // live clock
+  function updateClock(){
+    const now=new Date();
+    const d=now.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+    const t=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:false});
+    const el=document.getElementById('dash-date');if(el)el.textContent=d+', '+t;
+  }
+  updateClock();setInterval(updateClock,30000);
+}
 </script>
-
 </body>
 </html>
