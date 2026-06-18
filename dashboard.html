@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Help Ticket Register</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-deep:    #0a0d14;
+    --bg-card:    #111622;
+    --bg-row:     #141b28;
+    --bg-row-alt: #0f1520;
+    --bg-modal:   #161e2e;
+    --border:     #1e2d45;
+    --border-glow:#2a3f5f;
+    --accent-gold:   #f5a623;
+    --accent-orange: #e67e22;
+    --accent-blue:   #4da6ff;
+    --accent-green:  #2ecc71;
+    --accent-red:    #e74c3c;
+    --accent-purple: #9b59b6;
+    --text-primary:  #f0f4ff;   /* ✅ FIX 3: brighter primary text */
+    --text-muted:    #8899bb;   /* ✅ FIX 3: more visible muted text */
+    --text-dim:      #aab8d4;   /* ✅ FIX 3: better contrast for dim text */
+    --status-open:       #f5a623;
+    --status-inprogress: #4da6ff;
+    --status-resolved:   #2ecc71;
+    --status-closed:     #9b59b6;
+    --overdue: #e74c3c;
+    --font-display: 'Rajdhani', sans-serif;
+    --font-mono:    'Share Tech Mono', monospace;
+    --font-body:    'Inter', sans-serif;
+    --radius: 6px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  }
+
+  html, body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 14px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,0,0,.07) 2px, rgba(0,0,0,.07) 4px
+    );
+    pointer-events: none; z-index: 0;
+  }
+
+  .app {
+    position: relative; z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+  }
+  .header-icon {
+    width: 44px; height: 44px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); display: grid; place-items: center; font-size: 20px;
+  }
+  .header h1 {
+    font-family: var(--font-display);
+    font-size: 30px;            /* ✅ FIX 3: slightly larger */
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-primary); /* ✅ FIX 3: explicit bright color */
+  }
+  .header h1 span { color: var(--accent-gold); }
+  .header-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+
+  /* ✅ FIX 1: show-closed toggle */
+  .toggle-closed {
+    display: flex; align-items: center; gap: 7px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px;
+    color: var(--text-muted); cursor: pointer; user-select: none;
+    padding: 8px 12px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--bg-card); transition: all .2s;
+  }
+  .toggle-closed:hover { border-color: var(--accent-purple); color: var(--accent-purple); }
+  .toggle-closed input { display: none; }
+  .toggle-track {
+    width: 30px; height: 16px;
+    background: var(--border); border-radius: 8px;
+    position: relative; transition: background .2s; flex-shrink: 0;
+  }
+  .toggle-track::after {
+    content: ''; position: absolute;
+    left: 2px; top: 2px;
+    width: 12px; height: 12px;
+    background: #fff; border-radius: 50%;
+    transition: transform .2s;
+  }
+  .toggle-closed input:checked ~ .toggle-track { background: var(--accent-purple); }
+  .toggle-closed input:checked ~ .toggle-track::after { transform: translateX(14px); }
+
+  .btn-add {
+    background: linear-gradient(135deg, #1a3a5c, #0f2540);
+    border: 1px solid var(--accent-blue);
+    color: var(--accent-blue);
+    padding: 9px 20px; border-radius: var(--radius);
+    font-family: var(--font-display); font-size: 14px; font-weight: 700;
+    letter-spacing: 1px; cursor: pointer; transition: all .2s; text-transform: uppercase;
+  }
+  .btn-add:hover { background: linear-gradient(135deg,#1e4a78,#122d52); box-shadow: 0 0 16px rgba(77,166,255,.3); }
+
+  /* ===== STAT CARDS ===== */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* ✅ 5 cards now */
+    gap: 14px; margin-bottom: 24px;
+  }
+  @media(max-width:800px){ .stats { grid-template-columns: repeat(3,1fr); } }
+  @media(max-width:500px){ .stats { grid-template-columns: repeat(2,1fr); } }
+
+  /* ✅ FIX 2: clickable KPI cards */
+  .stat-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 18px;
+    position: relative; overflow: hidden;
+    transition: border-color .2s, transform .15s, box-shadow .2s;
+    cursor: pointer; /* ✅ */
+  }
+  .stat-card:hover { transform: translateY(-2px); }
+  .stat-card.active { border-color: currentColor; } /* glow when active filter */
+
+  .stat-card::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 3px;
+  }
+  .stat-card.gold::before   { background: var(--accent-gold); }
+  .stat-card.orange::before { background: var(--accent-orange); }
+  .stat-card.blue::before   { background: var(--accent-blue); }
+  .stat-card.green::before  { background: var(--accent-green); }
+  .stat-card.red::before    { background: var(--accent-red); }
+
+  /* active glow per colour */
+  .stat-card.gold.active   { box-shadow: 0 0 18px rgba(245,166,35,.25); border-color: var(--accent-gold); }
+  .stat-card.orange.active { box-shadow: 0 0 18px rgba(230,126,34,.25); border-color: var(--accent-orange); }
+  .stat-card.blue.active   { box-shadow: 0 0 18px rgba(77,166,255,.25); border-color: var(--accent-blue); }
+  .stat-card.green.active  { box-shadow: 0 0 18px rgba(46,204,113,.25); border-color: var(--accent-green); }
+  .stat-card.red.active    { box-shadow: 0 0 18px rgba(231,76,60,.25);  border-color: var(--accent-red); }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 38px; font-weight: 700; line-height: 1; margin-bottom: 4px;
+  }
+  .stat-card.gold   .stat-num { color: var(--accent-gold); }
+  .stat-card.orange .stat-num { color: var(--accent-orange); }
+  .stat-card.blue   .stat-num { color: var(--accent-blue); }
+  .stat-card.green  .stat-num { color: var(--accent-green); }
+  .stat-card.red    .stat-num { color: var(--accent-red); }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 11px;            /* ✅ FIX 3: larger label */
+    letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase;
+  }
+
+  /* ✅ "click to filter" hint */
+  .stat-hint {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px;
+    color: var(--border-glow); text-transform: uppercase; margin-top: 6px;
+    opacity: 0; transition: opacity .2s;
+  }
+  .stat-card:hover .stat-hint { opacity: 1; }
+  .stat-card.active .stat-hint { opacity: 1; color: var(--text-muted); }
+
+  /* ===== FILTERS ===== */
+  .filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .filter-search { flex: 1; min-width: 200px; position: relative; }
+  .filter-search input {
+    width: 100%; background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 10px 14px 10px 38px;
+    color: var(--text-primary); font-size: 13px; outline: none; transition: border-color .2s;
+  }
+  .filter-search input::placeholder { color: var(--text-muted); }
+  .filter-search input:focus { border-color: var(--accent-blue); }
+  .filter-search .icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; }
+
+  select.filter-sel {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 10px 14px; color: var(--text-primary); font-size: 13px; outline: none;
+    cursor: pointer; min-width: 140px; transition: border-color .2s;
+  }
+  select.filter-sel:focus { border-color: var(--accent-blue); }
+  option { background: var(--bg-card); }
+
+  /* ===== TABLE ===== */
+  .table-wrap {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; overflow-x: auto;
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 900px; }
+
+  /* ✅ FIX 3: sortable headers */
+  thead th {
+    background: #0d1422; padding: 12px 14px; text-align: left;
+    font-family: var(--font-mono);
+    font-size: 11px;          /* ✅ FIX 3: bigger header font */
+    letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase;
+    border-bottom: 1px solid var(--border); white-space: nowrap;
+    user-select: none;
+  }
+  thead th.sortable { cursor: pointer; transition: color .2s; }
+  thead th.sortable:hover { color: var(--accent-blue); }
+  thead th.sort-asc::after  { content: ' ▲'; color: var(--accent-blue); font-size: 9px; }
+  thead th.sort-desc::after { content: ' ▼'; color: var(--accent-blue); font-size: 9px; }
+
+  tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:nth-child(even) { background: var(--bg-row-alt); }
+  tbody tr:hover { background: #192438; cursor: pointer; }
+  tbody td { padding: 12px 14px; color: var(--text-dim); vertical-align: top; font-size: 13px; }
+
+  .td-id { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+  .td-title { color: var(--text-primary); font-weight: 500; max-width: 180px; }
+  .td-title .truncate {
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    max-width: 170px; display: block;
+  }
+
+  /* ===== STATUS BADGE ===== */
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-family: var(--font-display); font-weight: 700; /* ✅ FIX 3 */
+    letter-spacing: .5px; white-space: nowrap;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .badge.open       { background: rgba(245,166,35,.15); color: #ffc14d; border: 1px solid rgba(245,166,35,.4); } /* ✅ brighter */
+  .badge.open       .badge-dot { background: #ffc14d; }
+  .badge.inprogress { background: rgba(77,166,255,.15); color: #70bbff; border: 1px solid rgba(77,166,255,.4); }
+  .badge.inprogress .badge-dot { background: #70bbff; }
+  .badge.resolved   { background: rgba(46,204,113,.15); color: #52e88a; border: 1px solid rgba(46,204,113,.4); }
+  .badge.resolved   .badge-dot { background: #52e88a; }
+  .badge.closed     { background: rgba(155,89,182,.15); color: #c07de0; border: 1px solid rgba(155,89,182,.4); }
+  .badge.closed     .badge-dot { background: #c07de0; }
+
+  .date-cell { font-size: 12px; }
+  .date-val  { display: block; color: var(--text-dim); }
+  .overdue-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; color: var(--overdue); font-family: var(--font-mono); margin-top: 2px;
+  }
+
+  /* ===== ACTION BTNS ===== */
+  .action-btns { display: flex; gap: 6px; }
+  .btn-icon {
+    width: 28px; height: 28px; border-radius: 4px; border: 1px solid var(--border);
+    background: transparent; color: var(--text-muted); cursor: pointer;
+    display: grid; place-items: center; font-size: 13px; transition: all .2s;
+  }
+  .btn-icon:hover { border-color: var(--accent-blue); color: var(--accent-blue); background: rgba(77,166,255,.08); }
+  .btn-icon.del:hover { border-color: var(--accent-red); color: var(--accent-red); background: rgba(231,76,60,.08); }
+
+  .empty-row td {
+    text-align: center; padding: 50px; color: var(--text-muted);
+    font-family: var(--font-mono); letter-spacing: 1px; font-size: 13px;
+  }
+
+  /* ===== LOADER ===== */
+  #loader {
+    position: fixed; inset: 0; background: rgba(10,13,20,.85);
+    display: grid; place-items: center; z-index: 9999;
+  }
+  .spinner {
+    width: 44px; height: 44px; border: 3px solid var(--border);
+    border-top-color: var(--accent-blue); border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.7);
+    display: none; place-items: center; z-index: 1000; padding: 20px;
+  }
+  .modal-overlay.open { display: grid; }
+  .modal {
+    background: var(--bg-modal); border: 1px solid var(--border-glow);
+    border-radius: 10px; padding: 28px;
+    width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 0 60px rgba(77,166,255,.15);
+    animation: slideUp .25s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+
+  .modal-header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px;
+  }
+  .modal-title {
+    font-family: var(--font-display);
+    font-size: 22px;           /* ✅ FIX 3 */
+    font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text-primary);
+  }
+  .modal-close {
+    background: none; border: none; color: var(--text-muted);
+    font-size: 20px; cursor: pointer; transition: color .2s;
+  }
+  .modal-close:hover { color: var(--text-primary); }
+
+  .form-row { display: flex; gap: 14px; }
+  .form-row .form-group { flex: 1; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block; font-family: var(--font-mono);
+    font-size: 11px;           /* ✅ FIX 3 */
+    letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%; background: var(--bg-row); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 9px 12px;
+    color: var(--text-primary); font-size: 13px; font-family: var(--font-body);
+    outline: none; transition: border-color .2s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--accent-blue); }
+  .form-group textarea { min-height: 80px; resize: vertical; }
+
+  .modal-footer {
+    display: flex; gap: 10px; justify-content: flex-end;
+    margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border);
+  }
+  .btn-cancel {
+    background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+    padding: 9px 20px; border-radius: var(--radius); cursor: pointer;
+    font-family: var(--font-display); font-size: 13px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase; transition: all .2s;
+  }
+  .btn-cancel:hover { border-color: var(--text-muted); color: var(--text-primary); }
+  .btn-save {
+    background: linear-gradient(135deg,#1a4a7a,#0f2e52); border: 1px solid var(--accent-blue);
+    color: var(--accent-blue); padding: 9px 24px; border-radius: var(--radius); cursor: pointer;
+    font-family: var(--font-display); font-size: 13px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; transition: all .2s;
+  }
+  .btn-save:hover { box-shadow: 0 0 20px rgba(77,166,255,.35); }
+  .btn-save:disabled { opacity: .5; pointer-events: none; }
+
+  /* ===== TOAST ===== */
+  #toast {
+    position: fixed; bottom: 28px; right: 28px;
+    background: var(--bg-card); border: 1px solid var(--border-glow);
+    color: var(--text-primary); padding: 12px 20px; border-radius: var(--radius);
+    font-size: 13px; font-family: var(--font-mono); box-shadow: var(--shadow);
+    transform: translateY(80px); opacity: 0; transition: all .3s;
+    z-index: 9998; max-width: 300px;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+  #toast.success { border-color: var(--accent-green); }
+  #toast.error   { border-color: var(--accent-red); }
+
+  /* ===== DELETE CONFIRM ===== */
+  .confirm-modal { max-width: 380px; text-align: center; }
+  .confirm-icon  { font-size: 44px; margin-bottom: 14px; }
+  .confirm-msg   { color: var(--text-dim); font-size: 14px; line-height: 1.6; margin-bottom: 4px; }
+  .confirm-id    { font-family: var(--font-mono); color: var(--accent-red); font-size: 13px; margin-bottom: 20px; }
+
+  /* ===== DETAIL MODAL ===== */
+  .detail-modal { max-width: 620px; }
+  .detail-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .detail-field label {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px;
+    color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;
+  }
+  .detail-field span { color: var(--text-primary); font-size: 13px; }
+  .detail-remarks {
+    background: var(--bg-row); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 12px; color: var(--text-dim); font-size: 13px; line-height: 1.6; white-space: pre-wrap;
+  }
+
+  /* ===== PAGINATION ===== */
+  .pagination {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px; border-top: 1px solid var(--border); background: var(--bg-card);
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+  }
+  .page-btns { display: flex; gap: 6px; }
+  .page-btn {
+    width: 30px; height: 30px; border: 1px solid var(--border); background: transparent;
+    color: var(--text-muted); border-radius: 4px; cursor: pointer; font-size: 12px; transition: all .2s;
+  }
+  .page-btn:hover, .page-btn.active {
+    border-color: var(--accent-blue); color: var(--accent-blue); background: rgba(77,166,255,.08);
+  }
+  .page-btn:disabled { opacity: .3; pointer-events: none; }
+
+  /* ✅ keyboard shortcut hint */
+  .shortcut-hint {
+    font-family: var(--font-mono); font-size: 10px; color: var(--border-glow);
+    letter-spacing: 1px; margin-top: 4px; text-align: right;
+  }
+  kbd {
+    display: inline-block; padding: 1px 5px; border: 1px solid var(--border-glow);
+    border-radius: 3px; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader"><div class="spinner"></div></div>
+
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon">🎫</div>
+    <h1>Help <span>Ticket</span> Register</h1>
+    <div class="header-actions">
+      <!-- ✅ FIX 1: show/hide closed toggle -->
+      <label class="toggle-closed" title="Show / hide Closed tickets">
+        <input type="checkbox" id="showClosedToggle" onchange="applyFilters()"/>
+        <span class="toggle-track"></span>
+        SHOW CLOSED
+      </label>
+      <button class="btn-add" onclick="openAddModal()">+ New Ticket</button>
+    </div>
+  </div>
+  <div class="shortcut-hint" style="margin-top:-18px;margin-bottom:18px">
+    Press <kbd>N</kbd> — New ticket &nbsp;|&nbsp; <kbd>Esc</kbd> — Close modal
+  </div>
+
+  <!-- ✅ FIX 2: Clickable KPI Cards (5 now, overdue added) -->
+  <div class="stats">
+    <div class="stat-card gold"   id="kpi-total"      onclick="kpiFilter('total')"      title="Show all tickets">
+      <div class="stat-num" id="stat-total">0</div>
+      <div class="stat-label">Total</div>
+      <div class="stat-hint">CLICK TO RESET</div>
+    </div>
+    <div class="stat-card orange" id="kpi-open"       onclick="kpiFilter('Open')"       title="Filter: Open">
+      <div class="stat-num" id="stat-open">0</div>
+      <div class="stat-label">Open</div>
+      <div class="stat-hint">CLICK TO FILTER</div>
+    </div>
+    <div class="stat-card blue"   id="kpi-inprogress" onclick="kpiFilter('In Progress')" title="Filter: In Progress">
+      <div class="stat-num" id="stat-inprogress">0</div>
+      <div class="stat-label">In Progress</div>
+      <div class="stat-hint">CLICK TO FILTER</div>
+    </div>
+    <div class="stat-card green"  id="kpi-resolved"   onclick="kpiFilter('Resolved')"   title="Filter: Resolved">
+      <div class="stat-num" id="stat-resolved">0</div>
+      <div class="stat-label">Resolved</div>
+      <div class="stat-hint">CLICK TO FILTER</div>
+    </div>
+    <div class="stat-card red"    id="kpi-overdue"    onclick="kpiFilter('overdue')"     title="Filter: Overdue">
+      <div class="stat-num" id="stat-overdue">0</div>
+      <div class="stat-label">Overdue</div>
+      <div class="stat-hint">CLICK TO FILTER</div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <div class="filter-search">
+      <span class="icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search tickets… (ID, title, assignee, remarks)" oninput="applyFilters()"/>
+    </div>
+    <select class="filter-sel" id="statusFilter" onchange="applyFilters()">
+      <option value="">All Status</option>
+      <option value="Open">Open</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Resolved">Resolved</option>
+      <option value="Closed">Closed</option>
+    </select>
+    <select class="filter-sel" id="assigneeFilter" onchange="applyFilters()">
+      <option value="">All Assignees</option>
+    </select>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <table id="ticketTable">
+      <thead>
+        <tr>
+          <!-- ✅ FIX 3 + sortable headers -->
+          <th class="sortable" onclick="sortBy('id')">ID</th>
+          <th class="sortable" onclick="sortBy('issueTitle')">Issue Title</th>
+          <th class="sortable" onclick="sortBy('status')">Status</th>
+          <th class="sortable" onclick="sortBy('assignee')">Assignee</th>
+          <th class="sortable" onclick="sortBy('plannedRes')">Planned Resolution</th>
+          <th class="sortable" onclick="sortBy('nextFollowup')">Next Follow-Up</th>
+          <th class="sortable" onclick="sortBy('raisedBy')">Raised By</th>
+          <th>Remarks</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <tr class="empty-row"><td colspan="9">Loading tickets…</td></tr>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <span id="pageInfo">Showing 0 of 0</span>
+      <div class="page-btns">
+        <button class="page-btn" id="prevBtn" onclick="changePage(-1)">‹</button>
+        <button class="page-btn" id="nextBtn" onclick="changePage(1)">›</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- ADD / EDIT MODAL -->
+<div class="modal-overlay" id="formModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="formModalTitle">New Ticket</div>
+      <button class="modal-close" onclick="closeModal('formModal')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="flex:2">
+        <label>Issue *</label>
+        <input type="text" id="f_issueTitle" placeholder="Brief description of the issue"/>
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="f_status">
+          <option>Open</option>
+          <option>In Progress</option>
+          <option>Resolved</option>
+          <option>Closed</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Date of Issue</label>
+        <input type="date" id="f_dateOfIssue"/>
+      </div>
+      <div class="form-group">
+        <label>Problem Assigned To</label>
+        <input type="text" id="f_assignee" placeholder="Person responsible"/>
+      </div>
+    </div>
+    <!-- ✅ BUG FIX: Raised By was referenced in JS but missing from HTML -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Raised By</label>
+        <input type="text" id="f_raisedBy" placeholder="Who raised this ticket"/>
+      </div>
+      <div class="form-group">
+        <label>Planned Resolution</label>
+        <input type="date" id="f_plannedRes"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Next Follow-Up</label>
+        <input type="date" id="f_nextFollowup"/>
+      </div>
+      <div class="form-group"><!-- spacer --></div>
+    </div>
+    <div class="form-group">
+      <label>Remarks</label>
+      <textarea id="f_remarks" placeholder="Additional notes, escalations…" style="min-height:60px"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('formModal')">Cancel</button>
+      <button class="btn-save" id="saveBtn" onclick="saveTicket()">Save Ticket</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal detail-modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="detailId" style="font-size:14px;color:var(--text-muted);margin-bottom:4px"></div>
+        <div id="detailTitle" style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-primary)"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-field"><label>Status</label><span id="d_status"></span></div>
+      <div class="detail-field"><label>Assignee</label><span id="d_assignee"></span></div>
+      <div class="detail-field"><label>Raised By</label><span id="d_raisedBy"></span></div>
+      <div class="detail-field"><label>Date of Issue</label><span id="d_dateOfIssue"></span></div>
+      <div class="detail-field"><label>Planned Resolution</label><span id="d_plannedRes"></span></div>
+      <div class="detail-field"><label>Next Follow-Up</label><span id="d_nextFollowup"></span></div>
+    </div>
+    <div class="detail-field" style="margin-bottom:14px">
+      <label>Remarks</label>
+      <div class="detail-remarks" id="d_remarks"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('detailModal')">Close</button>
+      <button class="btn-save" onclick="editFromDetail()">Edit Ticket</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal confirm-modal">
+    <div class="modal-header" style="justify-content:flex-end">
+      <button class="modal-close" onclick="closeModal('deleteModal')">✕</button>
+    </div>
+    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-msg">Are you sure you want to delete ticket</div>
+    <div class="confirm-id" id="deleteTicketId">TKT-000</div>
+    <div class="confirm-msg" style="font-size:12px;margin-top:-10px;margin-bottom:20px;">This action cannot be undone.</div>
+    <div class="modal-footer" style="justify-content:center">
+      <button class="btn-cancel" onclick="closeModal('deleteModal')">Cancel</button>
+      <button class="btn-save" style="background:linear-gradient(135deg,#5a1a1a,#3a0f0f);border-color:var(--accent-red);color:var(--accent-red)" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+<script>
+// ⚠️ PASTE YOUR NEW GOOGLE APPS SCRIPT WEB APP URL HERE
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxkNwZSTg7J9y1KbQ2VZ2E0sNAOmaG5JASJEtEW18yoX5WoTBF7QjBiAA9ZCJNyEHq5gA/exec';
+
+// ===== SECURITY GUARD =====
+// Kick the user back to login if they don't have a valid session
+if (!sessionStorage.getItem("userUID")) {
+  window.location.href = "login.html";
+}
+
+// ===== STATE =====
+let allTickets      = [];
+let filteredTickets = [];
+let editingTicket   = null;
+let deletingTicket  = null;
+let viewingTicket   = null;
+let currentPage     = 1;
+let kpiActiveFilter = null;
+let sortCol         = null;
+let sortDir         = 'asc';
+const PAGE_SIZE = 15;
+const TODAY = (() => { const d = new Date(); d.setHours(0,0,0,0); return d; })();
+
+// ===== INIT =====
+window.onload = function() { loadTickets(); };
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    ['formModal','detailModal','deleteModal'].forEach(id => closeModal(id));
+  }
+  if (e.key === 'n' || e.key === 'N') {
+    const active = document.activeElement;
+    const typing = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.tagName === 'SELECT');
+    if (!typing && !document.querySelector('.modal-overlay.open')) openAddModal();
+  }
+});
+
+// ===== API CALLS =====
+function loadTickets() {
+  showLoader(true);
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'getAllTickets', uid: sessionStorage.getItem("userUID") })
+  })
+  .then(res => res.json())
+  .then(response => {
+    if (response.success) {
+      onTicketsLoaded(response.data);
+    } else {
+      onError(response.data.error || "Failed to load data");
+    }
+  })
+  .catch(onError);
+}
+
+function saveTicket() {
+  const title = document.getElementById('f_issueTitle').value.trim();
+  if (!title) { toast('Issue Title is required', 'error'); return; }
+  const payload = {
+    issueTitle   : title,
+    status       : document.getElementById('f_status').value,
+    assignee     : document.getElementById('f_assignee').value.trim(),
+    raisedBy     : document.getElementById('f_raisedBy').value.trim(),
+    dateOfIssue  : document.getElementById('f_dateOfIssue').value,
+    plannedRes   : document.getElementById('f_plannedRes').value,
+    nextFollowup : document.getElementById('f_nextFollowup').value,
+    remarks      : document.getElementById('f_remarks').value.trim(),
+  };
+  
+  document.getElementById('saveBtn').disabled = true;
+  showLoader(true);
+  
+  if (editingTicket) {
+    payload.rowIndex = editingTicket.rowIndex;
+    payload.id       = editingTicket.id;
+  }
+
+  const actionType = editingTicket ? 'updateTicket' : 'addTicket';
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: actionType, ticket: payload, uid: sessionStorage.getItem("userUID") })
+  })
+  .then(res => res.json())
+  .then(response => {
+    if (response.success) {
+      onSaved(editingTicket ? 'Ticket updated!' : 'Ticket created!');
+    } else {
+      onError(response.data.error || "Failed to save ticket");
+    }
+  })
+  .catch(onError);
+}
+
+function confirmDelete() {
+  if (!deletingTicket) return;
+  showLoader(true);
+  
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'deleteTicket', rowIndex: deletingTicket.rowIndex, uid: sessionStorage.getItem("userUID") })
+  })
+  .then(res => res.json())
+  .then(response => {
+    if (response.success) {
+      closeModal('deleteModal');
+      toast('Ticket deleted', 'success');
+      loadTickets();
+    } else {
+      onError(response.data.error || "Failed to delete ticket");
+    }
+  })
+  .catch(onError);
+}
+
+// ===== CORE LOGIC (UNCHANGED) =====
+function onTicketsLoaded(tickets) {
+  allTickets = tickets || [];
+  populateAssigneeFilter();
+  applyFilters();
+  updateStats();
+  showLoader(false);
+}
+
+function onError(err) {
+  showLoader(false);
+  document.getElementById('saveBtn').disabled = false;
+  toast('Error: ' + (err.message || err), 'error');
+}
+
+function onSaved(msg) {
+  closeModal('formModal');
+  document.getElementById('saveBtn').disabled = false;
+  toast(msg, 'success');
+  loadTickets();
+}
+
+// Stats & Filters
+function updateStats() {
+  const t = allTickets;
+  const overdueCount = t.filter(x =>
+    (x.status !== 'Closed' && x.status !== 'Resolved') &&
+    (isOverdue(x.plannedRes) || isOverdue(x.nextFollowup))
+  ).length;
+  document.getElementById('stat-total').textContent      = t.length;
+  document.getElementById('stat-open').textContent       = t.filter(x => x.status === 'Open').length;
+  document.getElementById('stat-inprogress').textContent = t.filter(x => x.status === 'In Progress').length;
+  document.getElementById('stat-resolved').textContent   = t.filter(x => x.status === 'Resolved').length;
+  document.getElementById('stat-overdue').textContent    = overdueCount;
+}
+
+function kpiFilter(key) {
+  const statusSel = document.getElementById('statusFilter');
+  if (kpiActiveFilter === key) {
+    kpiActiveFilter = null;
+    statusSel.value = '';
+    document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active'));
+  } else {
+    kpiActiveFilter = key;
+    document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active'));
+    if (key === 'total') {
+      statusSel.value = '';
+      document.getElementById('kpi-total').classList.add('active');
+    } else if (key === 'overdue') {
+      statusSel.value = '';
+      document.getElementById('kpi-overdue').classList.add('active');
+    } else {
+      statusSel.value = key;
+      const idMap = { 'Open':'kpi-open', 'In Progress':'kpi-inprogress', 'Resolved':'kpi-resolved' };
+      if (idMap[key]) document.getElementById(idMap[key]).classList.add('active');
+    }
+  }
+  applyFilters();
+}
+
+function populateAssigneeFilter() {
+  const sel = document.getElementById('assigneeFilter');
+  const cur = sel.value;
+  const assignees = [...new Set(allTickets.map(t => t.assignee).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="">All Assignees</option>';
+  assignees.forEach(a => {
+    const opt = document.createElement('option');
+    opt.value = a; opt.textContent = a;
+    if (a === cur) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function applyFilters() {
+  const q  = document.getElementById('searchInput').value.toLowerCase();
+  const st = document.getElementById('statusFilter').value;
+  const as = document.getElementById('assigneeFilter').value;
+  const showClosed = document.getElementById('showClosedToggle').checked; 
+
+  filteredTickets = allTickets.filter(t => {
+    if (!showClosed && t.status === 'Closed') return false;
+
+    const matchQ  = !q || [t.id, t.issueTitle, t.raisedBy, t.assignee, t.remarks]
+                          .some(v => String(v||'').toLowerCase().includes(q));
+    const matchSt = !st || t.status === st;
+    const matchAs = !as || t.assignee === as;
+
+    const matchKpi = kpiActiveFilter !== 'overdue' || (
+      (t.status !== 'Closed' && t.status !== 'Resolved') &&
+      (isOverdue(t.plannedRes) || isOverdue(t.nextFollowup))
+    );
+
+    return matchQ && matchSt && matchAs && matchKpi;
+  });
+
+  if (kpiActiveFilter && kpiActiveFilter !== 'overdue' && kpiActiveFilter !== 'total') {
+    document.getElementById('statusFilter').value = kpiActiveFilter;
+  }
+
+  applySortToFiltered();
+  currentPage = 1;
+  renderTable();
+}
+
+function sortBy(col) {
+  if (sortCol === col) {
+    sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+  } else {
+    sortCol = col; sortDir = 'asc';
+  }
+  document.querySelectorAll('thead th').forEach(th => {
+    th.classList.remove('sort-asc','sort-desc');
+  });
+  const colIndexMap = { id:0, issueTitle:1, status:2, assignee:3, plannedRes:4, nextFollowup:5, raisedBy:6 };
+  const idx = colIndexMap[col];
+  if (idx !== undefined) {
+    const ths = document.querySelectorAll('thead th');
+    ths[idx].classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
+  }
+  applySortToFiltered();
+  renderTable();
+}
+
+function applySortToFiltered() {
+  if (!sortCol) return;
+  filteredTickets.sort((a, b) => {
+    let av = a[sortCol] || ''; let bv = b[sortCol] || '';
+    if (['plannedRes','nextFollowup','dateOfIssue'].includes(sortCol)) {
+      av = av ? new Date(av).getTime() : 0;
+      bv = bv ? new Date(bv).getTime() : 0;
+      return sortDir === 'asc' ? av - bv : bv - av;
+    }
+    av = String(av).toLowerCase(); bv = String(bv).toLowerCase();
+    if (av < bv) return sortDir === 'asc' ? -1 : 1;
+    if (av > bv) return sortDir === 'asc' ?  1 : -1;
+    return 0;
+  });
+}
+
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const page  = filteredTickets.slice(start, start + PAGE_SIZE);
+  const total = filteredTickets.length;
+  const pages = Math.ceil(total / PAGE_SIZE);
+
+  document.getElementById('pageInfo').textContent =
+    total ? `Showing ${start+1}–${Math.min(start+PAGE_SIZE, total)} of ${total}` : 'No tickets';
+  document.getElementById('prevBtn').disabled = currentPage <= 1;
+  document.getElementById('nextBtn').disabled = currentPage >= pages;
+
+  if (!page.length) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="9">No tickets found</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = page.map(t => {
+    const planOverdue   = isOverdue(t.plannedRes)   && t.status !== 'Closed' && t.status !== 'Resolved';
+    const followOverdue = isOverdue(t.nextFollowup) && t.status !== 'Closed' && t.status !== 'Resolved';
+    return `
+    <tr onclick="viewTicket('${t.id}')">
+      <td class="td-id">${esc(t.id)}</td>
+      <td class="td-title" onclick="event.stopPropagation(); openEditModal('${t.id}')" title="Click to edit" style="cursor:pointer">
+<span class="truncate" title="${esc(t.issueTitle)}">${esc(t.issueTitle)}</span>
+</td>
+      <td>${statusBadge(t.status)}</td>
+      <td>${esc(t.assignee)}</td>
+      <td class="date-cell">
+        <span class="date-val">${fmtDisplay(t.plannedRes)}</span>
+        ${planOverdue ? '<span class="overdue-tag">⚠ Overdue</span>' : ''}
+      </td>
+      <td class="date-cell">
+        <span class="date-val">${fmtDisplay(t.nextFollowup)}</span>
+        ${followOverdue ? '<span class="overdue-tag">⚠ Overdue</span>' : ''}
+      </td>
+      <td>${esc(t.raisedBy)}</td>
+      <td><span class="truncate" style="max-width:140px;display:block" title="${esc(t.remarks)}">${esc(t.remarks)}</span></td>
+      <td>
+        <div class="action-btns" onclick="event.stopPropagation()">
+          <button class="btn-icon" title="Edit"   onclick="openEditModal('${t.id}')">✏</button>
+          <button class="btn-icon del" title="Delete" onclick="openDeleteModal('${t.id}')">🗑</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function changePage(d) { currentPage += d; renderTable(); }
+
+function statusBadge(status) {
+  const cls = { 'Open':'open','In Progress':'inprogress','Resolved':'resolved','Closed':'closed' }[status] || 'open';
+  return `<span class="badge ${cls}"><span class="badge-dot"></span>${esc(status)}</span>`;
+}
+function isOverdue(dateStr) {
+  if (!dateStr) return false;
+  const d = new Date(dateStr); d.setHours(0,0,0,0);
+  return d < TODAY;
+}
+function fmtDisplay(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr);
+  if (isNaN(d)) return dateStr;
+  return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+}
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function getById(id) { return allTickets.find(t => t.id === id); }
+
+function viewTicket(id) {
+  const t = getById(id);
+  if (!t) return;
+  viewingTicket = t;
+  document.getElementById('detailId').textContent       = t.id;
+  document.getElementById('detailTitle').textContent    = t.issueTitle;
+  document.getElementById('d_assignee').textContent     = t.assignee    || '—';
+  document.getElementById('d_raisedBy').textContent     = t.raisedBy    || '—';
+  document.getElementById('d_dateOfIssue').textContent  = fmtDisplay(t.dateOfIssue);
+  document.getElementById('d_plannedRes').textContent   = fmtDisplay(t.plannedRes);
+  document.getElementById('d_nextFollowup').textContent = fmtDisplay(t.nextFollowup);
+  document.getElementById('d_remarks').textContent      = t.remarks     || '—';
+  document.getElementById('d_status').innerHTML         = statusBadge(t.status);
+  openModal('detailModal');
+}
+function editFromDetail() {
+  closeModal('detailModal');
+  if (viewingTicket) openEditModal(viewingTicket.id);
+}
+
+function openAddModal() {
+  editingTicket = null;
+  document.getElementById('formModalTitle').textContent = 'New Ticket';
+  clearForm();
+  document.getElementById('f_dateOfIssue').value = new Date().toISOString().slice(0,10);
+  openModal('formModal');
+  setTimeout(() => document.getElementById('f_issueTitle').focus(), 50);
+}
+
+function openEditModal(id) {
+  const t = getById(id);
+  if (!t) return;
+  editingTicket = t;
+  document.getElementById('formModalTitle').textContent = 'Edit Ticket — ' + t.id;
+  document.getElementById('f_issueTitle').value   = t.issueTitle   || '';
+  document.getElementById('f_status').value       = t.status       || 'Open';
+  document.getElementById('f_assignee').value     = t.assignee     || '';
+  document.getElementById('f_raisedBy').value     = t.raisedBy     || '';
+  document.getElementById('f_dateOfIssue').value  = t.dateOfIssue  || '';
+  document.getElementById('f_plannedRes').value   = t.plannedRes   || '';
+  document.getElementById('f_nextFollowup').value = t.nextFollowup || '';
+  document.getElementById('f_remarks').value      = t.remarks      || '';
+  openModal('formModal');
+}
+
+function clearForm() {
+  ['f_issueTitle','f_assignee','f_raisedBy','f_dateOfIssue',
+   'f_plannedRes','f_nextFollowup','f_remarks'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('f_status').value = 'Open';
+}
+
+function openDeleteModal(id) {
+  deletingTicket = getById(id);
+  document.getElementById('deleteTicketId').textContent = id;
+  openModal('deleteModal');
+}
+
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+function showLoader(show) {
+  document.getElementById('loader').style.display = show ? 'grid' : 'none';
+}
+
+function toast(msg, type='success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'show ' + type;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.className = ''; }, 3500);
+}
+</script>
+</body>
+</html>
