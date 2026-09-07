@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventory · Shoe Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="loader"><div class="spin"></div></div>
+  <div id="app" hidden>
+    <header class="teal">
+      <div class="logo"><span class="mark teal">S</span> Shoe Inventory</div>
+      <div class="user">
+        <span class="who">Signed in as <b id="userName">&#8212;</b></span>
+        <button class="logout" id="logoutBtn">Log out</button>
+      </div>
+    </header>
+    <main>
+      <h1 class="hi">Welcome, <span id="greetName">there</span></h1>
+      <p class="lede">This is your inventory workspace. Only your business can see this data.</p>
+      <div class="grid">
+        <div class="tile"><h3>Products</h3><p>Add shoes, sizes, colours, and prices.</p><span class="tag">Phase 2</span></div>
+        <div class="tile"><h3>Stock levels</h3><p>Track units in and out, with low-stock alerts.</p><span class="tag">Phase 2</span></div>
+        <div class="tile"><h3>Sales</h3><p>Record sales and see what's moving.</p><span class="tag">Phase 2</span></div>
+      </div>
+    </main>
+    <footer>&copy; <span id="year">2026</span> Make Digital India. All rights reserved.</footer>
+  </div>
+  <script>document.getElementById("year").textContent=new Date().getFullYear();</script>
+  <script type="module" src="/shoestore/app.js"></script>
+</body>
+</html>
