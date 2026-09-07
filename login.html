@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in · Make Digital India</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{--ink:#0a1230;--line:#26315f;--paper:#f7f8fc;--text:#10193d;--muted:#6b7391;--saffron:#f57f17;--saffron-2:#ffab3d;--green:#0f9d58;--danger:#d64545}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',system-ui,sans-serif;color:var(--text);background:var(--ink);min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr}
+    .brand{position:relative;overflow:hidden;padding:56px 60px;display:flex;flex-direction:column;justify-content:space-between;color:#eaf0ff;background:radial-gradient(120% 90% at 15% 0%,#16225a 0%,var(--ink) 55%)}
+    .brand::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;opacity:.25;mask-image:radial-gradient(80% 80% at 30% 20%,#000 30%,transparent 80%)}
+    .brand>*{position:relative;z-index:1}
+    .logo{display:inline-flex;align-items:center;gap:12px;font-family:'Sora',sans-serif;font-weight:800;letter-spacing:-.02em;font-size:20px}
+    .logo .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--saffron),var(--saffron-2));display:grid;place-items:center;color:var(--ink);font-weight:800;font-size:18px}
+    .pitch h1{font-family:'Sora',sans-serif;font-weight:700;font-size:clamp(28px,3.2vw,42px);line-height:1.1;letter-spacing:-.02em;margin-bottom:18px}
+    .pitch h1 span{color:var(--saffron-2)}
+    .pitch p{color:#aeb8de;font-size:16px;max-width:32ch}
+    .note{color:#8f9ac9;font-size:13px}
+    .auth{background:var(--paper);display:flex;align-items:center;justify-content:center;padding:40px 32px}
+    .card{width:100%;max-width:380px}
+    .card h2{font-family:'Sora',sans-serif;font-weight:700;font-size:26px;letter-spacing:-.02em;margin-bottom:6px}
+    .card .sub{color:var(--muted);font-size:14.5px;margin-bottom:26px}
+    .field{margin-bottom:16px}
+    .field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px}
+    .field input{width:100%;font-family:'Inter';font-size:15px;padding:12px 14px;background:#fff;border:1.5px solid #dfe3f0;border-radius:10px;transition:border-color .15s,box-shadow .15s}
+    .field input:focus{outline:none;border-color:var(--saffron);box-shadow:0 0 0 3px rgba(245,127,23,.15)}
+    .row-between{display:flex;justify-content:flex-end;margin:-4px 0 20px}
+    .link{background:none;border:0;cursor:pointer;font-family:'Inter';font-size:13px;font-weight:600;color:var(--saffron);padding:0}
+    .link:hover{text-decoration:underline}
+    .btn{width:100%;border:0;cursor:pointer;font-family:'Sora',sans-serif;font-weight:600;font-size:15px;color:#fff;padding:13px;border-radius:11px;background:linear-gradient(135deg,var(--saffron),#e26a00);transition:transform .06s,opacity .2s}
+    .btn:hover{opacity:.94}.btn:active{transform:translateY(1px)}.btn:disabled{opacity:.55;cursor:not-allowed}
+    .msg{display:none;font-size:13.5px;font-weight:500;padding:11px 14px;border-radius:10px;margin-bottom:18px;line-height:1.4}
+    .msg.show{display:block}
+    .msg.error{background:#fdeaea;color:var(--danger)}
+    .msg.success{background:#e8f6ee;color:var(--green)}
+    .msg.info{background:#eef1fb;color:#3b4a86}
+    @media(max-width:860px){body{grid-template-columns:1fr}.brand{padding:34px 26px;gap:24px}.pitch p,.note{display:none}}
+  </style>
+</head>
+<body>
+  <aside class="brand">
+    <div class="logo"><span class="mark">D</span> Make Digital India</div>
+    <div class="pitch">
+      <h1>Your business, <span>online.</span></h1>
+      <p>Sign in to reach the workspace built for your business.</p>
+    </div>
+    <p class="note">Access is provided by Make Digital India. Contact us if you need help signing in.</p>
+  </aside>
+
+  <main class="auth">
+    <div class="card">
+      <h2>Sign in</h2>
+      <p class="sub">Use the credentials provided to you.</p>
+      <div id="msg" class="msg"></div>
+      <div class="field">
+        <label for="email">Email address</label>
+        <input id="email" type="email" placeholder="you@business.com" autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" autocomplete="current-password" />
+      </div>
+      <div class="row-between">
+        <button class="link" id="forgotBtn">Forgot password?</button>
+      </div>
+      <button class="btn" id="submitBtn">Sign in</button>
+    </div>
+  </main>
+
+  <script type="module" src="/login.app.js"></script>
+</body>
+</html>
