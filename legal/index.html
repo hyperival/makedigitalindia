@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drafting · Legal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="loader"><div class="spin"></div></div>
+  <div id="app" hidden>
+    <header class="coral">
+      <div class="logo"><span class="mark coral">L</span> Legal Drafting</div>
+      <div class="user">
+        <span class="who">Signed in as <b id="userName">&#8212;</b></span>
+        <button class="logout" id="logoutBtn">Log out</button>
+      </div>
+    </header>
+    <main>
+      <h1 class="hi">Welcome, <span id="greetName">there</span></h1>
+      <p class="lede">This is your drafting workspace. Only your firm can see this data.</p>
+      <div class="grid">
+        <div class="tile"><h3>Templates</h3><p>Start from reusable report and letter templates.</p><span class="tag">Phase 3</span></div>
+        <div class="tile"><h3>Drafts</h3><p>Write and edit reports with saved versions.</p><span class="tag">Phase 3</span></div>
+        <div class="tile"><h3>Export</h3><p>Download finished reports as PDF or Word.</p><span class="tag">Phase 3</span></div>
+      </div>
+    </main>
+    <footer>&copy; <span id="year">2026</span> Make Digital India. All rights reserved.</footer>
+  </div>
+  <script>document.getElementById("year").textContent=new Date().getFullYear();</script>
+  <script type="module" src="/legal/app.js"></script>
+</body>
+</html>
