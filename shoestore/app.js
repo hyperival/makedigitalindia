@@ -1,11 +1,9 @@
-// Shoe store app — guarded to the "shoestore" app (Google Sheets setup).
-import { guard, logout } from "/auth-guard.js";
-
-guard("shoestore", (user, info) => {
-  document.getElementById("userName").textContent = info.name;
-  document.getElementById("greetName").textContent = user.displayName || "there";
-  document.getElementById("loader").style.display = "none";
-  document.getElementById("app").hidden = false;
+// Firebase gate for the shoe app.
+// If the visitor isn't a logged-in shoestore client, they're bounced to login.
+// If they are, we remember their name so the app can attribute stock changes.
+import { guard } from "/auth-guard.js";
+ 
+guard("shoestore", function (user, info) {
+  window.__IMS_USER = info.name;   // e.g. their business name or email
 });
-
-document.getElementById("logoutBtn").addEventListener("click", logout);
+ 
