@@ -891,6 +891,8 @@ window.addEventListener('load',function(){
       goPage('dashboard');
       if(isMobileView())setTimeout(openScan,400);  /* phones: scan-first */
       setTimeout(prefetchAll,1200);   /* warm Live Stock + Catalogue in background */
+      loadLocalIndex();                 /* build instant local lookup */
+      setInterval(function(){loadLocalIndex(true);},120000);  /* keep it fresh */
     }else{
       document.querySelector('#gate .spin').style.display='none';
       document.getElementById('gateTitle').textContent='Access denied';
@@ -1365,7 +1367,71 @@ function ensureZXing(){return new Promise(function(res,rej){
 
 /* lookup + adjust */
 var _LASTRAW='';
+
+/* ================================================================
+   LOCAL INDEX  — instant, offline-capable lookups (no per-scan
+   server call). Loaded once from getLiveStock, refreshed in the
+   background and after every stock change. This is the big speed win.
+================================================================ */
+var LPROD=null, LBYBC={}, LBYSKU={}, LGROUPS={};
+function _lnorm(v){return String(v==null?'':v).trim().toUpperCase();}
+function buildLocalIndex(rows){
+  LPROD=rows;LBYBC={};LBYSKU={};LGROUPS={};
+  rows.forEach(function(r){
+    var gk=_lnorm(r.brand+'||'+r.model+'||'+r.color);
+    if(!LGROUPS[gk])LGROUPS[gk]={brand:r.brand,model:r.model,color:r.color,category:'',image:r.img||'',sizes:[]};
+    if(!LGROUPS[gk].image&&r.img)LGROUPS[gk].image=r.img;
+    LGROUPS[gk].sizes.push({size:r.size,qty:Number(r.qty)||0,mrp:Number(r.mrp)||0,status:r.status});
+    if(r.barcode)String(r.barcode).toUpperCase().split(/[,;|\s]+/).forEach(function(c){if(c)LBYBC[c]=gk;});
+    if(r.sku)LBYSKU[_lnorm(r.sku)]=gk;
+  });
+  Object.keys(LGROUPS).forEach(function(k){LGROUPS[k].sizes.sort(function(a,b){
+    return (parseFloat(a.size)||999)-(parseFloat(b.size)||999);});});
+}
+function loadLocalIndex(quiet){
+  google.script.run.withSuccessHandler(function(d){
+    if(d&&d.ok&&d.data){buildLocalIndex(d.data);_stockData=d.data;}
+  }).withFailureHandler(function(){}).getLiveStock({});
+}
+function _localExtract(raw){
+  var up=String(raw).trim().toUpperCase();var seg=up.split('-');
+  if(seg.length>=3){var a=seg[0].match(/([A-Z]{2,4}\d{3,5}[A-Z]{0,2})$/);
+    var s=seg[1]&&seg[1].match(/(\d{3,4})$/);
+    if(a){var sz='';if(s){var nn=parseInt(s[1],10);sz=(nn>15&&nn%10===5)?(nn/10).toString():String(nn);}
+      return{token:a[1],size:sz};}}
+  return{token:up,size:''};
+}
+function _localPerBox(raw){var s=String(raw).toUpperCase();return /:\/\//.test(s)||/VERIFY|TRACK|AUTHENT/.test(s);}
+function localFind(raw){
+  if(!LPROD||_localPerBox(raw))return null;
+  var p=_localExtract(raw),up=_lnorm(raw);
+  var gk=LBYBC[p.token]||LBYBC[up]||LBYSKU[p.token]||LBYSKU[up]||null;
+  if(!gk){var core=String(p.token).replace(/\D/g,'').replace(/^0+/,'');
+    if(core&&core.length<=5){var hits=Object.keys(LGROUPS).filter(function(k){
+      return String(LGROUPS[k].model).replace(/\D/g,'').replace(/^0+/,'')===core;});
+      if(hits.length===1)gk=hits[0];}}
+  if(!gk){var flat=up.replace(/[^A-Z0-9]/g,'');if(flat.length>=3){var hit=null,amb=false;
+    for(var k in LGROUPS){var mo=_lnorm(LGROUPS[k].model).replace(/[^A-Z0-9]/g,'');
+      if(mo&&(mo===flat||mo.indexOf(flat)===0)){if(hit&&hit!==k){amb=true;break;}hit=k;}}
+    if(hit&&!amb)gk=hit;}}
+  if(!gk)return null;
+  var g=LGROUPS[gk];
+  return {status:'found',code:p.token,brand:g.brand,model:g.model,color:g.color,
+    category:g.category||'',image:g.image||'',scannedSize:p.size,
+    sizes:g.sizes.map(function(s){return {size:s.size,qty:s.qty,mrp:s.mrp,status:s.status};})};
+}
+function _localSetQty(brand,model,color,size,newQty){
+  var gk=_lnorm(brand+'||'+model+'||'+color);var g=LGROUPS[gk];if(!g)return;
+  for(var i=0;i<g.sizes.length;i++)if(String(g.sizes[i].size)===String(size)){g.sizes[i].qty=newQty;break;}
+}
+
 function onCode(code){code=(code||'').trim();if(!code)return;
+  _LASTRAW=code;hideMap();
+  var _l=localFind(code);
+  if(_l){LKC[code]=_l;pushRecent(_l);scanMsg('');renderProduct(_l);sndTick();return;}  /* instant, no server */
+  _onCodeServer_(code);   /* fallback: per-box, unknown, or not-yet-loaded */
+}
+function _onCodeServer_(code){code=(code||'').trim();if(!code)return;
   _LASTRAW=code;
   hideMap();
   var hit=LKC[code];
@@ -1460,6 +1526,7 @@ function _submitAdjust(code,sizeObj,el,sentQty){
     el.classList.remove('busy');
     sndOk();
     if(RAPID&&!camRunning)setTimeout(startCam,650);
+    _localSetQty(r.brand,r.model,r.color,r.size,r.newQty);
     _dirtyStock=true;_dirtyCat=true;
     if(CUR&&LKC[CUR.code]){var cs=LKC[CUR.code].sizes;for(var ci=0;ci<cs.length;ci++)if(cs[ci].size===r.size)cs[ci].qty=r.newQty;}
     var b=el.querySelector('.q b');if(b)b.textContent=r.newQty;
@@ -1483,6 +1550,7 @@ function undoEntry(i){
     s.undone=true;s._busy=false;renderSess();sndTick();
     _dirtyStock=true;_dirtyCat=true;
     if(LKC[s.code]){var cs=LKC[s.code].sizes;for(var ci=0;ci<cs.length;ci++)if(cs[ci].size===s.size)cs[ci].qty=r.newQty;}
+    _localSetQty(r.brand,r.model,r.color,r.size,r.newQty);
     toast('UNDONE',s.mode.toUpperCase()+' '+(s.delta>0?'+':'')+s.delta+' sz '+s.size+' reversed → qty '+r.newQty,'ok');
     if(CUR&&CUR.code===s.code&&window._tiles&&window._tiles[s.size]){
       var b=window._tiles[s.size].querySelector('.q b');if(b)b.textContent=r.newQty;
