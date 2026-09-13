@@ -3,157 +3,195 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Make Digital India — software that runs your business</title>
-<meta name="description" content="Make Digital India builds custom online systems — inventory, billing, reports and dashboards — for shops and firms across India. Your own private tool, ready on any device." />
+<title>Make Digital India — software for every Indian business</title>
+<meta name="description" content="Make Digital India builds custom software for every kind of Indian business — established shops, showrooms and firms, and new startups. WhatsApp-first, live in weeks." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --indigo:#1b1f4b; --indigo-2:#252a63; --indigo-line:#39407e;
-    --marigold:#f5a524; --marigold-deep:#dd8400;
-    --paper:#faf8f3; --ink:#171a3c; --muted:#5b5f82; --line:#e7e3d8;
-    --leaf:#1f8a5b;
+    --ink:#0c0f1e; --ink-2:#12162b; --ink-3:#1a2040; --line:#252c50;
+    --gold:#e6b24d; --gold-2:#f4cf83; --gold-deep:#c8933a;
+    --emerald:#3caf83; --emerald-2:#57c99b;
+    --paper:#f5f2ea; --paper-2:#efe9dc; --card:#ffffff; --cardline:#e4ddcc;
+    --ink-text:#151a30; --muted:#5f6480; --muted-d:#a7adcf;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{font-family:'Jost',system-ui,sans-serif;color:var(--ink-text);background:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;font-weight:400}
   a{color:inherit;text-decoration:none}
-  .wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px}
-  h1,h2,h3,.brand{font-family:'Sora',sans-serif;letter-spacing:-.02em}
+  .wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 26px}
+  h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;letter-spacing:-.01em}
+  .logo{font-family:'Jost',sans-serif;font-weight:600;letter-spacing:.01em}
+  .logo b{font-weight:600;color:var(--gold)}
 
-  /* ---------- nav ---------- */
-  header.nav{position:sticky;top:0;z-index:50;background:rgba(27,31,75,.9);
-    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--indigo-line)}
-  .nav-in{display:flex;align-items:center;gap:22px;height:66px}
-  .brand{display:inline-flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:18px}
-  .brand .mark{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
-    background:linear-gradient(135deg,var(--marigold),#ffc45e);color:var(--indigo);font-weight:800;font-size:17px}
-  .nav-links{display:flex;gap:26px;margin-left:auto}
-  .nav-links a{color:#c7cbf0;font-size:14px;font-weight:500}
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(12,15,30,.82);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;gap:20px;height:70px}
+  .logo{color:#fff;font-size:20px}
+  .nav-links{display:flex;gap:28px;margin-left:auto}
+  .nav-links a{color:#c2c7e6;font-size:14.5px}
   .nav-links a:hover{color:#fff}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:'Sora',sans-serif;
-    font-weight:600;font-size:14.5px;padding:10px 18px;border-radius:10px;cursor:pointer;border:0;transition:transform .12s ease,filter .2s ease,background .2s}
-  .btn:active{transform:scale(.97)}
-  .btn-login{background:linear-gradient(135deg,var(--marigold),var(--marigold-deep));color:var(--indigo)}
-  .btn-login:hover{filter:brightness(1.05)}
-  .btn-ghost{background:transparent;color:#fff;border:1.5px solid var(--indigo-line)}
-  .btn-ghost:hover{background:var(--indigo-2)}
-  .nav .btn-login{margin-left:2px}
+  .nav-actions{display:flex;align-items:center;gap:12px;margin-left:22px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:'Jost',sans-serif;
+    font-weight:500;font-size:15px;padding:11px 20px;border-radius:11px;cursor:pointer;border:0;
+    transition:transform .12s ease,filter .2s ease,background .2s;white-space:nowrap}
+  .btn:active{transform:scale(.98)}
+  .btn-login{background:transparent;color:#fff;border:1.5px solid var(--line)}
+  .btn-login:hover{background:var(--ink-3)}
+  .btn-wa{background:linear-gradient(135deg,#25d366,#128c46);color:#fff}
+  .btn-wa:hover{filter:brightness(1.06)}
+  .btn-gold{background:linear-gradient(135deg,var(--gold-2),var(--gold-deep));color:#20160a}
+  .btn-gold:hover{filter:brightness(1.05)}
+  .btn-emerald{background:linear-gradient(135deg,var(--emerald-2),var(--emerald));color:#04231a}
+  .btn-emerald:hover{filter:brightness(1.05)}
+  .btn-lg{padding:15px 28px;font-size:16px}
+  .wa-ic{width:19px;height:19px;fill:currentColor}
 
-  /* ---------- hero ---------- */
-  .hero{position:relative;overflow:hidden;background:
-      radial-gradient(1100px 520px at 78% -8%, #2c3272 0%, transparent 60%),
-      var(--indigo);color:#eef0ff}
+  /* hero */
+  .hero{position:relative;overflow:hidden;background:var(--ink);color:#eef0ff}
   .hero::before{content:"";position:absolute;inset:0;
-    background-image:linear-gradient(var(--indigo-line) 1px,transparent 1px),linear-gradient(90deg,var(--indigo-line) 1px,transparent 1px);
-    background-size:52px 52px;opacity:.16;
-    mask-image:radial-gradient(90% 80% at 20% 10%,#000 25%,transparent 78%)}
-  .hero-in{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;
-    padding:84px 0 92px}
+    background:radial-gradient(760px 400px at 78% 8%, rgba(230,178,77,.16), transparent 62%),
+               radial-gradient(680px 420px at 6% 96%, rgba(60,175,131,.12), transparent 60%)}
+  .hero::after{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:58px 58px;opacity:.1;mask-image:radial-gradient(90% 80% at 25% 15%,#000 20%,transparent 75%)}
+  .hero-in{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:52px;align-items:center;padding:92px 0 96px}
   .hero-copy{animation:enter .6s cubic-bezier(.2,.7,.3,1) both}
-  .kicker{color:var(--marigold);font-weight:600;font-size:13.5px;margin-bottom:16px}
-  .hero h1{font-size:clamp(34px,5vw,54px);font-weight:700;line-height:1.05;color:#fff}
-  .hero p.lead{margin-top:20px;font-size:17px;color:#b9beea;max-width:52ch}
-  .hero-cta{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
-  .btn-lg{padding:13px 24px;font-size:15.5px}
-  .reassure{margin-top:20px;font-size:13px;color:#8a90c8}
+  .badge{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--gold-2);
+    background:rgba(230,178,77,.1);border:1px solid rgba(230,178,77,.28);padding:6px 14px;border-radius:30px;margin-bottom:22px}
+  .badge .d{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(230,178,77,.2)}
+  .hero h1{font-size:clamp(38px,5.6vw,62px);font-weight:600;line-height:1.02;color:#fff;letter-spacing:-.02em}
+  .hero h1 em{font-style:italic;font-weight:500;color:var(--gold-2)}
+  .hero p.lead{margin-top:22px;font-size:17.5px;color:#b7bce0;max-width:54ch}
+  .hero-cta{margin-top:30px;display:flex;gap:13px;flex-wrap:wrap}
+  .chips{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap}
+  .chip{font-size:12.5px;color:#cfd4f2;border:1px solid var(--line);border-radius:20px;padding:6px 13px}
 
-  /* hero product mock */
-  .mock{position:relative;background:#fff;border-radius:16px;padding:16px;
-    box-shadow:0 30px 60px rgba(10,12,40,.45);animation:enter .7s .1s cubic-bezier(.2,.7,.3,1) both;color:var(--ink)}
-  .mock-bar{display:flex;gap:6px;margin-bottom:14px}
-  .mock-bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
-  .mock-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-  .mock-stat{background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:11px 12px}
-  .mock-stat .l{font-size:10.5px;color:var(--muted);font-weight:600}
-  .mock-stat .v{font-family:'Sora';font-size:20px;font-weight:800;margin-top:3px}
-  .mock-stat .v.up{color:var(--leaf)} .mock-stat .v.warn{color:var(--marigold-deep)}
-  .mock-row{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border:1px solid var(--line);border-radius:10px;margin-top:8px;font-size:12.5px}
-  .mock-row b{font-family:'Sora';font-weight:700}
-  .pill{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;background:#e7f6ee;color:var(--leaf)}
-  .pill.low{background:#fdf1dd;color:var(--marigold-deep)}
+  /* hero illustrative panel */
+  .glass{position:relative;background:linear-gradient(160deg,rgba(30,36,68,.9),rgba(18,22,43,.9));
+    border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 30px 70px rgba(0,0,0,.4);
+    animation:enter .7s .1s cubic-bezier(.2,.7,.3,1) both}
+  .glass-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .glass-top .t{font-size:13px;color:#aab0e0;font-weight:500}
+  .glass-top .dots{display:flex;gap:6px}
+  .glass-top .dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+  .mods{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+  .mod{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.03);border:1px solid var(--line);
+    border-radius:11px;padding:11px 12px;font-size:12.5px;color:#dfe3ff}
+  .mod .ic{width:16px;height:16px;color:var(--gold-2);flex:none}
+  .mod.g .ic{color:var(--emerald-2)}
+  .bars{display:flex;align-items:flex-end;gap:7px;height:64px;padding:4px 2px 0}
+  .bars .b{flex:1;border-radius:5px 5px 0 0;background:linear-gradient(180deg,#3b447f,#252c55);animation:rise 1s ease both}
+  .bars .b.gold{background:linear-gradient(180deg,var(--gold-2),var(--gold-deep))}
 
-  /* ---------- generic section ---------- */
-  section{padding:74px 0}
-  .head{max-width:60ch;margin-bottom:42px}
-  .head h2{font-size:clamp(26px,3.4vw,36px);font-weight:700;line-height:1.12}
-  .head p{margin-top:12px;color:var(--muted);font-size:16px}
+  /* section base */
+  section{padding:88px 0}
+  .eyebrow{font-size:14px;color:var(--gold-deep);font-weight:500;margin-bottom:12px}
+  .on-ink .eyebrow{color:var(--gold-2)}
+  .head{max-width:60ch;margin-bottom:44px}
+  .head h2{font-size:clamp(28px,3.6vw,42px);font-weight:600;line-height:1.1;color:var(--ink-text)}
+  .on-ink .head h2{color:#fff}
+  .head p{margin-top:13px;color:var(--muted);font-size:16.5px}
+  .on-ink .head p{color:var(--muted-d)}
 
-  /* ---------- what we build ---------- */
-  .builds{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .build{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 22px 24px;
-    border-left:3px solid var(--marigold)}
-  .build .ic{width:38px;height:38px;color:var(--marigold-deep);margin-bottom:14px}
-  .build h3{font-size:17px;font-weight:600;margin-bottom:6px}
-  .build p{color:var(--muted);font-size:14.5px}
+  /* two tracks */
+  .tracks{background:var(--paper)}
+  .tracks .head{text-align:center;margin:0 auto 44px}
+  .track-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .track{background:var(--card);border:1px solid var(--cardline);border-radius:20px;padding:34px;position:relative;overflow:hidden}
+  .track::before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+  .track.est::before{background:linear-gradient(90deg,var(--gold),var(--gold-2))}
+  .track.new::before{background:linear-gradient(90deg,var(--emerald),var(--emerald-2))}
+  .track .tag{display:inline-block;font-size:12.5px;font-weight:500;padding:5px 12px;border-radius:20px;margin-bottom:16px}
+  .track.est .tag{background:#fbf1dd;color:var(--gold-deep)}
+  .track.new .tag{background:#e4f6ee;color:#268561}
+  .track h3{font-size:23px;font-weight:600;margin-bottom:10px}
+  .track > p{color:var(--muted);font-size:15.5px;margin-bottom:18px}
+  .track ul{list-style:none;display:grid;gap:10px;margin-bottom:24px}
+  .track li{display:flex;gap:10px;align-items:center;font-size:14.5px;color:var(--ink-text)}
+  .track li .c{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#fff}
+  .track.est li .c{background:var(--gold-deep)}.track.new li .c{background:var(--emerald)}
 
-  /* ---------- how it works (dark) ---------- */
-  .how{background:var(--indigo);color:#eef0ff}
-  .how .head h2{color:#fff}.how .head p{color:#b9beea}
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:s}
-  .step{position:relative;padding-top:14px;border-top:2px solid var(--indigo-line)}
-  .step::before{counter-increment:s;content:counter(s);font-family:'Sora';font-weight:800;font-size:14px;
-    position:absolute;top:-15px;left:0;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;
-    background:var(--marigold);color:var(--indigo)}
-  .step h3{font-size:17px;font-weight:600;margin:14px 0 6px;color:#fff}
-  .step p{color:#a9afe0;font-size:14.5px}
+  /* solutions */
+  .sol{background:var(--ink);color:#eef0ff}
+  .sol-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .sol-card{background:linear-gradient(160deg,rgba(30,36,68,.55),rgba(18,22,43,.55));
+    border:1px solid var(--line);border-radius:16px;padding:24px;transition:transform .16s ease,border-color .16s ease}
+  .sol-card:hover{transform:translateY(-4px);border-color:rgba(230,178,77,.4)}
+  .sol-card .ic{width:30px;height:30px;color:var(--gold-2);margin-bottom:14px}
+  .sol-card h3{font-size:16.5px;font-weight:600;color:#fff;margin-bottom:6px;font-family:'Jost',sans-serif;letter-spacing:0}
+  .sol-card p{color:var(--muted-d);font-size:13.5px}
 
-  /* ---------- who it's for ---------- */
-  .cases{display:flex;flex-direction:column;gap:12px}
-  .case{display:flex;align-items:center;gap:18px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:18px 22px}
-  .case .who{font-family:'Sora';font-weight:700;font-size:16px;min-width:150px}
-  .case .what{color:var(--muted);font-size:14.5px;flex:1}
-  .case .tag{font-size:11.5px;font-weight:700;color:var(--indigo);background:#ecebff;padding:5px 11px;border-radius:20px;white-space:nowrap}
+  /* industries */
+  .ind{background:var(--paper)}
+  .ind-tabs{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:26px}
+  .ind-tab{font-family:'Jost',sans-serif;font-size:14px;font-weight:500;padding:10px 18px;border-radius:30px;
+    border:1.5px solid var(--cardline);background:var(--card);color:var(--muted);cursor:pointer;transition:all .15s}
+  .ind-tab:hover{border-color:var(--gold-deep);color:var(--gold-deep)}
+  .ind-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .ind-panel{display:none;background:var(--card);border:1px solid var(--cardline);border-radius:18px;padding:34px}
+  .ind-panel.active{display:block;animation:fade .3s ease both}
+  .ind-panel h3{font-size:22px;font-weight:600;margin-bottom:10px}
+  .ind-panel p{color:var(--muted);font-size:15.5px;max-width:66ch;margin-bottom:18px}
+  .ind-tags{display:flex;flex-wrap:wrap;gap:9px}
+  .ind-tags span{font-size:13px;font-weight:500;color:var(--ink-text);background:var(--paper);border:1px solid var(--cardline);padding:7px 14px;border-radius:9px}
 
-  /* ---------- why band ---------- */
-  .why{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 34px}
-  .pt{display:flex;gap:13px;align-items:flex-start}
-  .pt .chk{flex:none;width:24px;height:24px;border-radius:50%;background:#e7f6ee;color:var(--leaf);display:grid;place-items:center}
-  .pt h3{font-size:15.5px;font-weight:600;margin-bottom:2px}
-  .pt p{color:var(--muted);font-size:14px}
+  /* how */
+  .how{background:var(--ink);color:#eef0ff}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;counter-reset:s}
+  .step{position:relative;padding-top:18px;border-top:2px solid var(--line)}
+  .step::before{counter-increment:s;content:"0" counter(s);font-family:'Fraunces',serif;font-weight:600;font-size:15px;
+    position:absolute;top:-13px;left:0;background:var(--ink);padding-right:10px;color:var(--gold-2)}
+  .step h3{font-size:17px;font-weight:600;color:#fff;margin:8px 0 6px;font-family:'Jost',sans-serif;letter-spacing:0}
+  .step p{color:var(--muted-d);font-size:14px}
 
-  /* ---------- final cta ---------- */
-  .cta{background:
-      radial-gradient(700px 300px at 80% 0%, #2c3272, transparent 60%),var(--indigo);color:#fff;text-align:center}
-  .cta h2{font-size:clamp(26px,3.6vw,38px);font-weight:700}
-  .cta p{color:#b9beea;margin:14px auto 26px;max-width:46ch;font-size:16px}
-  .cta .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-  .cta .contact{margin-top:22px;font-size:14px;color:#8a90c8}
-  .cta .contact a{color:var(--marigold);font-weight:600}
+  /* cta */
+  .cta{background:radial-gradient(760px 320px at 50% 0%, rgba(230,178,77,.16), transparent 62%),var(--ink);color:#fff;text-align:center}
+  .cta h2{font-size:clamp(30px,4.2vw,46px);font-weight:600;line-height:1.08}
+  .cta p{color:var(--muted-d);margin:16px auto 28px;max-width:50ch;font-size:17px}
+  .cta .row{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
 
-  /* ---------- footer ---------- */
-  footer{background:#141737;color:#8a90c8;padding:30px 0;font-size:13.5px}
+  footer{background:#080a15;color:var(--muted-d);padding:34px 0;font-size:14px}
   .foot-in{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-  .foot-in .brand{font-size:15px}
-  .foot-in .brand .mark{width:28px;height:28px;font-size:14px}
+  .foot-in .logo{font-size:17px}
+  .foot-tag{color:#8a90bc;font-size:13.5px}
+  .foot-links{display:flex;gap:20px;flex-wrap:wrap}
+  .foot-links a:hover{color:#fff}
 
-  :focus-visible{outline:3px solid var(--marigold);outline-offset:2px;border-radius:6px}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
 
-  @media (max-width:860px){
+  @media (max-width:900px){
     .nav-links{display:none}
-    .hero-in{grid-template-columns:1fr;gap:36px;padding:56px 0 64px}
-    .mock{max-width:420px}
-    .builds,.steps,.why-grid{grid-template-columns:1fr}
-    .case{flex-wrap:wrap;gap:10px}.case .who{min-width:0}
+    .hero-in{grid-template-columns:1fr;gap:40px;padding:60px 0 68px}
+    .glass{max-width:440px}
+    .sol-grid{grid-template-columns:1fr 1fr}
+    .steps{grid-template-columns:1fr 1fr;gap:26px 22px}
+    .track-grid{grid-template-columns:1fr}
   }
+  @media (max-width:560px){ .sol-grid{grid-template-columns:1fr} .steps{grid-template-columns:1fr} .nav-actions .btn-login{display:none} }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
-  @keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes enter{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @keyframes rise{from{transform:scaleY(0);transform-origin:bottom}to{transform:scaleY(1);transform-origin:bottom}}
 </style>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="/"><span class="mark">D</span> Make Digital India</a>
+    <a class="logo" href="/">make<b>digital</b>india</a>
     <nav class="nav-links">
-      <a href="#build">What we build</a>
-      <a href="#how">How it works</a>
-      <a href="#who">Who it's for</a>
-      <a href="#contact">Contact</a>
+      <a href="#tracks">Who we help</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#industries">Industries</a>
+      <a href="#how">How we work</a>
     </nav>
-    <a class="btn btn-login" href="/login.html">Client login</a>
+    <div class="nav-actions">
+      <a class="btn btn-login" href="/login.html">Client login</a>
+      <a class="btn btn-wa wa" href="#"><svg class="wa-ic" viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.7-.85-2-.95-.26-.1-.45-.15-.64.15-.19.28-.73.94-.9 1.13-.16.19-.33.21-.61.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.04-.17-.29-.02-.44.13-.59.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.08-.15-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.38s1.02 2.76 1.17 2.95c.14.19 2.01 3.08 4.88 4.32.68.29 1.21.47 1.63.6.68.22 1.31.19 1.8.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34zM12.05 21.5h-.02a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.38 9.38 0 0 1 14.56-11.6 9.32 9.32 0 0 1 2.75 6.64c0 5.18-4.22 9.38-9.49 9.38zM20.52 3.49A11.77 11.77 0 0 0 12.05.01C5.5.01.18 5.33.18 11.87c0 2.09.55 4.13 1.59 5.93L.08 24l6.34-1.66a11.82 11.82 0 0 0 5.63 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.47-8.42z"/></svg>WhatsApp</a>
+    </div>
   </div>
 </header>
 
@@ -161,125 +199,198 @@
 <section class="hero" style="padding:0">
   <div class="wrap hero-in">
     <div class="hero-copy">
-      <div class="kicker">For shops, showrooms and firms across India</div>
-      <h1>Software that runs your business — built around how you actually work.</h1>
-      <p class="lead">We build your own private online system for inventory, billing, reports and daily numbers. No spreadsheets, no paperwork — just a tool your team opens on any phone or computer.</p>
+      <div class="badge"><span class="d"></span>A mission to digitize India</div>
+      <h1>Making India digital — <em>one business at a time.</em></h1>
+      <p class="lead">We build custom software for every kind of Indian business — from the shop that's run on registers for thirty years to the startup launching next month. WhatsApp-first, built around how you actually work, live in weeks.</p>
       <div class="hero-cta">
+        <a class="btn btn-wa btn-lg wa" href="#"><svg class="wa-ic" viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.7-.85-2-.95-.26-.1-.45-.15-.64.15-.19.28-.73.94-.9 1.13-.16.19-.33.21-.61.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.04-.17-.29-.02-.44.13-.59.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.08-.15-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.38s1.02 2.76 1.17 2.95c.14.19 2.01 3.08 4.88 4.32.68.29 1.21.47 1.63.6.68.22 1.31.19 1.8.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34zM12.05 21.5h-.02a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.38 9.38 0 0 1 14.56-11.6 9.32 9.32 0 0 1 2.75 6.64c0 5.18-4.22 9.38-9.49 9.38zM20.52 3.49A11.77 11.77 0 0 0 12.05.01C5.5.01.18 5.33.18 11.87c0 2.09.55 4.13 1.59 5.93L.08 24l6.34-1.66a11.82 11.82 0 0 0 5.63 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.47-8.42z"/></svg>Chat on WhatsApp</a>
         <a class="btn btn-login btn-lg" href="/login.html">Client login</a>
-        <a class="btn btn-ghost btn-lg" href="#build">See what we build</a>
       </div>
-      <div class="reassure">Already a client? Use the login to open your workspace.</div>
+      <div class="chips">
+        <span class="chip">Custom-built</span>
+        <span class="chip">WhatsApp-first</span>
+        <span class="chip">Hindi-ready</span>
+        <span class="chip">Live in weeks</span>
+      </div>
     </div>
 
-    <!-- product glimpse, grounded in the real apps -->
-    <div class="mock" aria-hidden="true">
-      <div class="mock-bar"><i></i><i></i><i></i></div>
-      <div class="mock-stats">
-        <div class="mock-stat"><div class="l">Today's sales</div><div class="v up">₹42,600</div></div>
-        <div class="mock-stat"><div class="l">Pairs in stock</div><div class="v">1,284</div></div>
-        <div class="mock-stat"><div class="l">Reorder needed</div><div class="v warn">7</div></div>
-        <div class="mock-stat"><div class="l">Models</div><div class="v">96</div></div>
+    <div class="glass" aria-hidden="true">
+      <div class="glass-top"><span class="t">Your business, live</span><span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="mods">
+        <div class="mod"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/></svg>Inventory</div>
+        <div class="mod g"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-3-3.87"/><path d="M4 21v-2a4 4 0 0 1 3-3.87"/><circle cx="12" cy="7" r="4"/></svg>Attendance</div>
+        <div class="mod"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Dashboards</div>
+        <div class="mod g"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/></svg>Reports</div>
       </div>
-      <div class="mock-row"><span>Nike Revolution · Black · 9</span><b>24</b><span class="pill">In stock</span></div>
-      <div class="mock-row"><span>Bata Comfit · Brown · 8</span><b>3</b><span class="pill low">Low</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- what we build -->
-<section id="build">
-  <div class="wrap">
-    <div class="head">
-      <h2>Tools made for your work, not a one-size template.</h2>
-      <p>Each client gets a system shaped around their business. Here's the kind of thing we build.</p>
-    </div>
-    <div class="builds">
-      <div class="build">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>
-        <h3>Inventory &amp; billing</h3>
-        <p>Track stock, sizes, sales and reorders in real time — and scan barcodes straight from a phone.</p>
-      </div>
-      <div class="build">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/><path d="M9 13h7M9 17h7"/></svg>
-        <h3>Reports &amp; documents</h3>
-        <p>Draft, store and export professional reports and letters in minutes, from ready-made templates.</p>
-      </div>
-      <div class="build">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
-        <h3>Live dashboards</h3>
-        <p>See your sales, stock and daily numbers at a glance — updated the moment something changes.</p>
-      </div>
-      <div class="build">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
-        <h3>Your online presence</h3>
-        <p>A clean website and a private login your staff and customers can reach from anywhere.</p>
+      <div class="bars">
+        <div class="b" style="height:44%"></div><div class="b" style="height:62%"></div>
+        <div class="b gold" style="height:80%"></div><div class="b" style="height:54%"></div>
+        <div class="b gold" style="height:92%"></div><div class="b" style="height:66%"></div>
+        <div class="b" style="height:48%"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- how it works -->
-<section class="how" id="how">
+<!-- two tracks -->
+<section class="tracks" id="tracks">
   <div class="wrap">
     <div class="head">
-      <h2>From how you work today to a working system.</h2>
-      <p>Three steps, and we handle the technical side of all of them.</p>
+      <h2>Wherever you are, we bring you online</h2>
+      <p>Two ways in — pick the one that sounds like you.</p>
+    </div>
+    <div class="track-grid">
+      <div class="track est">
+        <span class="tag">Already running a business?</span>
+        <h3>Digitize how you already work</h3>
+        <p>Move off registers and Excel. Get a system built around your counter, godown or site — not a template dumped on your team.</p>
+        <ul>
+          <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Live inventory, billing &amp; sales</li>
+          <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Staff attendance &amp; tasks</li>
+          <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Reports &amp; live dashboards</li>
+        </ul>
+        <a class="btn btn-gold wa" href="#">Digitize my business</a>
+      </div>
+      <div class="track new">
+        <span class="tag">Starting something new?</span>
+        <h3>Launch fast, look professional</h3>
+        <p>Get your first website, app or system built — affordable, and ready to grow as you do. Look established from day one.</p>
+        <ul>
+          <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Website &amp; online presence</li>
+          <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Your first product, built fast</li>
+          <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Automations from day one</li>
+        </ul>
+        <a class="btn btn-emerald wa" href="#">Build my idea</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- solutions -->
+<section class="sol on-ink" id="solutions">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">What we build</div>
+      <h2>Modules we shape to fit you</h2>
+      <p>Purpose-built pieces we combine for your business — never a bloated, one-size ERP.</p>
+    </div>
+    <div class="sol-grid">
+      <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg><h3>Inventory & billing</h3><p>Real-time stock, barcode scanning, sales and billing.</p></div>
+      <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-3-3.87"/><path d="M4 21v-2a4 4 0 0 1 3-3.87"/><circle cx="12" cy="7" r="4"/></svg><h3>Attendance</h3><p>GPS + photo attendance, even for floor staff.</p></div>
+      <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg><h3>Tasks & checklists</h3><p>Daily tasks that keep teams accountable.</p></div>
+      <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><h3>Live dashboards</h3><p>Your numbers, live and at a glance.</p></div>
+      <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/><path d="M9 13h7M9 17h7"/></svg><h3>Reports & documents</h3><p>Draft, store and export in minutes.</p></div>
+      <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.5 8.5 8.5 0 0 1-4-1L3 21l1.5-4.5a8.5 8.5 0 1 1 16.5-5z"/></svg><h3>WhatsApp automation</h3><p>Alerts, updates and queries, right in WhatsApp.</p></div>
+      <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg><h3>Websites & presence</h3><p>A clean site and login your customers can reach.</p></div>
+      <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/><circle cx="12" cy="12" r="3"/></svg><h3>Custom systems</h3><p>Anything specific to how you work.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- industries -->
+<section class="ind" id="industries">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Industries</div>
+      <h2>Built for your sector</h2>
+    </div>
+    <div class="ind-tabs">
+      <button class="ind-tab active" onclick="showInd('retail',this)">Retail & SME</button>
+      <button class="ind-tab" onclick="showInd('construction',this)">Construction</button>
+      <button class="ind-tab" onclick="showInd('manufacturing',this)">Manufacturing</button>
+      <button class="ind-tab" onclick="showInd('realestate',this)">Real Estate</button>
+      <button class="ind-tab" onclick="showInd('logistics',this)">Logistics</button>
+      <button class="ind-tab" onclick="showInd('startups',this)">Startups</button>
+    </div>
+    <div id="panel-retail" class="ind-panel active">
+      <h3>Retail & SME</h3>
+      <p>Inventory across stores, barcode billing, daily sales and staff attendance — all from one mobile app your team will actually use.</p>
+      <div class="ind-tags"><span>Multi-store stock</span><span>Barcode billing</span><span>Daily sales</span><span>Attendance</span></div>
+    </div>
+    <div id="panel-construction" class="ind-panel">
+      <h3>Construction</h3>
+      <p>Site material tracking, GPS attendance, task checklists and progress tracking — built for teams on-site, not at a desk.</p>
+      <div class="ind-tags"><span>Material tracking</span><span>GPS attendance</span><span>Checklists</span><span>Progress tracking</span></div>
+    </div>
+    <div id="panel-manufacturing" class="ind-panel">
+      <h3>Manufacturing</h3>
+      <p>Production checklists, shift tracking, downtime logs and WhatsApp sign-offs — built for plant teams who move fast.</p>
+      <div class="ind-tags"><span>Production checklists</span><span>Shift tracking</span><span>Downtime logs</span><span>WhatsApp QC</span></div>
+    </div>
+    <div id="panel-realestate" class="ind-panel">
+      <h3>Real Estate</h3>
+      <p>Customer payment pipelines, snag lists, handover tracking and unit-wise dashboards — end to end, without an ERP license.</p>
+      <div class="ind-tags"><span>Payments</span><span>Snag lists</span><span>Handover</span><span>Unit dashboard</span></div>
+    </div>
+    <div id="panel-logistics" class="ind-panel">
+      <h3>Logistics</h3>
+      <p>Fleet and delivery tracking, driver attendance and auto-invoicing — go paperless without disrupting how you work today.</p>
+      <div class="ind-tags"><span>Fleet</span><span>Deliveries</span><span>Driver attendance</span><span>Auto-invoice</span></div>
+    </div>
+    <div id="panel-startups" class="ind-panel">
+      <h3>Startups</h3>
+      <p>Your first website, app or system — launched fast and affordable, ready to scale the moment you grow. Look established from day one.</p>
+      <div class="ind-tags"><span>Website</span><span>First product</span><span>Automations</span><span>Grows with you</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- how -->
+<section class="how on-ink" id="how">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">How we work</div>
+      <h2>Live in weeks, not months</h2>
     </div>
     <div class="steps">
-      <div class="step"><h3>Tell us your work</h3><p>We sit down and learn how your business runs right now — what you track and where the time goes.</p></div>
-      <div class="step"><h3>We build your system</h3><p>You get a private tool made to fit exactly how you work, tested and ready on every device.</p></div>
-      <div class="step"><h3>Log in and run it</h3><p>Open it from any phone or computer. We keep it running and keep improving it over time.</p></div>
+      <div class="step"><h3>Free audit</h3><p>We map how you work today and find every point of friction — before writing any code.</p></div>
+      <div class="step"><h3>Design</h3><p>Built to your workflow, in plain language your team can pick up in minutes.</p></div>
+      <div class="step"><h3>Build</h3><p>Live in weeks. Data setup and on-site training are included, not billed extra.</p></div>
+      <div class="step"><h3>Support</h3><p>Ongoing help on WhatsApp — no ticket queues, no three-day waits.</p></div>
     </div>
   </div>
 </section>
 
-<!-- who it's for -->
-<section id="who">
-  <div class="wrap">
-    <div class="head">
-      <h2>Built for businesses still living on paper and spreadsheets.</h2>
-      <p>A few of the systems we run today.</p>
-    </div>
-    <div class="cases">
-      <div class="case"><div class="who">Shoe showroom</div><div class="what">Live inventory by size and colour, phone barcode scanning, daily sales and reorder alerts.</div><span class="tag">Inventory system</span></div>
-      <div class="case"><div class="who">Law firm</div><div class="what">Draft, store and export reports and legal letters from reusable templates.</div><span class="tag">Drafting system</span></div>
-      <div class="case"><div class="who">Any shop or office</div><div class="what">If you're managing your business in notebooks or Excel, there's a cleaner way to run it.</div><span class="tag">Let's talk</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- why -->
-<section class="why">
-  <div class="wrap">
-    <div class="head"><h2>Why businesses stay with us.</h2></div>
-    <div class="why-grid">
-      <div class="pt"><span class="chk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><div><h3>Made for how you work</h3><p>Your system fits your business — not the other way around.</p></div></div>
-      <div class="pt"><span class="chk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><div><h3>Your data stays private</h3><p>Every client's information is locked to their own login.</p></div></div>
-      <div class="pt"><span class="chk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><div><h3>Works on any device</h3><p>Phone, tablet or computer — open it anywhere, anytime.</p></div></div>
-      <div class="pt"><span class="chk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><div><h3>We keep improving it</h3><p>New features and fixes as your business grows.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- final cta -->
+<!-- cta -->
 <section class="cta" id="contact">
   <div class="wrap">
-    <h2>Ready to bring your business online?</h2>
-    <p>Tell us how you work today, and we'll show you what your own system could look like.</p>
+    <h2>Tell us your biggest manual headache.</h2>
+    <p>We'll show you how to automate it — free, in a single WhatsApp chat. No obligation.</p>
     <div class="row">
-      <a class="btn btn-login btn-lg" href="/login.html">Client login</a>
-      <a class="btn btn-ghost btn-lg" href="mailto:hello@makedigitalindia.com">Get in touch</a>
+      <a class="btn btn-wa btn-lg wa" href="#"><svg class="wa-ic" viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.7-.85-2-.95-.26-.1-.45-.15-.64.15-.19.28-.73.94-.9 1.13-.16.19-.33.21-.61.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.04-.17-.29-.02-.44.13-.59.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.08-.15-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.38s1.02 2.76 1.17 2.95c.14.19 2.01 3.08 4.88 4.32.68.29 1.21.47 1.63.6.68.22 1.31.19 1.8.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34zM12.05 21.5h-.02a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.38 9.38 0 0 1 14.56-11.6 9.32 9.32 0 0 1 2.75 6.64c0 5.18-4.22 9.38-9.49 9.38zM20.52 3.49A11.77 11.77 0 0 0 12.05.01C5.5.01.18 5.33.18 11.87c0 2.09.55 4.13 1.59 5.93L.08 24l6.34-1.66a11.82 11.82 0 0 0 5.63 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.47-8.42z"/></svg>Chat on WhatsApp</a>
+      <a class="btn btn-gold btn-lg wa" href="#">Get a free audit</a>
     </div>
-    <div class="contact">Questions? Write to <a href="mailto:hello@makedigitalindia.com">hello@makedigitalindia.com</a></div>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot-in">
-    <a class="brand" href="/"><span class="mark">D</span> Make Digital India</a>
-    <div>&copy; <span id="yr">2026</span> Make Digital India. All rights reserved.</div>
+    <div>
+      <a class="logo" href="/">make<b>digital</b>india</a>
+      <div class="foot-tag">Making India digital, one business at a time.</div>
+    </div>
+    <div class="foot-links">
+      <a class="wa" href="#">WhatsApp: +91 91409 01299</a>
+      <a href="/login.html">Client login</a>
+    </div>
+    <div>&copy; <span id="yr">2026</span> Make Digital India</div>
   </div>
 </footer>
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+
+<script>
+  var WA_NUMBER = "919140901299";
+  var WA_MSG = "Hi, I'd like to know how Make Digital India can digitize my business.";
+  (function(){
+    var href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(WA_MSG);
+    document.querySelectorAll('a.wa').forEach(function(a){ a.href = href; });
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  })();
+  function showInd(id, btn){
+    document.querySelectorAll('.ind-panel').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.ind-tab').forEach(function(t){ t.classList.remove('active'); });
+    document.getElementById('panel-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
 </body>
 </html>
