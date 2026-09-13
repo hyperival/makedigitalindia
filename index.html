@@ -3,133 +3,123 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Make Digital India — software for every Indian business</title>
-<meta name="description" content="Make Digital India builds custom software for every kind of Indian business — established shops, showrooms and firms, and new startups. WhatsApp-first, live in weeks." />
+<title>Make Digital India — run your business from WhatsApp</title>
+<meta name="description" content="Make Digital India digitizes your business so you can run it from WhatsApp — ask for sales, stock and alerts by text or voice, in Hindi or English. Like Alexa, for your business." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --ink:#0c0f1e; --ink-2:#12162b; --ink-3:#1a2040; --line:#252c50;
-    --gold:#e6b24d; --gold-2:#f4cf83; --gold-deep:#c8933a;
-    --emerald:#3caf83; --emerald-2:#57c99b;
-    --paper:#f5f2ea; --paper-2:#efe9dc; --card:#ffffff; --cardline:#e4ddcc;
-    --ink-text:#151a30; --muted:#5f6480; --muted-d:#a7adcf;
+    --ink:#0d1a3a; --ink-2:#132449; --ink-3:#1b2f5c; --line:#263b64;
+    --brand:#3b7dff; --brand-2:#7aa8ff; --brand-deep:#1f56d6;
+    --acc:#17b0c4; --acc-2:#3fcbdc; --wa:#25d366; --wa-d:#128c46;
+    --paper:#f4f6fb; --card:#ffffff; --cardline:#e2e7f3;
+    --ink-text:#132145; --muted:#59617f; --muted-d:#a7b1d6;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:'Jost',system-ui,sans-serif;color:var(--ink-text);background:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;font-weight:400}
+  body{font-family:'Jost',system-ui,sans-serif;color:var(--ink-text);background:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
   .wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 26px}
   h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;letter-spacing:-.01em}
-  .logo{font-family:'Jost',sans-serif;font-weight:600;letter-spacing:.01em}
-  .logo b{font-weight:600;color:var(--gold)}
+  .logo{font-family:'Jost',sans-serif;font-weight:600}.logo b{color:var(--brand-2);font-weight:600}
 
-  /* nav */
-  header.nav{position:sticky;top:0;z-index:50;background:rgba(12,15,30,.82);
-    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(13,26,58,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
   .nav-in{display:flex;align-items:center;gap:20px;height:70px}
   .logo{color:#fff;font-size:20px}
   .nav-links{display:flex;gap:28px;margin-left:auto}
-  .nav-links a{color:#c2c7e6;font-size:14.5px}
-  .nav-links a:hover{color:#fff}
+  .nav-links a{color:#c2c9e6;font-size:14.5px}.nav-links a:hover{color:#fff}
   .nav-actions{display:flex;align-items:center;gap:12px;margin-left:22px}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:'Jost',sans-serif;
-    font-weight:500;font-size:15px;padding:11px 20px;border-radius:11px;cursor:pointer;border:0;
-    transition:transform .12s ease,filter .2s ease,background .2s;white-space:nowrap}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:'Jost',sans-serif;font-weight:500;font-size:15px;padding:11px 20px;border-radius:11px;cursor:pointer;border:0;transition:transform .12s,filter .2s,background .2s;white-space:nowrap}
   .btn:active{transform:scale(.98)}
-  .btn-login{background:transparent;color:#fff;border:1.5px solid var(--line)}
-  .btn-login:hover{background:var(--ink-3)}
-  .btn-wa{background:linear-gradient(135deg,#25d366,#128c46);color:#fff}
-  .btn-wa:hover{filter:brightness(1.06)}
-  .btn-gold{background:linear-gradient(135deg,var(--gold-2),var(--gold-deep));color:#20160a}
-  .btn-gold:hover{filter:brightness(1.05)}
-  .btn-emerald{background:linear-gradient(135deg,var(--emerald-2),var(--emerald));color:#04231a}
-  .btn-emerald:hover{filter:brightness(1.05)}
+  .btn-login{background:transparent;color:#fff;border:1.5px solid var(--line)}.btn-login:hover{background:var(--ink-3)}
+  .btn-wa{background:linear-gradient(135deg,var(--wa),var(--wa-d));color:#fff}.btn-wa:hover{filter:brightness(1.06)}
+  .btn-blue{background:linear-gradient(135deg,var(--brand-2),var(--brand-deep));color:#fff}.btn-blue:hover{filter:brightness(1.05)}
+  .btn-teal{background:linear-gradient(135deg,var(--acc-2),var(--acc));color:#04252b}.btn-teal:hover{filter:brightness(1.05)}
   .btn-lg{padding:15px 28px;font-size:16px}
   .wa-ic{width:19px;height:19px;fill:currentColor}
 
-  /* hero */
   .hero{position:relative;overflow:hidden;background:var(--ink);color:#eef0ff}
-  .hero::before{content:"";position:absolute;inset:0;
-    background:radial-gradient(760px 400px at 78% 8%, rgba(230,178,77,.16), transparent 62%),
-               radial-gradient(680px 420px at 6% 96%, rgba(60,175,131,.12), transparent 60%)}
-  .hero::after{content:"";position:absolute;inset:0;
-    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
-    background-size:58px 58px;opacity:.1;mask-image:radial-gradient(90% 80% at 25% 15%,#000 20%,transparent 75%)}
-  .hero-in{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:52px;align-items:center;padding:92px 0 96px}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(720px 420px at 80% 6%, rgba(59,125,255,.16), transparent 62%),radial-gradient(640px 420px at 4% 98%, rgba(37,211,102,.1), transparent 60%)}
+  .hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:58px 58px;opacity:.1;mask-image:radial-gradient(90% 80% at 25% 15%,#000 20%,transparent 75%)}
+  .hero-in{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center;padding:88px 0 92px}
   .hero-copy{animation:enter .6s cubic-bezier(.2,.7,.3,1) both}
-  .badge{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--gold-2);
-    background:rgba(230,178,77,.1);border:1px solid rgba(230,178,77,.28);padding:6px 14px;border-radius:30px;margin-bottom:22px}
-  .badge .d{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(230,178,77,.2)}
-  .hero h1{font-size:clamp(38px,5.6vw,62px);font-weight:600;line-height:1.02;color:#fff;letter-spacing:-.02em}
-  .hero h1 em{font-style:italic;font-weight:500;color:var(--gold-2)}
-  .hero p.lead{margin-top:22px;font-size:17.5px;color:#b7bce0;max-width:54ch}
-  .hero-cta{margin-top:30px;display:flex;gap:13px;flex-wrap:wrap}
-  .chips{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap}
-  .chip{font-size:12.5px;color:#cfd4f2;border:1px solid var(--line);border-radius:20px;padding:6px 13px}
+  .badge{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:#c9f7d8;background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.3);padding:6px 14px;border-radius:30px;margin-bottom:22px}
+  .badge .d{width:7px;height:7px;border-radius:50%;background:var(--wa);box-shadow:0 0 0 4px rgba(37,211,102,.22)}
+  .hero h1{font-size:clamp(36px,5.4vw,58px);font-weight:600;line-height:1.03;color:#fff;letter-spacing:-.02em}
+  .hero p.lead{margin-top:22px;font-size:17px;color:#b7bce0;max-width:52ch}
+  .hero-cta{margin-top:28px;display:flex;gap:13px;flex-wrap:wrap}
+  .hero-micro{margin-top:14px;font-size:13px;color:#8a90c8}
 
-  /* hero illustrative panel */
-  .glass{position:relative;background:linear-gradient(160deg,rgba(30,36,68,.9),rgba(18,22,43,.9));
-    border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 30px 70px rgba(0,0,0,.4);
-    animation:enter .7s .1s cubic-bezier(.2,.7,.3,1) both}
-  .glass-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-  .glass-top .t{font-size:13px;color:#aab0e0;font-weight:500}
-  .glass-top .dots{display:flex;gap:6px}
-  .glass-top .dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
-  .mods{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
-  .mod{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.03);border:1px solid var(--line);
-    border-radius:11px;padding:11px 12px;font-size:12.5px;color:#dfe3ff}
-  .mod .ic{width:16px;height:16px;color:var(--gold-2);flex:none}
-  .mod.g .ic{color:var(--emerald-2)}
-  .bars{display:flex;align-items:flex-end;gap:7px;height:64px;padding:4px 2px 0}
-  .bars .b{flex:1;border-radius:5px 5px 0 0;background:linear-gradient(180deg,#3b447f,#252c55);animation:rise 1s ease both}
-  .bars .b.gold{background:linear-gradient(180deg,var(--gold-2),var(--gold-deep))}
+  /* whatsapp chat mockup */
+  .chat{border-radius:22px;overflow:hidden;box-shadow:0 34px 80px rgba(0,0,0,.5);border:1px solid #0c1a12;animation:enter .7s .12s cubic-bezier(.2,.7,.3,1) both;max-width:390px;margin-left:auto}
+  .chat-hd{display:flex;align-items:center;gap:11px;background:#1f2c33;padding:13px 15px}
+  .chat-hd .av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--wa),var(--wa-d));display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px}
+  .chat-hd .nm{color:#fff;font-size:14px;font-weight:600}
+  .chat-hd .st{color:#8fa3ad;font-size:11px}
+  .chat-body{background:#0b141a;padding:16px 14px;display:flex;flex-direction:column;gap:9px}
+  .bub{max-width:84%;padding:8px 11px;border-radius:11px;font-size:13px;line-height:1.45;position:relative}
+  .bub .tm{font-size:9.5px;color:rgba(233,237,239,.45);float:right;margin:6px 0 -2px 8px}
+  .bub.me{align-self:flex-end;background:#005c4b;color:#e9ffef;border-bottom-right-radius:4px}
+  .bub.bot{align-self:flex-start;background:#202c33;color:#e9edef;border-bottom-left-radius:4px}
+  .bub.alert{align-self:flex-start;background:#26343d;color:#ffe0b0;border-left:3px solid var(--brand-2);font-size:12.5px}
+  .chat-input{display:flex;align-items:center;gap:9px;background:#1f2c33;padding:9px 12px}
+  .chat-input .box{flex:1;background:#2a3942;border-radius:20px;padding:8px 14px;color:#8fa3ad;font-size:12.5px}
+  .chat-input .mic{width:34px;height:34px;border-radius:50%;background:var(--wa);display:grid;place-items:center;flex:none}
+  .chat-input .mic svg{width:16px;height:16px;fill:#fff}
 
-  /* section base */
-  section{padding:88px 0}
-  .eyebrow{font-size:14px;color:var(--gold-deep);font-weight:500;margin-bottom:12px}
-  .on-ink .eyebrow{color:var(--gold-2)}
+  section{padding:86px 0}
+  .eyebrow{font-size:14px;color:var(--brand-deep);font-weight:500;margin-bottom:12px}
+  .on-ink .eyebrow{color:var(--brand-2)}
   .head{max-width:60ch;margin-bottom:44px}
   .head h2{font-size:clamp(28px,3.6vw,42px);font-weight:600;line-height:1.1;color:var(--ink-text)}
   .on-ink .head h2{color:#fff}
-  .head p{margin-top:13px;color:var(--muted);font-size:16.5px}
-  .on-ink .head p{color:var(--muted-d)}
+  .head p{margin-top:13px;color:var(--muted);font-size:16.5px}.on-ink .head p{color:var(--muted-d)}
 
-  /* two tracks */
-  .tracks{background:var(--paper)}
+  /* just-ask demo */
+  .ask{background:var(--paper)}
+  .ask-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .ask-card{background:var(--card);border:1px solid var(--cardline);border-radius:18px;padding:30px}
+  .ask-card h3{font-size:20px;font-weight:600;margin-bottom:6px}
+  .ask-card .lead{color:var(--muted);font-size:14.5px;margin-bottom:20px}
+  .qa{display:grid;gap:12px}
+  .q{display:flex;gap:10px;align-items:flex-start;font-size:14.5px}
+  .q .badge-q{flex:none;font-size:11px;font-weight:600;padding:3px 9px;border-radius:7px;margin-top:1px}
+  .ask-card.ask li{list-style:none}
+  .qcol .q .badge-q{background:#e7eefc;color:var(--brand-deep)}
+  .acol .q .badge-q{background:#e2f6f8;color:#0e7c8a}
+  .q b{font-weight:600}.q span{color:var(--muted)}
+
+  .tracks{background:var(--card);border-top:1px solid var(--cardline);border-bottom:1px solid var(--cardline)}
   .tracks .head{text-align:center;margin:0 auto 44px}
   .track-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-  .track{background:var(--card);border:1px solid var(--cardline);border-radius:20px;padding:34px;position:relative;overflow:hidden}
+  .track{background:var(--paper);border:1px solid var(--cardline);border-radius:20px;padding:34px;position:relative;overflow:hidden}
   .track::before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
-  .track.est::before{background:linear-gradient(90deg,var(--gold),var(--gold-2))}
-  .track.new::before{background:linear-gradient(90deg,var(--emerald),var(--emerald-2))}
+  .track.est::before{background:linear-gradient(90deg,var(--brand),var(--brand-2))}
+  .track.new::before{background:linear-gradient(90deg,var(--acc),var(--acc-2))}
   .track .tag{display:inline-block;font-size:12.5px;font-weight:500;padding:5px 12px;border-radius:20px;margin-bottom:16px}
-  .track.est .tag{background:#fbf1dd;color:var(--gold-deep)}
-  .track.new .tag{background:#e4f6ee;color:#268561}
-  .track h3{font-size:23px;font-weight:600;margin-bottom:10px}
-  .track > p{color:var(--muted);font-size:15.5px;margin-bottom:18px}
+  .track.est .tag{background:#e7eefc;color:var(--brand-deep)}.track.new .tag{background:#e2f6f8;color:#0e7c8a}
+  .track h3{font-size:22px;font-weight:600;margin-bottom:10px}
+  .track > p{color:var(--muted);font-size:15px;margin-bottom:18px}
   .track ul{list-style:none;display:grid;gap:10px;margin-bottom:24px}
   .track li{display:flex;gap:10px;align-items:center;font-size:14.5px;color:var(--ink-text)}
   .track li .c{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#fff}
-  .track.est li .c{background:var(--gold-deep)}.track.new li .c{background:var(--emerald)}
+  .track.est li .c{background:var(--brand-deep)}.track.new li .c{background:var(--acc)}
 
-  /* solutions */
   .sol{background:var(--ink);color:#eef0ff}
   .sol-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-  .sol-card{background:linear-gradient(160deg,rgba(30,36,68,.55),rgba(18,22,43,.55));
-    border:1px solid var(--line);border-radius:16px;padding:24px;transition:transform .16s ease,border-color .16s ease}
-  .sol-card:hover{transform:translateY(-4px);border-color:rgba(230,178,77,.4)}
-  .sol-card .ic{width:30px;height:30px;color:var(--gold-2);margin-bottom:14px}
+  .sol-card{background:linear-gradient(160deg,rgba(27,47,92,.5),rgba(19,36,73,.5));border:1px solid var(--line);border-radius:16px;padding:24px;transition:transform .16s,border-color .16s}
+  .sol-card:hover{transform:translateY(-4px);border-color:rgba(59,125,255,.45)}
+  .sol-card.feat{background:linear-gradient(160deg,rgba(37,211,102,.14),rgba(19,36,73,.6));border-color:rgba(37,211,102,.4)}
+  .sol-card .ic{width:30px;height:30px;color:var(--brand-2);margin-bottom:14px}
+  .sol-card.feat .ic{color:#3ee07d}
   .sol-card h3{font-size:16.5px;font-weight:600;color:#fff;margin-bottom:6px;font-family:'Jost',sans-serif;letter-spacing:0}
   .sol-card p{color:var(--muted-d);font-size:13.5px}
 
-  /* industries */
   .ind{background:var(--paper)}
   .ind-tabs{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:26px}
-  .ind-tab{font-family:'Jost',sans-serif;font-size:14px;font-weight:500;padding:10px 18px;border-radius:30px;
-    border:1.5px solid var(--cardline);background:var(--card);color:var(--muted);cursor:pointer;transition:all .15s}
-  .ind-tab:hover{border-color:var(--gold-deep);color:var(--gold-deep)}
+  .ind-tab{font-family:'Jost',sans-serif;font-size:14px;font-weight:500;padding:10px 18px;border-radius:30px;border:1.5px solid var(--cardline);background:var(--card);color:var(--muted);cursor:pointer;transition:all .15s}
+  .ind-tab:hover{border-color:var(--brand-deep);color:var(--brand-deep)}
   .ind-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
   .ind-panel{display:none;background:var(--card);border:1px solid var(--cardline);border-radius:18px;padding:34px}
   .ind-panel.active{display:block;animation:fade .3s ease both}
@@ -138,34 +128,30 @@
   .ind-tags{display:flex;flex-wrap:wrap;gap:9px}
   .ind-tags span{font-size:13px;font-weight:500;color:var(--ink-text);background:var(--paper);border:1px solid var(--cardline);padding:7px 14px;border-radius:9px}
 
-  /* how */
   .how{background:var(--ink);color:#eef0ff}
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;counter-reset:s}
   .step{position:relative;padding-top:18px;border-top:2px solid var(--line)}
-  .step::before{counter-increment:s;content:"0" counter(s);font-family:'Fraunces',serif;font-weight:600;font-size:15px;
-    position:absolute;top:-13px;left:0;background:var(--ink);padding-right:10px;color:var(--gold-2)}
+  .step::before{counter-increment:s;content:"0" counter(s);font-family:'Fraunces',serif;font-weight:600;font-size:15px;position:absolute;top:-13px;left:0;background:var(--ink);padding-right:10px;color:var(--brand-2)}
   .step h3{font-size:17px;font-weight:600;color:#fff;margin:8px 0 6px;font-family:'Jost',sans-serif;letter-spacing:0}
   .step p{color:var(--muted-d);font-size:14px}
 
-  /* cta */
-  .cta{background:radial-gradient(760px 320px at 50% 0%, rgba(230,178,77,.16), transparent 62%),var(--ink);color:#fff;text-align:center}
+  .cta{background:radial-gradient(760px 320px at 50% 0%, rgba(37,211,102,.15), transparent 62%),var(--ink);color:#fff;text-align:center}
   .cta h2{font-size:clamp(30px,4.2vw,46px);font-weight:600;line-height:1.08}
   .cta p{color:var(--muted-d);margin:16px auto 28px;max-width:50ch;font-size:17px}
   .cta .row{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
 
-  footer{background:#080a15;color:var(--muted-d);padding:34px 0;font-size:14px}
+  footer{background:#081026;color:var(--muted-d);padding:34px 0;font-size:14px}
   .foot-in{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-  .foot-in .logo{font-size:17px}
-  .foot-tag{color:#8a90bc;font-size:13.5px}
-  .foot-links{display:flex;gap:20px;flex-wrap:wrap}
-  .foot-links a:hover{color:#fff}
+  .foot-in .logo{font-size:17px}.foot-tag{color:#8a90bc;font-size:13.5px}
+  .foot-links{display:flex;gap:20px;flex-wrap:wrap}.foot-links a:hover{color:#fff}
 
-  :focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+  :focus-visible{outline:3px solid var(--brand);outline-offset:3px;border-radius:6px}
 
   @media (max-width:900px){
     .nav-links{display:none}
-    .hero-in{grid-template-columns:1fr;gap:40px;padding:60px 0 68px}
-    .glass{max-width:440px}
+    .hero-in{grid-template-columns:1fr;gap:40px;padding:56px 0 66px}
+    .chat{margin:0 auto}
+    .ask-grid{grid-template-columns:1fr}
     .sol-grid{grid-template-columns:1fr 1fr}
     .steps{grid-template-columns:1fr 1fr;gap:26px 22px}
     .track-grid{grid-template-columns:1fr}
@@ -174,7 +160,6 @@
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
   @keyframes enter{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   @keyframes fade{from{opacity:0}to{opacity:1}}
-  @keyframes rise{from{transform:scaleY(0);transform-origin:bottom}to{transform:scaleY(1);transform-origin:bottom}}
 </style>
 </head>
 <body>
@@ -183,10 +168,10 @@
   <div class="wrap nav-in">
     <a class="logo" href="/">make<b>digital</b>india</a>
     <nav class="nav-links">
+      <a href="#ask">Ask anything</a>
       <a href="#tracks">Who we help</a>
       <a href="#solutions">Solutions</a>
       <a href="#industries">Industries</a>
-      <a href="#how">How we work</a>
     </nav>
     <div class="nav-actions">
       <a class="btn btn-login" href="/login.html">Client login</a>
@@ -199,34 +184,65 @@
 <section class="hero" style="padding:0">
   <div class="wrap hero-in">
     <div class="hero-copy">
-      <div class="badge"><span class="d"></span>A mission to digitize India</div>
-      <h1>Making India digital — <em>one business at a time.</em></h1>
-      <p class="lead">We build custom software for every kind of Indian business — from the shop that's run on registers for thirty years to the startup launching next month. WhatsApp-first, built around how you actually work, live in weeks.</p>
+      <div class="badge"><span class="d"></span>Your business, on WhatsApp</div>
+      <h1>Just ask WhatsApp anything about your business.</h1>
+      <p class="lead">We digitize your business so you can run it straight from WhatsApp — like Alexa or Siri, but for your shop, site or firm. Ask for today's sales, check stock, get low-stock and payment alerts — by text or voice note, in Hindi or English. No app, no dashboard, no training.</p>
       <div class="hero-cta">
-        <a class="btn btn-wa btn-lg wa" href="#"><svg class="wa-ic" viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.7-.85-2-.95-.26-.1-.45-.15-.64.15-.19.28-.73.94-.9 1.13-.16.19-.33.21-.61.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.04-.17-.29-.02-.44.13-.59.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.08-.15-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.38s1.02 2.76 1.17 2.95c.14.19 2.01 3.08 4.88 4.32.68.29 1.21.47 1.63.6.68.22 1.31.19 1.8.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34zM12.05 21.5h-.02a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.38 9.38 0 0 1 14.56-11.6 9.32 9.32 0 0 1 2.75 6.64c0 5.18-4.22 9.38-9.49 9.38zM20.52 3.49A11.77 11.77 0 0 0 12.05.01C5.5.01.18 5.33.18 11.87c0 2.09.55 4.13 1.59 5.93L.08 24l6.34-1.66a11.82 11.82 0 0 0 5.63 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.47-8.42z"/></svg>Chat on WhatsApp</a>
+        <a class="btn btn-wa btn-lg wa" href="#"><svg class="wa-ic" viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.7-.85-2-.95-.26-.1-.45-.15-.64.15-.19.28-.73.94-.9 1.13-.16.19-.33.21-.61.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.04-.17-.29-.02-.44.13-.59.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.08-.15-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.38s1.02 2.76 1.17 2.95c.14.19 2.01 3.08 4.88 4.32.68.29 1.21.47 1.63.6.68.22 1.31.19 1.8.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34zM12.05 21.5h-.02a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.38 9.38 0 0 1 14.56-11.6 9.32 9.32 0 0 1 2.75 6.64c0 5.18-4.22 9.38-9.49 9.38zM20.52 3.49A11.77 11.77 0 0 0 12.05.01C5.5.01.18 5.33.18 11.87c0 2.09.55 4.13 1.59 5.93L.08 24l6.34-1.66a11.82 11.82 0 0 0 5.63 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.47-8.42z"/></svg>Try it on WhatsApp</a>
         <a class="btn btn-login btn-lg" href="/login.html">Client login</a>
       </div>
-      <div class="chips">
-        <span class="chip">Custom-built</span>
-        <span class="chip">WhatsApp-first</span>
-        <span class="chip">Hindi-ready</span>
-        <span class="chip">Live in weeks</span>
-      </div>
+      <div class="hero-micro">Pricing, details and a free demo — all on WhatsApp.</div>
     </div>
 
-    <div class="glass" aria-hidden="true">
-      <div class="glass-top"><span class="t">Your business, live</span><span class="dots"><i></i><i></i><i></i></span></div>
-      <div class="mods">
-        <div class="mod"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/></svg>Inventory</div>
-        <div class="mod g"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-3-3.87"/><path d="M4 21v-2a4 4 0 0 1 3-3.87"/><circle cx="12" cy="7" r="4"/></svg>Attendance</div>
-        <div class="mod"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Dashboards</div>
-        <div class="mod g"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/></svg>Reports</div>
+    <!-- WhatsApp chat mockup -->
+    <div class="chat" aria-hidden="true">
+      <div class="chat-hd">
+        <div class="av">MDI</div>
+        <div><div class="nm">My Business · Assistant</div><div class="st">online</div></div>
       </div>
-      <div class="bars">
-        <div class="b" style="height:44%"></div><div class="b" style="height:62%"></div>
-        <div class="b gold" style="height:80%"></div><div class="b" style="height:54%"></div>
-        <div class="b gold" style="height:92%"></div><div class="b" style="height:66%"></div>
-        <div class="b" style="height:48%"></div>
+      <div class="chat-body">
+        <div class="bub me">Aaj ki sale kitni hui?<span class="tm">9:14</span></div>
+        <div class="bub bot">आज की बिक्री: <b>₹42,600</b> · 58 जोड़ी 📈<span class="tm">9:14</span></div>
+        <div class="bub me">PL-351 ka stock?<span class="tm">9:15</span></div>
+        <div class="bub bot">PL-351 CUSHION — <b>24 pairs</b> · sizes 6–10 ✅<span class="tm">9:15</span></div>
+        <div class="bub alert">🔔 Low stock alert: Bata Comfit size 8 — only 3 left</div>
+      </div>
+      <div class="chat-input">
+        <div class="box">Ask anything…</div>
+        <div class="mic"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 11a1 1 0 0 0-2 0 5 5 0 0 1-10 0 1 1 0 0 0-2 0 7 7 0 0 0 6 6.92V21a1 1 0 0 0 2 0v-3.08A7 7 0 0 0 19 11z"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- just ask -->
+<section class="ask" id="ask">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Like Alexa — on WhatsApp</div>
+      <h2>Just ask. Get an instant answer.</h2>
+      <p>Your whole business, one message away. Ask in Hindi or English, by text or voice note — and let it tell you what needs attention before you even ask.</p>
+    </div>
+    <div class="ask-grid">
+      <div class="ask-card qcol">
+        <h3>Ask anything</h3>
+        <div class="lead">Type or voice-note your WhatsApp, get the answer back in seconds.</div>
+        <div class="qa">
+          <div class="q"><span class="badge-q">Ask</span><div><b>"Aaj ki sale kitni hui?"</b><br><span>→ today's sales &amp; number of pieces</span></div></div>
+          <div class="q"><span class="badge-q">Ask</span><div><b>"PL-351 ka stock kitna hai?"</b><br><span>→ live stock, size-wise</span></div></div>
+          <div class="q"><span class="badge-q">Ask</span><div><b>"Kaun se items khatam ho rahe hain?"</b><br><span>→ everything that needs reordering</span></div></div>
+          <div class="q"><span class="badge-q">Ask</span><div><b>"Is mahine ka total?"</b><br><span>→ this month's summary</span></div></div>
+        </div>
+      </div>
+      <div class="ask-card acol">
+        <h3>Get told automatically</h3>
+        <div class="lead">It messages you the moment something matters — no need to check.</div>
+        <div class="qa">
+          <div class="q"><span class="badge-q">Alert</span><div><b>Low stock warnings</b><br><span>the moment an item drops below your limit</span></div></div>
+          <div class="q"><span class="badge-q">Alert</span><div><b>Daily sales summary</b><br><span>every evening, automatically</span></div></div>
+          <div class="q"><span class="badge-q">Alert</span><div><b>Payments received &amp; dues</b><br><span>know your money without asking</span></div></div>
+          <div class="q"><span class="badge-q">Alert</span><div><b>Staff &amp; site updates</b><br><span>attendance, tasks and site activity</span></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -242,25 +258,25 @@
     <div class="track-grid">
       <div class="track est">
         <span class="tag">Already running a business?</span>
-        <h3>Digitize how you already work</h3>
-        <p>Move off registers and Excel. Get a system built around your counter, godown or site — not a template dumped on your team.</p>
+        <h3>Digitize it — then run it from WhatsApp</h3>
+        <p>Move off registers and Excel. We build your system and connect it to WhatsApp, so you can ask it anything and get alerts, wherever you are.</p>
         <ul>
           <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Live inventory, billing &amp; sales</li>
-          <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Staff attendance &amp; tasks</li>
+          <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Ask &amp; get alerts on WhatsApp</li>
           <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Reports &amp; live dashboards</li>
         </ul>
-        <a class="btn btn-gold wa" href="#">Digitize my business</a>
+        <a class="btn btn-blue wa" href="#" data-msg="Hi, I already run a business and want to digitize it and run it on WhatsApp. Please share details and pricing.">Digitize my business</a>
       </div>
       <div class="track new">
         <span class="tag">Starting something new?</span>
         <h3>Launch fast, look professional</h3>
-        <p>Get your first website, app or system built — affordable, and ready to grow as you do. Look established from day one.</p>
+        <p>Get your first website, app or system built — affordable, WhatsApp-connected, and ready to grow as you do. Look established from day one.</p>
         <ul>
           <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Website &amp; online presence</li>
           <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Your first product, built fast</li>
-          <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Automations from day one</li>
+          <li><span class="c"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>WhatsApp automation from day one</li>
         </ul>
-        <a class="btn btn-emerald wa" href="#">Build my idea</a>
+        <a class="btn btn-teal wa" href="#" data-msg="Hi, I am starting something new and want to build it with WhatsApp automation. Please share details and pricing.">Build my idea</a>
       </div>
     </div>
   </div>
@@ -272,15 +288,15 @@
     <div class="head">
       <div class="eyebrow">What we build</div>
       <h2>Modules we shape to fit you</h2>
-      <p>Purpose-built pieces we combine for your business — never a bloated, one-size ERP.</p>
+      <p>Purpose-built pieces we combine for your business — all connected to your WhatsApp assistant.</p>
     </div>
     <div class="sol-grid">
+      <div class="sol-card feat"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.5 8.5 8.5 0 0 1-4-1L3 21l1.5-4.5a8.5 8.5 0 1 1 16.5-5z"/></svg><h3>WhatsApp assistant</h3><p>Ask anything, get alerts — by text or voice, in Hindi or English.</p></div>
       <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg><h3>Inventory & billing</h3><p>Real-time stock, barcode scanning, sales and billing.</p></div>
       <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-3-3.87"/><path d="M4 21v-2a4 4 0 0 1 3-3.87"/><circle cx="12" cy="7" r="4"/></svg><h3>Attendance</h3><p>GPS + photo attendance, even for floor staff.</p></div>
-      <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg><h3>Tasks & checklists</h3><p>Daily tasks that keep teams accountable.</p></div>
       <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><h3>Live dashboards</h3><p>Your numbers, live and at a glance.</p></div>
+      <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg><h3>Tasks & checklists</h3><p>Daily tasks that keep teams accountable.</p></div>
       <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/><path d="M9 13h7M9 17h7"/></svg><h3>Reports & documents</h3><p>Draft, store and export in minutes.</p></div>
-      <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.5 8.5 8.5 0 0 1-4-1L3 21l1.5-4.5a8.5 8.5 0 1 1 16.5-5z"/></svg><h3>WhatsApp automation</h3><p>Alerts, updates and queries, right in WhatsApp.</p></div>
       <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg><h3>Websites & presence</h3><p>A clean site and login your customers can reach.</p></div>
       <div class="sol-card"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/><circle cx="12" cy="12" r="3"/></svg><h3>Custom systems</h3><p>Anything specific to how you work.</p></div>
     </div>
@@ -290,10 +306,7 @@
 <!-- industries -->
 <section class="ind" id="industries">
   <div class="wrap">
-    <div class="head">
-      <div class="eyebrow">Industries</div>
-      <h2>Built for your sector</h2>
-    </div>
+    <div class="head"><div class="eyebrow">Industries</div><h2>Built for your sector</h2></div>
     <div class="ind-tabs">
       <button class="ind-tab active" onclick="showInd('retail',this)">Retail & SME</button>
       <button class="ind-tab" onclick="showInd('construction',this)">Construction</button>
@@ -302,50 +315,23 @@
       <button class="ind-tab" onclick="showInd('logistics',this)">Logistics</button>
       <button class="ind-tab" onclick="showInd('startups',this)">Startups</button>
     </div>
-    <div id="panel-retail" class="ind-panel active">
-      <h3>Retail & SME</h3>
-      <p>Inventory across stores, barcode billing, daily sales and staff attendance — all from one mobile app your team will actually use.</p>
-      <div class="ind-tags"><span>Multi-store stock</span><span>Barcode billing</span><span>Daily sales</span><span>Attendance</span></div>
-    </div>
-    <div id="panel-construction" class="ind-panel">
-      <h3>Construction</h3>
-      <p>Site material tracking, GPS attendance, task checklists and progress tracking — built for teams on-site, not at a desk.</p>
-      <div class="ind-tags"><span>Material tracking</span><span>GPS attendance</span><span>Checklists</span><span>Progress tracking</span></div>
-    </div>
-    <div id="panel-manufacturing" class="ind-panel">
-      <h3>Manufacturing</h3>
-      <p>Production checklists, shift tracking, downtime logs and WhatsApp sign-offs — built for plant teams who move fast.</p>
-      <div class="ind-tags"><span>Production checklists</span><span>Shift tracking</span><span>Downtime logs</span><span>WhatsApp QC</span></div>
-    </div>
-    <div id="panel-realestate" class="ind-panel">
-      <h3>Real Estate</h3>
-      <p>Customer payment pipelines, snag lists, handover tracking and unit-wise dashboards — end to end, without an ERP license.</p>
-      <div class="ind-tags"><span>Payments</span><span>Snag lists</span><span>Handover</span><span>Unit dashboard</span></div>
-    </div>
-    <div id="panel-logistics" class="ind-panel">
-      <h3>Logistics</h3>
-      <p>Fleet and delivery tracking, driver attendance and auto-invoicing — go paperless without disrupting how you work today.</p>
-      <div class="ind-tags"><span>Fleet</span><span>Deliveries</span><span>Driver attendance</span><span>Auto-invoice</span></div>
-    </div>
-    <div id="panel-startups" class="ind-panel">
-      <h3>Startups</h3>
-      <p>Your first website, app or system — launched fast and affordable, ready to scale the moment you grow. Look established from day one.</p>
-      <div class="ind-tags"><span>Website</span><span>First product</span><span>Automations</span><span>Grows with you</span></div>
-    </div>
+    <div id="panel-retail" class="ind-panel active"><h3>Retail & SME</h3><p>Inventory across stores, barcode billing, daily sales and attendance — and ask your WhatsApp for any of it, anytime.</p><div class="ind-tags"><span>Multi-store stock</span><span>Barcode billing</span><span>Daily sales on WhatsApp</span><span>Attendance</span></div></div>
+    <div id="panel-construction" class="ind-panel"><h3>Construction</h3><p>Site material tracking, GPS attendance, checklists and progress — with WhatsApp alerts for low material and site updates.</p><div class="ind-tags"><span>Material tracking</span><span>GPS attendance</span><span>Checklists</span><span>WhatsApp alerts</span></div></div>
+    <div id="panel-manufacturing" class="ind-panel"><h3>Manufacturing</h3><p>Production checklists, shift tracking, downtime logs and WhatsApp sign-offs — for plant teams who move fast.</p><div class="ind-tags"><span>Production checklists</span><span>Shift tracking</span><span>Downtime logs</span><span>WhatsApp QC</span></div></div>
+    <div id="panel-realestate" class="ind-panel"><h3>Real Estate</h3><p>Payment pipelines, snag lists, handover tracking and unit dashboards — with payment alerts straight to WhatsApp.</p><div class="ind-tags"><span>Payments</span><span>Snag lists</span><span>Handover</span><span>Unit dashboard</span></div></div>
+    <div id="panel-logistics" class="ind-panel"><h3>Logistics</h3><p>Fleet and delivery tracking, driver attendance and auto-invoicing — ask your WhatsApp where any vehicle or delivery stands.</p><div class="ind-tags"><span>Fleet</span><span>Deliveries</span><span>Driver attendance</span><span>Auto-invoice</span></div></div>
+    <div id="panel-startups" class="ind-panel"><h3>Startups</h3><p>Your first website, app or system — launched fast and affordable, WhatsApp-connected, ready to scale as you grow.</p><div class="ind-tags"><span>Website</span><span>First product</span><span>WhatsApp automation</span><span>Grows with you</span></div></div>
   </div>
 </section>
 
 <!-- how -->
 <section class="how on-ink" id="how">
   <div class="wrap">
-    <div class="head">
-      <div class="eyebrow">How we work</div>
-      <h2>Live in weeks, not months</h2>
-    </div>
+    <div class="head"><div class="eyebrow">How we work</div><h2>Live in weeks, not months</h2></div>
     <div class="steps">
       <div class="step"><h3>Free audit</h3><p>We map how you work today and find every point of friction — before writing any code.</p></div>
       <div class="step"><h3>Design</h3><p>Built to your workflow, in plain language your team can pick up in minutes.</p></div>
-      <div class="step"><h3>Build</h3><p>Live in weeks. Data setup and on-site training are included, not billed extra.</p></div>
+      <div class="step"><h3>Build</h3><p>Your system, plus the WhatsApp assistant — live in weeks. Setup and training included.</p></div>
       <div class="step"><h3>Support</h3><p>Ongoing help on WhatsApp — no ticket queues, no three-day waits.</p></div>
     </div>
   </div>
@@ -354,11 +340,11 @@
 <!-- cta -->
 <section class="cta" id="contact">
   <div class="wrap">
-    <h2>Tell us your biggest manual headache.</h2>
-    <p>We'll show you how to automate it — free, in a single WhatsApp chat. No obligation.</p>
+    <h2>See your business answer on WhatsApp.</h2>
+    <p>Message us and we'll show you a live demo of asking your own business a question — free, in a single chat.</p>
     <div class="row">
       <a class="btn btn-wa btn-lg wa" href="#"><svg class="wa-ic" viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.7-.85-2-.95-.26-.1-.45-.15-.64.15-.19.28-.73.94-.9 1.13-.16.19-.33.21-.61.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.04-.17-.29-.02-.44.13-.59.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.08-.15-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.38s1.02 2.76 1.17 2.95c.14.19 2.01 3.08 4.88 4.32.68.29 1.21.47 1.63.6.68.22 1.31.19 1.8.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34zM12.05 21.5h-.02a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.38 9.38 0 0 1 14.56-11.6 9.32 9.32 0 0 1 2.75 6.64c0 5.18-4.22 9.38-9.49 9.38zM20.52 3.49A11.77 11.77 0 0 0 12.05.01C5.5.01.18 5.33.18 11.87c0 2.09.55 4.13 1.59 5.93L.08 24l6.34-1.66a11.82 11.82 0 0 0 5.63 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.47-8.42z"/></svg>Chat on WhatsApp</a>
-      <a class="btn btn-gold btn-lg wa" href="#">Get a free audit</a>
+      <a class="btn btn-blue btn-lg wa" href="#" data-msg="Hi, I'd like a free demo of the WhatsApp business assistant. My business is: ">Book a free demo</a>
     </div>
   </div>
 </section>
@@ -379,10 +365,13 @@
 
 <script>
   var WA_NUMBER = "919140901299";
-  var WA_MSG = "Hi, I'd like to know how Make Digital India can digitize my business.";
+  var WA_MSG = "Hi, I'd like to know how Make Digital India can digitize my business and run it on WhatsApp.";
   (function(){
-    var href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(WA_MSG);
-    document.querySelectorAll('a.wa').forEach(function(a){ a.href = href; });
+    var base = 'https://wa.me/' + WA_NUMBER + '?text=';
+    document.querySelectorAll('a.wa').forEach(function(a){
+      var m = a.getAttribute('data-msg') || WA_MSG;
+      a.href = base + encodeURIComponent(m);
+    });
     document.getElementById('yr').textContent = new Date().getFullYear();
   })();
   function showInd(id, btn){
