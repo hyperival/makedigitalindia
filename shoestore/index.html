@@ -890,8 +890,7 @@ window.addEventListener('load',function(){
       });
       goPage('dashboard');
       if(isMobileView())setTimeout(openScan,400);  /* phones: scan-first */
-      setTimeout(prefetchAll,1200);   /* warm Live Stock + Catalogue in background */
-      loadLocalIndex();                 /* build instant local lookup */
+      warmUp();                         /* fire everything in parallel, right away */
       setInterval(function(){loadLocalIndex(true);},120000);  /* keep it fresh */
     }else{
       document.querySelector('#gate .spin').style.display='none';
@@ -924,6 +923,36 @@ function goPage(p){closeSidebar();
   PAGES[p].f();}
 function refreshPage(){_stockData=[];_catData=[];_dashLoaded=false;LKC={};_dirtyStock=false;_dirtyCat=false;
   var a=document.querySelector('.nav-item.active');if(a)goPage(a.dataset.page);}
+
+/* ---------------------------------------------------------------
+   warmUp(): start every background load at once, right after login.
+   One getLiveStock call feeds BOTH the Live Stock table and the
+   instant local index (previously these were two separate calls),
+   and the catalogue loads alongside it rather than after it.
+----------------------------------------------------------------*/
+function warmUp(){
+  google.script.run.withSuccessHandler(function(d){
+    if(d&&d.ok&&d.data){ _stockData=d.data; buildLocalIndex(d.data);
+      _catData=buildCatalogueFrom(d.data);          /* no second full-sheet read */
+      if(document.getElementById('page-stock').classList.contains('active'))fStock();
+      if(document.getElementById('page-catalogue').classList.contains('active'))renderCat(); }
+  }).withFailureHandler(function(){}).getLiveStock({});
+
+  google.script.run.withSuccessHandler(function(d){
+    if(d&&d.ok&&d.brands&&d.brands.length)fillBrands(d.brands);
+  }).withFailureHandler(function(){}).getBrands();
+}
+
+/* Brands may arrive after bootstrap now, so fill the dropdowns whenever they land. */
+function fillBrands(list){
+  if(!list||!list.length)return;
+  BRANDS=list;
+  ['fStBrand','fCatBrand','fLbBrand'].forEach(function(id){
+    var sel=document.getElementById(id);
+    if(!sel||sel.options.length>1)return;
+    list.forEach(function(br){var o=document.createElement('option');o.textContent=br;sel.appendChild(o);});
+  });
+}
 
 /* Fetch both heavy tabs in parallel in the background so they open instantly. */
 function prefetchAll(){
@@ -1026,7 +1055,31 @@ function renderStock(){
 }
 
 /* ---------- catalogue ---------- */
+/* Build the catalogue from the stock rows we already have — this removes a
+   whole second read of the 13,000-row sheet on every visit. */
+function buildCatalogueFrom(rows){
+  var g={};
+  rows.forEach(function(r){
+    if(!r.model)return;
+    var k=r.brand+'||'+r.model;
+    if(!g[k])g[k]={brand:r.brand,model:r.model,category:'',colors:{},skus:0,units:0,mrpMin:Infinity,mrpMax:0,img:''};
+    var x=g[k];
+    x.colors[r.color]=1; x.skus++; x.units+=Number(r.qty)||0;
+    var mrp=Number(r.mrp)||0;
+    if(mrp){x.mrpMin=Math.min(x.mrpMin,mrp);x.mrpMax=Math.max(x.mrpMax,mrp);}
+    if(!x.img&&r.img)x.img=r.img;
+  });
+  return Object.keys(g).map(function(k){var x=g[k];
+    return {brand:x.brand,model:x.model,category:x.category,
+      colors:Object.keys(x.colors).join(', '),numColors:Object.keys(x.colors).length,
+      skus:x.skus,units:x.units,mrp:x.mrpMin===Infinity?0:x.mrpMin,mrpMax:x.mrpMax,img:x.img};
+  }).sort(function(a,b){
+    if(!!a.img!==!!b.img)return a.img?-1:1;
+    return (a.brand+a.model)<(b.brand+b.model)?-1:1;});
+}
+
 function loadCat(){
+  if(!_catData.length&&_stockData.length)_catData=buildCatalogueFrom(_stockData);
   if(_catData.length){renderCat();
     if(_dirtyCat){_dirtyCat=false;
       google.script.run.withSuccessHandler(function(d){if(d&&d.ok){_catData=d.data;renderCat();}})
@@ -1152,7 +1205,8 @@ function _onCamHit(text){
   text=String(text).trim();
   if(text.length<3) return;
   var now=Date.now();
-  if(text===_lastHit.text && now-_lastHit.t<2500) return;   // same tag held in frame
+  var gap = RAPID ? 800 : 2500;   // Rapid: allow counting identical boxes quickly
+  if(text===_lastHit.text && now-_lastHit.t<gap) return;   // same tag held in frame
   _lastHit={text:text,t:now};
   try{sndTick();}catch(e){}
   try{navigator.vibrate&&navigator.vibrate(40);}catch(e){}
@@ -1493,6 +1547,11 @@ var PENDCONF=null;
 function doAdjust(code,sizeObj,el){
   if(el.classList.contains('busy'))return;   /* double-tap guard */
   if(PENDCONF)confCancel();                   /* replace any open confirm */
+  if(RAPID){                                  /* Rapid: no confirm, save straight away */
+    el.classList.add('busy');
+    _submitAdjust(code,sizeObj,el,QTY);
+    return;
+  }
   el.classList.add('busy');
   PENDCONF={code:code,sizeObj:sizeObj,el:el,qty:QTY};
   var name=(CUR?CUR.brand+' '+CUR.model+' \u00b7 '+CUR.color:code);
@@ -1522,9 +1581,10 @@ function _submitAdjust(code,sizeObj,el,sentQty){
   var b0=el.querySelector('.q b');var orig=b0?b0.textContent:null;
   var expect=orig!=null?Number(orig)+(MODE==='in'?sentQty:-sentQty):null;
   if(b0&&expect!=null&&expect>=0)b0.textContent=expect;   /* optimistic */
+  if(RAPID){el.classList.remove('busy');sndOk();}   /* Rapid: free the tile at once, save continues in background */
   google.script.run.withSuccessHandler(function(r){
     el.classList.remove('busy');
-    sndOk();
+    if(!RAPID)sndOk();
     if(RAPID&&!camRunning)setTimeout(startCam,650);
     _localSetQty(r.brand,r.model,r.color,r.size,r.newQty);
     _dirtyStock=true;_dirtyCat=true;
