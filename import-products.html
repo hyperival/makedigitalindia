@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Import products → Firestore</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,sans-serif;background:#0d1a3a;color:#eef0ff;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:30px 16px}
+  .card{background:#132449;border:1px solid #263b64;border-radius:16px;max-width:560px;width:100%;padding:28px}
+  h1{font-size:20px;margin-bottom:6px}
+  .sub{color:#a7b1d6;font-size:14px;margin-bottom:22px}
+  .step{font-size:13px;color:#7aa8ff;font-weight:600;margin:18px 0 8px}
+  input[type=file]{width:100%;padding:14px;background:#0d1a3a;border:1.5px dashed #3b7dff;border-radius:10px;color:#eef0ff;font-size:14px;cursor:pointer}
+  button{width:100%;margin-top:16px;padding:14px;border:0;border-radius:10px;background:#3b7dff;color:#fff;font-size:15px;font-weight:600;cursor:pointer}
+  button:disabled{opacity:.5;cursor:default}
+  .bar{height:12px;background:#0d1a3a;border-radius:8px;overflow:hidden;margin-top:16px;display:none}
+  .bar.on{display:block}
+  .fill{height:100%;width:0;background:linear-gradient(90deg,#3b7dff,#17b0c4);transition:width .2s}
+  .log{margin-top:14px;font-size:13px;line-height:1.6;color:#cdd6f7;max-height:220px;overflow:auto;background:#0d1a3a;border-radius:10px;padding:12px;display:none}
+  .log.on{display:block}
+  .ok{color:#3ee07d}.warn{color:#ffd08a}.err{color:#ff9b9b}
+  b{color:#fff}
+  .note{font-size:12px;color:#8a90c8;margin-top:16px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Import products into Firestore</h1>
+  <div class="sub">One-time tool. Loads your Products CSV into <b>clients/shoestore/products</b>. Safe to run again — it overwrites by SKU, never duplicates.</div>
+
+  <div class="step">STEP 1 — Sign in</div>
+  <button id="loginBtn">Sign in with your admin email</button>
+  <div id="who" class="note"></div>
+
+  <div class="step">STEP 2 — Choose your Products CSV</div>
+  <input type="file" id="file" accept=".csv" disabled />
+
+  <div class="step">STEP 3 — Import</div>
+  <button id="go" disabled>Import to Firestore</button>
+
+  <div class="bar" id="bar"><div class="fill" id="fill"></div></div>
+  <div class="log" id="log"></div>
+
+  <div class="note">This writes to your live Firestore database. Your old shoe app and Google Sheet are not touched.</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, writeBatch, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB-WPSe1SoIEC4JwednqMydhj_cvGgOOs8",
+  authDomain: "make-digital-india-479fb.firebaseapp.com",
+  projectId: "make-digital-india-479fb",
+  storageBucket: "make-digital-india-479fb.firebasestorage.app",
+  messagingSenderId: "356753740738",
+  appId: "1:356753740738:web:71e098ed9d21ca911afc5b"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const $ = id => document.getElementById(id);
+function log(msg, cls){ const l=$("log"); l.classList.add("on"); l.innerHTML += `<div class="${cls||''}">${msg}</div>`; l.scrollTop=l.scrollHeight; }
+
+let ROWS = null;
+
+// ---- STEP 1: sign in ----
+$("loginBtn").onclick = async () => {
+  const email = prompt("Admin email:");
+  if(!email) return;
+  const pass = prompt("Password:");
+  if(!pass) return;
+  try {
+    await signInWithEmailAndPassword(auth, email.trim(), pass);
+  } catch(e){ alert("Sign-in failed: " + e.code); }
+};
+onAuthStateChanged(auth, u => {
+  if(u){ $("who").innerHTML = "Signed in as <b>"+u.email+"</b>"; $("file").disabled=false; }
+  else { $("who").textContent=""; $("file").disabled=true; $("go").disabled=true; }
+});
+
+// ---- STEP 2: parse CSV (dedupe by SKU, prefer the row with stock) ----
+$("file").onchange = e => {
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    const map = parseCSV(r.result);
+    ROWS = map;
+    log(`Read <b>${map.total}</b> rows → <b>${map.list.length}</b> unique products `+
+        `(merged ${map.dupes} duplicate SKUs).`, "ok");
+    $("go").disabled = false;
+  };
+  r.readAsText(f);
+};
+
+function parseCSV(text){
+  const lines = text.replace(/\r/g,'').split('\n').filter(x=>x.trim());
+  const head = lines[0].split(',').map(h=>h.trim().toLowerCase());
+  const idx = {}; head.forEach((h,i)=>idx[h]=i);
+  const by = {}; let total=0, dupes=0;
+  for(let i=1;i<lines.length;i++){
+    const c = splitCSVLine(lines[i]);
+    const sku = (c[idx.sku]||'').trim();
+    if(!sku) continue;
+    total++;
+    const row = {
+      sku, brand:(c[idx.brand]||'').trim(), model:(c[idx.model]||'').trim(),
+      color:(c[idx.color]||'').trim(), size:(c[idx.size]||'').trim(),
+      mrp:Number(c[idx.mrp]||0)||0, qty:Number(c[idx.qty]||0)||0,
+      category:(c[idx.category]||'').trim(), gender:(c[idx.gender]||'').trim(),
+      image:(c[idx.image]||'').trim()
+    };
+    const key = sku.toUpperCase();
+    if(by[key]){ dupes++; if((row.qty||0) > (by[key].qty||0)) by[key]=row; }  // keep the one with stock
+    else by[key]=row;
+  }
+  return { list:Object.values(by), total, dupes };
+}
+function splitCSVLine(line){
+  const out=[]; let cur='', q=false;
+  for(const ch of line){
+    if(ch==='"'){ q=!q; }
+    else if(ch===',' && !q){ out.push(cur); cur=''; }
+    else cur+=ch;
+  }
+  out.push(cur); return out;
+}
+
+// ---- STEP 3: import in batches of 400 ----
+$("go").onclick = async () => {
+  if(!ROWS) return;
+  $("go").disabled=true; $("file").disabled=true;
+  $("bar").classList.add("on");
+  const list = ROWS.list, B=400; let done=0, failed=0;
+  log(`Importing <b>${list.length}</b> products…`);
+  for(let i=0;i<list.length;i+=B){
+    const slice = list.slice(i,i+B);
+    const batch = writeBatch(db);
+    slice.forEach(p=>{
+      const id = p.sku.replace(/[\/#?%\[\]]/g,'-');           // safe doc id
+      batch.set(doc(db,"clients","shoestore","products",id), p);
+    });
+    try { await batch.commit(); done += slice.length; }
+    catch(err){ failed += slice.length; log("Batch failed: "+err.message, "err"); }
+    const pct = Math.round((i+slice.length)/list.length*100);
+    $("fill").style.width = pct+"%";
+    log(`… ${done}/${list.length} written`, "");
+  }
+  log(failed? `Done with ${failed} failures.` : `✅ All <b>${done}</b> products imported successfully.`, failed?"warn":"ok");
+  log("You can close this page now.", "");
+};
+</script>
+</body>
+</html>
