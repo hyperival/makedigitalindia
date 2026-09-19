@@ -257,7 +257,8 @@ let MODE='in',QTY=1,CUR=null,RAPID=false,USER='',ROLE='staff',SESSION=[],tiles={
 onAuthStateChanged(auth,async u=>{
   if(!u){location.replace('/login.html');return;}
   const w=CLIENT_APP[(u.email||'').toLowerCase()];
-  if(w!=='shoestore'){location.replace(w?'/'+w+'/':'/login.html');return;}
+  // Accept users routed to either the old or the new shoe app — both share data.
+  if(w!=='shoestore'&&w!=='shoestore2'){location.replace(w?'/'+w+'/':'/login.html');return;}
   USER=u.displayName||u.email;
   try{const p=await getDoc(doc(db,'users',u.uid));if(p.exists())ROLE=p.data().role||'staff';}catch(e){}
   $("rolePill").textContent=ROLE;
