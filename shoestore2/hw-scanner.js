@@ -1,127 +1,104 @@
 // ============================================================
-//  hw-scanner.js  —  USB barcode scanner support (TVS BS-L100 etc.)
+//  hw-scanner.js — USB barcode scanner support (TVS BS-L100 etc.)
 //
-//  A USB HID scanner behaves like a keyboard: it "types" the code
-//  very fast and presses Enter. This listens globally for that
-//  pattern, so the counter can scan box after box without ever
-//  clicking into a field.
+//  A USB HID scanner types the code very fast then presses Enter.
+//  This listens globally so the counter can scan box after box
+//  without clicking into any field.
 //
-//  Adds a "🔌 USB Scanner" button next to Live Scan.
-//  Load AFTER firestore-shim.js.
+//  Shows its own floating button, independent of the app's markup,
+//  so nothing can overwrite it. Load AFTER firestore-shim.js.
 // ============================================================
 (function () {
-  const KEY = 'hwScanner';
-  const MAX_GAP = 35;     // ms between keys — scanners are far faster than people
-  const MIN_LEN = 3;      // ignore stray keypresses
-  let ON = false, buf = '', last = 0, timer = null;
+  const KEY='hwScanner', MAX_GAP=35, MIN_LEN=3;
+  let ON=false, buf='', last=0, timer=null;
 
-  /* ---------- add the button ---------- */
-  function mountButton() {
-    const scanBtn = document.getElementById('scanBtn')
-                 || document.querySelector('[id*="scan" i][id*="btn" i]');
-    if (!scanBtn || document.getElementById('hwBtn')) return false;
+  /* ---------- floating UI (never touches the app's DOM) ---------- */
+  const box=document.createElement('div');
+  box.id='hwBox';
+  box.style.cssText=
+    'position:fixed;right:14px;bottom:14px;z-index:99999;display:flex;flex-direction:column;'+
+    'align-items:flex-end;gap:6px;font-family:system-ui,-apple-system,sans-serif;'+
+    'padding-bottom:env(safe-area-inset-bottom,0px)';
 
-    const b = document.createElement('button');
-    b.id = 'hwBtn';
-    b.type = 'button';
-    b.textContent = '🔌 USB Scanner';
-    b.style.cssText =
-      'padding:13px 14px;border-radius:11px;border:1.5px solid #3b382f;background:#211f1b;' +
-      'color:#8b867a;font-weight:800;font-size:.74rem;font-family:inherit;cursor:pointer;' +
-      'white-space:nowrap;margin-left:8px';
-    b.onclick = () => setOn(!ON);
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.textContent='🔌 USB Scanner: OFF';
+  btn.style.cssText=
+    'padding:12px 16px;border-radius:24px;border:none;cursor:pointer;font-weight:700;'+
+    'font-size:13px;background:#2a2823;color:#cbc7bb;box-shadow:0 6px 18px rgba(0,0,0,.35)';
+  btn.onclick=()=>setOn(!ON);
 
-    // sit it beside the existing scan button
-    (scanBtn.parentNode || document.body).insertBefore(b, scanBtn.nextSibling);
+  const tag=document.createElement('div');
+  tag.style.cssText=
+    'background:#000;color:#fff;padding:7px 12px;border-radius:10px;font-size:12px;'+
+    'max-width:70vw;display:none;box-shadow:0 6px 18px rgba(0,0,0,.35)';
 
-    // status line under the row
-    const s = document.createElement('div');
-    s.id = 'hwMsg';
-    s.style.cssText = 'font-size:.72rem;color:#8b867a;text-align:center;margin:6px 0;min-height:16px';
-    (scanBtn.parentNode.parentNode || document.body)
-      .insertBefore(s, scanBtn.parentNode.nextSibling);
-    return true;
+  box.appendChild(tag); box.appendChild(btn);
+  (document.body||document.documentElement).appendChild(box);
+
+  function setOn(v){
+    ON=v;
+    btn.textContent='🔌 USB Scanner: '+(ON?'ON':'OFF');
+    btn.style.background=ON?'linear-gradient(135deg,#3b82f6,#1d4ed8)':'#2a2823';
+    btn.style.color=ON?'#fff':'#cbc7bb';
+    say(ON?'Ready — just scan, no need to tap anything.':'');
+    try{localStorage.setItem(KEY,ON?'1':'0');}catch(e){}
+    if(ON)beep(1180,.06);
   }
+  function say(t){ tag.textContent=t; tag.style.display=t?'block':'none';
+    if(t){clearTimeout(say._t);say._t=setTimeout(()=>{if(ON)say('Ready — just scan.');},2500);} }
+  function beep(f,d){try{const c=new(window.AudioContext||window.webkitAudioContext)(),
+    o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.connect(g);g.connect(c.destination);
+    g.gain.setValueAtTime(.1,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);
+    o.start();o.stop(c.currentTime+d);}catch(e){}}
 
-  function setOn(v) {
-    ON = v;
-    const b = document.getElementById('hwBtn');
-    if (b) {
-      b.style.background = ON ? 'linear-gradient(135deg,#3b82f6,#1d4ed8)' : '#211f1b';
-      b.style.color = ON ? '#fff' : '#8b867a';
-      b.style.borderColor = ON ? 'transparent' : '#3b382f';
+  /* ---------- hand the scanned code to the app ---------- */
+  function submit(code){
+    code=String(code||'').trim();
+    if(code.length<MIN_LEN)return;
+    say('Scanned: '+code); beep(1320,.07);
+
+    // 1) the app's own handler, if it exposes one
+    if(typeof window.onCode==='function'){ try{ window.onCode(code); return; }catch(e){} }
+
+    // 2) otherwise drive its input box
+    const inp=document.getElementById('manual')
+          ||document.querySelector('input[placeholder*="SKU" i],input[placeholder*="Barcode" i]');
+    if(inp){
+      const setter=Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set;
+      setter.call(inp,code);
+      inp.dispatchEvent(new Event('input',{bubbles:true}));
+      inp.dispatchEvent(new Event('change',{bubbles:true}));
+      inp.dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',keyCode:13,which:13,bubbles:true}));
+      const go=document.getElementById('goBtn');
+      if(go)go.click();
+      return;
     }
-    status(ON ? 'USB scanner ready — just scan, no need to tap anything.' : '');
-    try { localStorage.setItem(KEY, ON ? '1' : '0'); } catch (e) {}
-    if (ON) beep(1180, .06);
-  }
-  function status(t) { const s = document.getElementById('hwMsg'); if (s) s.textContent = t; }
-
-  function beep(f, d) {
-    try {
-      const c = new (window.AudioContext || window.webkitAudioContext)();
-      const o = c.createOscillator(), g = c.createGain();
-      o.frequency.value = f; o.connect(g); g.connect(c.destination);
-      g.gain.setValueAtTime(.1, c.currentTime);
-      g.gain.exponentialRampToValueAtTime(.001, c.currentTime + d);
-      o.start(); o.stop(c.currentTime + d);
-    } catch (e) {}
+    say('Scanned '+code+' — open the Scan page first.');
   }
 
-  /* ---------- hand the code to the app ---------- */
-  function submit(code) {
-    code = code.trim();
-    if (code.length < MIN_LEN) return;
-    status('Scanned: ' + code);
-    beep(1320, .07);
+  /* ---------- listen for the scanner ---------- */
+  document.addEventListener('keydown',e=>{
+    if(!ON)return;
+    const t=e.target, typing=t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
+    const now=Date.now(), fast=(now-last)<MAX_GAP;
 
-    // Prefer the app's own handler; fall back to filling its input.
-    if (typeof window.onCode === 'function') { window.onCode(code); return; }
-    const inp = document.getElementById('manual')
-             || document.querySelector('input[placeholder*="SKU" i], input[placeholder*="barcode" i]');
-    if (inp) {
-      inp.value = code;
-      inp.dispatchEvent(new Event('input', { bubbles: true }));
-      inp.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
-      const go = document.getElementById('goBtn');
-      if (go) go.click();
+    if(e.key==='Enter'){
+      if(buf.length>=MIN_LEN){ e.preventDefault(); e.stopPropagation();
+        const c=buf; buf=''; clearTimeout(timer); submit(c); }
+      else buf='';
+      last=now; return;
     }
-  }
-
-  /* ---------- listen for scanner keystrokes ---------- */
-  document.addEventListener('keydown', e => {
-    if (!ON) return;
-
-    // Let people type normally in text fields — unless the scanner is clearly firing.
-    const t = e.target, typing = t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
-    const now = Date.now(), fast = (now - last) < MAX_GAP;
-    if (typing && !fast && e.key !== 'Enter') { last = now; return; }
-
-    if (e.key === 'Enter') {
-      if (buf.length >= MIN_LEN) { e.preventDefault(); e.stopPropagation();
-        const c = buf; buf = ''; clearTimeout(timer); submit(c); }
-      else buf = '';
-      last = now; return;
-    }
-
-    if (e.key.length === 1) {
-      if (!fast) buf = '';            // a fresh burst
-      buf += e.key;
-      last = now;
+    if(e.key&&e.key.length===1){
+      if(typing&&!fast){ last=now; buf=''; return; }   // a person typing
+      if(!fast)buf='';
+      buf+=e.key; last=now;
       clearTimeout(timer);
-      // Some scanners send no Enter — flush after a short pause.
-      timer = setTimeout(() => { if (buf.length >= MIN_LEN) { const c = buf; buf = ''; submit(c); } }, 120);
-      if (buf.length > 2 && !typing) e.preventDefault();
+      timer=setTimeout(()=>{ if(buf.length>=MIN_LEN){const c=buf;buf='';submit(c);} },120);
+      if(buf.length>2&&!typing)e.preventDefault();
     }
-  }, true);
+  },true);
 
-  /* ---------- start up ---------- */
-  function init() {
-    if (!mountButton()) return setTimeout(init, 500);
-    let saved = '0';
-    try { saved = localStorage.getItem(KEY) || '0'; } catch (e) {}
-    if (saved === '1') setOn(true);
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  try{ if(localStorage.getItem(KEY)==='1') setOn(true); }catch(e){}
+  console.log('[hw-scanner] ready — floating button bottom-right');
 })();
