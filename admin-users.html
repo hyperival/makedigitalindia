@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>User management · Make Digital India</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0d1a3a;--card:#132449;--card2:#1b2f5c;--border:#263b64;--text:#eef0ff;--text2:#b7bce0;--text3:#8a90c8;
+    --brand:#3b7dff;--brand-d:#1f56d6;--green:#16a34a;--red:#dc2626;--amber:#f59e0b}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;padding-bottom:40px}
+  .wrap{max-width:620px;margin:0 auto;padding:10px 14px 30px}
+  header{display:flex;align-items:center;gap:10px;padding:14px 4px}
+  h1{font-size:1.05rem;font-weight:800;flex:1}
+  .pill{font-size:.58rem;font-weight:800;color:var(--amber);background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.35);border-radius:10px;padding:3px 9px}
+  button{font-family:inherit;cursor:pointer}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:13px 16px;border-radius:11px;font-size:.85rem;font-weight:700;border:none}
+  .btn-blue{background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff}
+  .btn-ghost{background:transparent;color:var(--text2);border:1.5px solid var(--border)}
+  .btn-full{width:100%}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+  .fld{margin-bottom:11px}
+  .fld label{display:block;font-size:.63rem;font-weight:800;color:var(--text3);text-transform:uppercase;margin-bottom:5px;letter-spacing:.4px}
+  .inp,select{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:16px;background:var(--bg);color:var(--text)}
+  select{font-size:14px}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .h2{font-size:.63rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin:20px 0 8px}
+  .urow{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:12px 14px;margin-bottom:8px}
+  .urow .nm{flex:1;min-width:0}
+  .urow .e{font-size:.82rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .urow .d{font-size:.68rem;color:var(--text3);margin-top:2px}
+  .tag{font-size:.6rem;font-weight:800;padding:4px 9px;border-radius:20px;white-space:nowrap}
+  .tag.admin{background:rgba(59,125,255,.2);color:#93b4ff}
+  .tag.staff{background:rgba(138,144,200,.18);color:var(--text3)}
+  .tag.off{background:rgba(220,38,38,.2);color:#f87171}
+  .mini{border:1.5px solid var(--border);background:transparent;color:var(--text2);font-weight:700;font-size:.65rem;padding:6px 10px;border-radius:8px}
+  .msg{font-size:.78rem;color:var(--text3);margin:10px 0;text-align:center;min-height:18px}
+  .empty{text-align:center;color:var(--text3);font-size:.8rem;padding:26px 10px;line-height:1.6}
+  .note{font-size:.68rem;color:var(--text3);line-height:1.55;margin-top:10px}
+  #gate{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:300;text-align:center;padding:20px}
+  .spin{width:34px;height:34px;border:3px solid var(--border);border-top-color:var(--brand);border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 12px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  #toasts{position:fixed;left:14px;right:14px;bottom:16px;z-index:99;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+  .toast{background:#000;color:#fff;padding:12px 15px;border-radius:11px;font-size:.79rem;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .toast.ok{background:#14532d}.toast.err{background:#7f1d1d}
+</style>
+</head>
+<body>
+
+<div id="gate"><div><div class="spin"></div><div style="font-size:.82rem;color:var(--text3)" id="gateMsg">Checking access…</div></div></div>
+
+<div class="wrap" id="app" style="display:none">
+  <header>
+    <h1>User management</h1>
+    <span class="pill" id="who">—</span>
+    <button class="mini" id="back">← App</button>
+  </header>
+
+  <div class="card">
+    <div style="font-weight:700;font-size:.9rem;margin-bottom:12px">Add a user</div>
+    <div class="fld"><label>Email</label><input class="inp" id="nEmail" type="email" placeholder="person@example.com" autocomplete="off"></div>
+    <div class="g2">
+      <div class="fld"><label>Password</label><input class="inp" id="nPass" type="text" placeholder="min 6 characters"></div>
+      <div class="fld"><label>Role</label><select id="nRole"><option value="staff">staff</option><option value="admin">admin</option></select></div>
+    </div>
+    <div class="g2">
+      <div class="fld"><label>Business name</label><input class="inp" id="nBiz" placeholder="Goyal Shoe Showroom"></div>
+      <div class="fld"><label>Opens app</label><select id="nApp"></select></div>
+    </div>
+    <button class="btn btn-blue btn-full" id="createBtn">Create user</button>
+    <div class="note">The password is shown to you once — copy it and give it to the person.
+      They can change it later using “Forgot password” on the login page.</div>
+  </div>
+
+  <div class="h2">Users in <span id="clientName">your client</span></div>
+  <div class="msg" id="listMsg"></div>
+  <div id="list"></div>
+</div>
+
+<div id="toasts"></div>
+
+<script type="module">
+import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, getDocs, collection, query, where }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const CFG={apiKey:"AIzaSyB-WPSe1SoIEC4JwednqMydhj_cvGgOOs8",authDomain:"make-digital-india-479fb.firebaseapp.com",
+  projectId:"make-digital-india-479fb",storageBucket:"make-digital-india-479fb.firebasestorage.app",
+  messagingSenderId:"356753740738",appId:"1:356753740738:web:71e098ed9d21ca911afc5b"};
+const APPS=["shoestore2","shoestore","legal"];   // folders a user can be routed to
+
+const app=initializeApp(CFG), auth=getAuth(app), db=getFirestore(app);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let ME=null, MYUID='';
+
+function toast(t,m,k){const z=$("toasts"),d=document.createElement('div');d.className='toast '+(k||'');
+  d.innerHTML='<b>'+esc(t)+'</b>'+(m?'<div style="opacity:.8;font-size:.72rem;margin-top:3px">'+esc(m)+'</div>':'');
+  z.appendChild(d);setTimeout(()=>d.remove(),4200);}
+
+/* ---- gate: admins only ---- */
+onAuthStateChanged(auth, async u=>{
+  if(!u){location.replace('/login.html');return;}
+  MYUID=u.uid;
+  let snap;
+  try{ snap=await getDoc(doc(db,'users',u.uid)); }
+  catch(e){ $("gateMsg").textContent='Could not read your profile: '+e.message; return; }
+  if(!snap.exists()){ $("gateMsg").innerHTML='Your account has no profile yet.<br>Ask an admin to set one up.'; return; }
+  ME=snap.data();
+  if(ME.role!=='admin'){ $("gateMsg").innerHTML='Admins only.<br><br><button class="btn btn-ghost" onclick="history.back()">Go back</button>'; return; }
+  $("who").textContent=ME.role;
+  $("clientName").textContent=ME.clientId||'your client';
+  $("nBiz").value=ME.businessName||'';
+  $("nApp").innerHTML=APPS.map(a=>'<option'+(a===(ME.app||'shoestore2')?' selected':'')+'>'+a+'</option>').join('');
+  $("gate").style.display='none'; $("app").style.display='block';
+  loadUsers();
+});
+$("back").onclick=()=>location.href='/'+((ME&&ME.app)||'shoestore2')+'/';
+
+/* ---- list users of my client ---- */
+async function loadUsers(){
+  $("listMsg").textContent='Loading…';
+  try{
+    const qs=await getDocs(query(collection(db,'users'),where('clientId','==',ME.clientId)));
+    if(qs.empty){ $("list").innerHTML='<div class="empty">No users yet.</div>'; $("listMsg").textContent=''; return; }
+    $("list").innerHTML=qs.docs.map(d=>{
+      const u=d.data(), off=u.active===false, self=d.id===MYUID;
+      return '<div class="urow"><div class="nm"><div class="e">'+esc(u.email||d.id)+(self?' <span style="color:var(--text3);font-weight:400">(you)</span>':'')+'</div>'+
+        '<div class="d">'+esc(u.businessName||'')+' · opens /'+esc(u.app||'shoestore2')+'/</div></div>'+
+        '<span class="tag '+(off?'off':u.role)+'">'+(off?'disabled':esc(u.role))+'</span>'+
+        (self?'':'<button class="mini" data-act="role" data-id="'+d.id+'" data-v="'+esc(u.role)+'">'+(u.role==='admin'?'→staff':'→admin')+'</button>'+
+              '<button class="mini" data-act="toggle" data-id="'+d.id+'" data-v="'+(off?'1':'0')+'">'+(off?'Enable':'Disable')+'</button>')+
+        '<button class="mini" data-act="reset" data-e="'+esc(u.email||'')+'">Reset</button></div>';
+    }).join('');
+    $("listMsg").textContent=qs.size+' user(s).';
+    $("list").querySelectorAll('.mini').forEach(b=>b.onclick=()=>action(b.dataset));
+  }catch(e){ $("listMsg").textContent='Error: '+e.message; }
+}
+
+async function action(d){
+  try{
+    if(d.act==='role'){
+      const next=d.v==='admin'?'staff':'admin';
+      await updateDoc(doc(db,'users',d.id),{role:next});
+      toast('Role changed','Now '+next,'ok'); loadUsers();
+    }
+    if(d.act==='toggle'){
+      const enable=d.v==='1';
+      await updateDoc(doc(db,'users',d.id),{active:enable});
+      toast(enable?'Enabled':'Disabled','','ok'); loadUsers();
+    }
+    if(d.act==='reset'){
+      if(!d.e) return toast('No email on file','','err');
+      await sendPasswordResetEmail(auth,d.e);
+      toast('Reset link sent',d.e,'ok');
+    }
+  }catch(e){ toast('Error',e.message,'err'); }
+}
+
+/* ---- create a user WITHOUT logging myself out ----
+   A second, throwaway Firebase app is used to create the account,
+   so the current admin session is untouched.                     */
+$("createBtn").onclick=async()=>{
+  const email=$("nEmail").value.trim().toLowerCase();
+  const pass=$("nPass").value.trim();
+  const role=$("nRole").value, biz=$("nBiz").value.trim(), which=$("nApp").value;
+  if(!email||pass.length<6) return toast('Check the form','Email and a 6+ character password are required','err');
+  const btn=$("createBtn"); btn.disabled=true; btn.textContent='Creating…';
+  let tmp=null;
+  try{
+    tmp=initializeApp(CFG,'secondary-'+Date.now());
+    const tmpAuth=getAuth(tmp);
+    const cred=await createUserWithEmailAndPassword(tmpAuth,email,pass);
+    const uid=cred.user.uid;
+    await signOut(tmpAuth);
+    await setDoc(doc(db,'users',uid),{
+      email, role, businessName:biz, app:which,
+      clientId:ME.clientId, active:true, createdBy:ME.email||MYUID, createdAt:new Date().toISOString()
+    });
+    toast('User created',email+' · '+role,'ok');
+    $("nEmail").value=''; $("nPass").value='';
+    loadUsers();
+  }catch(e){
+    toast('Could not create', e.code==='auth/email-already-in-use'
+      ? 'That email already has a login. Ask them to sign in, then add their profile.' : e.message,'err');
+  }finally{
+    if(tmp){ try{ await deleteApp(tmp); }catch(e){} }
+    btn.disabled=false; btn.textContent='Create user';
+  }
+};
+</script>
+</body>
+</html>
