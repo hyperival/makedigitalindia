@@ -184,7 +184,7 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, getDocs, collection }
+import { getFirestore, doc, getDoc, setDoc, getDocs, collection }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const CFG={apiKey:"AIzaSyB-WPSe1SoIEC4JwednqMydhj_cvGgOOs8",authDomain:"make-digital-india-479fb.firebaseapp.com",
@@ -222,6 +222,18 @@ onAuthStateChanged(auth,async u=>{
   try{$("gateMsg").textContent='Loading products…';
     const qs=await getDocs(collection(db,'clients/shoestore/products'));
     ALL=qs.docs.map(d=>d.data());
+    // Give every product a SHORT scan code. A 1D laser scanner cannot read a
+    // 20-character SKU squeezed onto a 1x2 label, so the barcode carries this
+    // short number while the SKU still prints as readable text.
+    const used={}; ALL.forEach(p=>{ if(p.code) used[p.code]=1; });
+    let next=100001, made=0;
+    for(const p of ALL){
+      if(p.code) continue;
+      while(used[String(next)]) next++;
+      p.code=String(next); used[p.code]=1; made++;
+      await setDoc(doc(db,'clients/shoestore/products',safeId(p.sku)),{code:p.code},{merge:true});
+    }
+    if(made) console.log('[labels] assigned '+made+' scan codes');
   }catch(e){$("gateMsg").textContent='Could not load products: '+e.message;return;}
   loadCfg();render();
   $("gate").style.display='none';$("app").style.display='block';
@@ -289,7 +301,7 @@ $("build").onclick=async()=>{
         showMrp=$("oMrp").checked,showBrand=$("oBrand").checked;
   const codeH=Number($("cH").value)||10, fs=Number($("fS").value)||6.5;
 
-  let css='', cellW, cellH, pad;
+  let css='', cellW, cellH, pad, W=2.2;   // bar width in px — wider = easier to scan
   if(MODE==='thermal'){
     cellW=Number($("tW").value)||50.8; cellH=Number($("tH").value)||25.4;
     const mt=num("tMT",1.5), mb=num("tMB",1.5), ml=num("tMLf",1.5), mr=num("tMR",1.5),
@@ -321,7 +333,8 @@ $("build").onclick=async()=>{
     let h='';
     if(showBrand)h+=`<div class="tx b">${esc(p.brand||'')}</div>`;
     if(showModel)h+=`<div class="tx b">${esc(p.model||'')}</div>`;
-    if(CODE==='bc'||CODE==='both')h+=`<svg class="bc" data-v="${esc(p.sku)}"></svg>`;
+    const scanVal = p.code || p.sku;      // short code scans reliably at small sizes
+    if(CODE==='bc'||CODE==='both')h+=`<svg class="bc" data-v="${esc(scanVal)}"></svg>`;
     if(CODE==='qr'||CODE==='both')h+=`<canvas class="qr" data-v="${esc(p.sku)}"></canvas>`;
     if(showSku)h+=`<div class="tx">${esc(p.sku)}</div>`;
     const bits=[];
@@ -352,8 +365,9 @@ $("build").onclick=async()=>{
     ${body}
     <script>
       document.querySelectorAll('.bc').forEach(function(s){
-        try{JsBarcode(s,s.dataset.v,{format:'CODE128',displayValue:false,margin:0,
-          height:${Math.round(codeH*3.78)},width:1.4});}catch(e){}});
+        try{JsBarcode(s,s.dataset.v,{format:'CODE128',displayValue:true,
+          fontSize:${Math.round(fs*1.6)},textMargin:0,margin:0,
+          height:${Math.round(codeH*3.78)},width:${'${W}'}});}catch(e){}});
       document.querySelectorAll('.qr').forEach(function(c){
         try{QRCode.toCanvas(c,c.dataset.v,{width:140,margin:0});}catch(e){}});
     <\/script></body></html>`;
