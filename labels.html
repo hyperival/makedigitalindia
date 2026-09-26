@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Print labels · Shoe IMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#161512;--card:#211f1b;--card2:#2a2823;--border:#3b382f;--text:#f3f1ea;--text2:#cbc7bb;--text3:#8b867a;
+    --accent:#f59e0b;--green:#16a34a;--blue:#3b82f6}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;padding-bottom:40px}
+  .wrap{max-width:620px;margin:0 auto;padding:10px 14px 30px}
+  header{display:flex;align-items:center;gap:10px;padding:14px 4px}
+  h1{font-size:1.05rem;font-weight:800;flex:1}
+  button{font-family:inherit;cursor:pointer}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:13px 16px;border-radius:11px;font-size:.85rem;font-weight:800;border:none}
+  .btn-green{background:linear-gradient(135deg,#22c55e,#15803d);color:#fff}
+  .btn-blue{background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff}
+  .btn-ghost{background:transparent;color:var(--text2);border:1.5px solid var(--border)}
+  .btn-full{width:100%}
+  .mini{border:1.5px solid var(--border);background:transparent;color:var(--text2);font-weight:700;font-size:.66rem;padding:7px 11px;border-radius:9px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px;margin-bottom:12px}
+  .h2{font-size:.63rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin:16px 0 8px}
+  .fld{margin-bottom:10px}
+  .fld label{display:block;font-size:.62rem;font-weight:800;color:var(--text3);text-transform:uppercase;margin-bottom:5px;letter-spacing:.4px}
+  .inp,select{width:100%;padding:11px;border:1.5px solid var(--border);border-radius:10px;font-size:16px;background:var(--bg);color:var(--text)}
+  select{font-size:14px}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+  .seg{display:flex;gap:6px;margin-bottom:12px}
+  .seg button{flex:1;padding:11px 6px;border-radius:10px;border:1.5px solid var(--border);background:var(--card2);color:var(--text3);font-size:.76rem;font-weight:800}
+  .seg button.on{background:var(--accent);color:#231a08;border-color:transparent}
+  .row{display:flex;gap:8px;margin-bottom:10px}
+  .lrow{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 13px;margin-bottom:6px}
+  .lrow .nm{flex:1;min-width:0}
+  .lrow .t{font-size:.8rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lrow .d{font-size:.66rem;color:var(--text3);margin-top:1px}
+  .lrow input[type=checkbox]{width:20px;height:20px;flex:none}
+  .lrow input[type=number]{width:56px;padding:7px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-size:14px;text-align:center}
+  .msg{font-size:.76rem;color:var(--text3);margin:10px 0;text-align:center;min-height:18px}
+  .empty{text-align:center;color:var(--text3);font-size:.8rem;padding:24px 10px;line-height:1.6}
+  .note{font-size:.67rem;color:var(--text3);line-height:1.55;margin-top:8px}
+  #gate{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:300;text-align:center;padding:20px}
+  .spin{width:34px;height:34px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 12px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  #toasts{position:fixed;left:14px;right:14px;bottom:16px;z-index:99;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+  .toast{background:#000;color:#fff;padding:12px 15px;border-radius:11px;font-size:.79rem;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .toast.ok{background:#14532d}.toast.err{background:#7f1d1d}
+  /* preview */
+  #prevWrap{background:#fff;border-radius:10px;padding:10px;margin-top:10px;max-height:320px;overflow:auto;display:none}
+</style>
+</head>
+<body>
+
+<div id="gate"><div><div class="spin"></div><div style="font-size:.82rem;color:var(--text3)" id="gateMsg">Loading…</div></div></div>
+
+<div class="wrap" id="app" style="display:none">
+  <header><h1>Print labels</h1><button class="mini" id="back">← App</button></header>
+
+  <!-- printer type -->
+  <div class="h2">Printer</div>
+  <div class="seg" id="modeSeg">
+    <button class="on" data-m="thermal">Thermal roll</button>
+    <button data-m="sheet">A4 sticker sheet</button>
+  </div>
+
+  <div class="card">
+    <!-- thermal settings -->
+    <div id="thermalCfg">
+      <div class="fld"><label>Label size preset</label>
+        <select id="tPreset">
+          <option value="50.8,25.4">1" × 2"  (25.4 × 50.8 mm) — default</option>
+          <option value="38,25">25 × 38 mm</option>
+          <option value="50,25">25 × 50 mm</option>
+          <option value="75,50">50 × 75 mm</option>
+          <option value="custom">Custom…</option>
+        </select></div>
+      <div class="g2">
+        <div class="fld"><label>Width (mm)</label><input class="inp" id="tW" type="number" step="0.1" value="50.8"></div>
+        <div class="fld"><label>Height (mm)</label><input class="inp" id="tH" type="number" step="0.1" value="25.4"></div>
+      </div>
+      <div class="fld"><label>Gap between labels (mm)</label><input class="inp" id="tGap" type="number" step="0.5" value="0"></div>
+      <div class="h2" style="margin:14px 0 8px">Margins inside the label (mm)</div>
+      <div class="g2">
+        <div class="fld"><label>Top</label><input class="inp" id="tMT" type="number" step="0.5" value="1.5"></div>
+        <div class="fld"><label>Bottom</label><input class="inp" id="tMB" type="number" step="0.5" value="1.5"></div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Left</label><input class="inp" id="tMLf" type="number" step="0.5" value="1.5"></div>
+        <div class="fld"><label>Right</label><input class="inp" id="tMR" type="number" step="0.5" value="1.5"></div>
+      </div>
+      <div class="h2" style="margin:14px 0 8px">Nudge printing (mm)</div>
+      <div class="g2">
+        <div class="fld"><label>Shift right (−left)</label><input class="inp" id="tOX" type="number" step="0.5" value="0"></div>
+        <div class="fld"><label>Shift down (−up)</label><input class="inp" id="tOY" type="number" step="0.5" value="0"></div>
+      </div>
+      <div class="note">If printing sits slightly off the label, nudge it here instead of changing the size.</div>
+    </div>
+
+    <!-- sheet settings -->
+    <div id="sheetCfg" style="display:none">
+      <div class="fld"><label>Sheet preset</label>
+        <select id="sPreset">
+          <option value="3,8,63.5,33.9,7,4.5,2.5">24 per sheet · 63.5 × 33.9 mm</option>
+          <option value="3,7,70,42.3,4.5,4.5,0">21 per sheet · 70 × 42.3 mm</option>
+          <option value="2,7,99.1,38.1,4.5,4.5,0">14 per sheet · 99.1 × 38.1 mm</option>
+          <option value="4,10,48.5,25.4,8,4.5,0">40 per sheet · 48.5 × 25.4 mm</option>
+          <option value="custom">Custom…</option>
+        </select></div>
+      <div class="g3">
+        <div class="fld"><label>Columns</label><input class="inp" id="sCols" type="number" value="3"></div>
+        <div class="fld"><label>Rows</label><input class="inp" id="sRows" type="number" value="8"></div>
+        <div class="fld"><label>Gap (mm)</label><input class="inp" id="sGap" type="number" step="0.5" value="2.5"></div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Label width (mm)</label><input class="inp" id="sW" type="number" step="0.1" value="63.5"></div>
+        <div class="fld"><label>Label height (mm)</label><input class="inp" id="sH" type="number" step="0.1" value="33.9"></div>
+      </div>
+      <div class="h2" style="margin:14px 0 8px">Page margins (mm)</div>
+      <div class="g2">
+        <div class="fld"><label>Top</label><input class="inp" id="sMT" type="number" step="0.5" value="4.5"></div>
+        <div class="fld"><label>Bottom</label><input class="inp" id="sMB" type="number" step="0.5" value="4.5"></div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Left</label><input class="inp" id="sML" type="number" step="0.5" value="7"></div>
+        <div class="fld"><label>Right</label><input class="inp" id="sMRt" type="number" step="0.5" value="7"></div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Padding inside label (mm)</label><input class="inp" id="sPad" type="number" step="0.5" value="1.5"></div>
+        <div class="fld"><label>Row gap (mm)</label><input class="inp" id="sRGap" type="number" step="0.5" value="0"></div>
+      </div>
+      <div class="note">Print one test page on plain paper and hold it over a real sheet before using stickers.</div>
+    </div>
+  </div>
+
+  <!-- content -->
+  <div class="h2">What goes on the label</div>
+  <div class="card">
+    <div class="seg" id="codeSeg">
+      <button class="on" data-c="bc">Barcode</button>
+      <button data-c="qr">QR code</button>
+      <button data-c="both">Both</button>
+    </div>
+    <div class="g2">
+      <div class="fld"><label>Code height (mm)</label><input class="inp" id="cH" type="number" step="0.5" value="10"></div>
+      <div class="fld"><label>Text size (pt)</label><input class="inp" id="fS" type="number" step="0.5" value="6.5"></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:6px;font-size:.78rem">
+      <label><input type="checkbox" id="oModel" checked> Model name</label>
+      <label><input type="checkbox" id="oSku" checked> SKU text</label>
+      <label><input type="checkbox" id="oSize"> Size</label>
+      <label><input type="checkbox" id="oMrp"> MRP</label>
+      <label><input type="checkbox" id="oBrand"> Brand</label>
+    </div>
+    <div class="note">On a 1"×2" label, keep it to the barcode plus model name for best readability.</div>
+  </div>
+
+  <!-- products -->
+  <div class="h2">Choose products</div>
+  <div class="row"><input class="inp" id="search" placeholder="Search model or SKU…" autocomplete="off"></div>
+  <div class="row" style="gap:8px">
+    <button class="mini" id="selAll">Select all</button>
+    <button class="mini" id="selNone">Clear</button>
+    <button class="mini" id="selStock">Only in stock</button>
+    <span style="flex:1"></span>
+    <label style="font-size:.7rem;color:var(--text3);display:flex;align-items:center;gap:6px">Copies each
+      <input type="number" id="copiesAll" value="1" min="1" max="99" style="width:54px;padding:6px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);text-align:center">
+      <button class="mini" id="applyCopies">Apply</button></label>
+  </div>
+  <div class="msg" id="listMsg"></div>
+  <div id="list"></div>
+
+  <button class="btn btn-green btn-full" id="build" style="margin-top:12px">Build label sheet</button>
+  <div id="prevWrap"></div>
+  <button class="btn btn-blue btn-full" id="print" style="display:none;margin-top:8px">🖨 Print</button>
+  <div class="note" id="sumNote"></div>
+</div>
+
+<div id="toasts"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, getDocs, collection }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const CFG={apiKey:"AIzaSyB-WPSe1SoIEC4JwednqMydhj_cvGgOOs8",authDomain:"make-digital-india-479fb.firebaseapp.com",
+  projectId:"make-digital-india-479fb",storageBucket:"make-digital-india-479fb.firebasestorage.app",
+  messagingSenderId:"356753740738",appId:"1:356753740738:web:71e098ed9d21ca911afc5b"};
+const app=initializeApp(CFG),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const flat=s=>String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+const num=(id,d)=>{const v=parseFloat(($(id)||{}).value);return isNaN(v)?d:v;};
+let ALL=[],SEL={},MODE='thermal',CODE='bc',MYAPP='shoestore2';
+
+function toast(t,m,k){const z=$("toasts"),d=document.createElement('div');d.className='toast '+(k||'');
+  d.innerHTML='<b>'+esc(t)+'</b>'+(m?'<div style="opacity:.8;font-size:.72rem;margin-top:3px">'+esc(m)+'</div>':'');
+  z.appendChild(d);setTimeout(()=>d.remove(),3600);}
+
+/* ---- settings persistence ---- */
+const KEYS=['tW','tH','tGap','tMT','tMB','tMLf','tMR','tOX','tOY','sCols','sRows','sGap','sRGap','sW','sH','sMT','sMB','sML','sMRt','sPad','cH','fS'];
+const CHK=['oModel','oSku','oSize','oMrp','oBrand'];
+function saveCfg(){try{const o={MODE,CODE};KEYS.forEach(k=>o[k]=$(k).value);
+  CHK.forEach(k=>o[k]=$(k).checked);localStorage.setItem('lblCfg',JSON.stringify(o));}catch(e){}}
+function loadCfg(){try{const o=JSON.parse(localStorage.getItem('lblCfg')||'{}');
+  if(o.MODE)setMode(o.MODE);if(o.CODE)setCode(o.CODE);
+  KEYS.forEach(k=>{if(o[k]!==undefined)$(k).value=o[k];});
+  CHK.forEach(k=>{if(o[k]!==undefined)$(k).checked=o[k];});}catch(e){}}
+document.addEventListener('change',saveCfg);
+
+/* ---- gate ---- */
+onAuthStateChanged(auth,async u=>{
+  if(!u){location.replace('/login.html');return;}
+  try{const s=await getDoc(doc(db,'users',u.uid));
+    if(!s.exists()){$("gateMsg").textContent='Your account has no profile yet.';return;}
+    const p=s.data();if(p.active===false){$("gateMsg").textContent='This account is disabled.';return;}
+    MYAPP=p.app||'shoestore2';}catch(e){}
+  try{$("gateMsg").textContent='Loading products…';
+    const qs=await getDocs(collection(db,'clients/shoestore/products'));
+    ALL=qs.docs.map(d=>d.data());
+  }catch(e){$("gateMsg").textContent='Could not load products: '+e.message;return;}
+  loadCfg();render();
+  $("gate").style.display='none';$("app").style.display='block';
+});
+$("back").onclick=()=>location.href='/'+MYAPP+'/';
+
+/* ---- mode / code toggles ---- */
+function setMode(m){MODE=m;
+  document.querySelectorAll('#modeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+  $("thermalCfg").style.display=m==='thermal'?'block':'none';
+  $("sheetCfg").style.display=m==='sheet'?'block':'none';}
+document.querySelectorAll('#modeSeg button').forEach(b=>b.onclick=()=>{setMode(b.dataset.m);saveCfg();});
+function setCode(c){CODE=c;document.querySelectorAll('#codeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.c===c));}
+document.querySelectorAll('#codeSeg button').forEach(b=>b.onclick=()=>{setCode(b.dataset.c);saveCfg();});
+
+$("tPreset").onchange=()=>{const v=$("tPreset").value;if(v==='custom')return;
+  const [w,h]=v.split(',');$("tW").value=w;$("tH").value=h;saveCfg();};
+$("sPreset").onchange=()=>{const v=$("sPreset").value;if(v==='custom')return;
+  const [c,r,w,h,ml,mt,g]=v.split(',');
+  $("sCols").value=c;$("sRows").value=r;$("sW").value=w;$("sH").value=h;
+  $("sML").value=ml;$("sMRt").value=ml;$("sMT").value=mt;$("sMB").value=mt;$("sGap").value=g;saveCfg();};
+
+/* ---- product list ---- */
+$("search").addEventListener('input',render);
+function render(){
+  const t=flat($("search").value);
+  let rows=ALL;
+  if(t)rows=rows.filter(p=>flat(p.model).includes(t)||flat(p.sku).includes(t)||flat(p.brand).includes(t));
+  rows=rows.sort((a,b)=>(a.brand+a.model+'').localeCompare(b.brand+b.model+'')||
+    (parseFloat(a.size)||999)-(parseFloat(b.size)||999)).slice(0,300);
+  $("listMsg").textContent=rows.length?rows.length+' item(s) — tick what to print.':'';
+  $("list").innerHTML=rows.length?rows.map(p=>{
+    const s=SEL[p.sku];
+    return '<div class="lrow"><input type="checkbox" data-sku="'+esc(p.sku)+'"'+(s?' checked':'')+'>'+
+      '<div class="nm"><div class="t">'+esc(p.sku)+'</div>'+
+      '<div class="d">'+esc(p.brand+' '+p.model)+' · size '+esc(p.size)+' · qty '+(Number(p.qty)||0)+'</div></div>'+
+      '<input type="number" min="1" max="99" value="'+(s?s:1)+'" data-c="'+esc(p.sku)+'"></div>';}).join('')
+    :'<div class="empty">No products match.<br>Add products in the app first.</div>';
+  $("list").querySelectorAll('input[type=checkbox]').forEach(c=>c.onchange=()=>{
+    const n=$("list").querySelector('input[data-c="'+CSS.escape(c.dataset.sku)+'"]');
+    if(c.checked)SEL[c.dataset.sku]=Math.max(1,Number(n&&n.value)||1); else delete SEL[c.dataset.sku];
+    updateSum();});
+  $("list").querySelectorAll('input[data-c]').forEach(n=>n.onchange=()=>{
+    if(SEL[n.dataset.c])SEL[n.dataset.c]=Math.max(1,Number(n.value)||1);updateSum();});
+  updateSum();
+}
+function updateSum(){const items=Object.keys(SEL).length,tot=Object.values(SEL).reduce((a,b)=>a+b,0);
+  $("sumNote").textContent=items?items+' product(s), '+tot+' label(s) total.':'';}
+$("selAll").onclick=()=>{$("list").querySelectorAll('input[type=checkbox]').forEach(c=>{
+  SEL[c.dataset.sku]=1;});render();};
+$("selNone").onclick=()=>{SEL={};render();};
+$("selStock").onclick=()=>{SEL={};ALL.forEach(p=>{if((Number(p.qty)||0)>0)SEL[p.sku]=Number(p.qty)||1;});render();
+  toast('Selected in-stock items','Copies set to match quantity','ok');};
+$("applyCopies").onclick=()=>{const n=Math.max(1,Number($("copiesAll").value)||1);
+  Object.keys(SEL).forEach(k=>SEL[k]=n);render();};
+
+/* ---- build the sheet ---- */
+$("build").onclick=async()=>{
+  const picked=[];
+  Object.entries(SEL).forEach(([sku,n])=>{const p=ALL.find(x=>x.sku===sku);
+    if(p)for(let i=0;i<n;i++)picked.push(p);});
+  if(!picked.length)return toast('Nothing selected','Tick at least one product','err');
+
+  const showModel=$("oModel").checked,showSku=$("oSku").checked,showSize=$("oSize").checked,
+        showMrp=$("oMrp").checked,showBrand=$("oBrand").checked;
+  const codeH=Number($("cH").value)||10, fs=Number($("fS").value)||6.5;
+
+  let css='', cellW, cellH, pad;
+  if(MODE==='thermal'){
+    cellW=Number($("tW").value)||50.8; cellH=Number($("tH").value)||25.4;
+    const mt=num("tMT",1.5), mb=num("tMB",1.5), ml=num("tMLf",1.5), mr=num("tMR",1.5),
+          ox=num("tOX",0), oy=num("tOY",0), gap=num("tGap",0);
+    pad=Math.min(mt,mb,ml,mr);
+    css=`@page{size:${cellW}mm ${cellH}mm;margin:0}
+      body{margin:0}
+      .lbl{width:${cellW}mm;height:${cellH}mm;
+        padding:${mt}mm ${mr}mm ${mb}mm ${ml}mm;
+        transform:translate(${ox}mm,${oy}mm);
+        page-break-after:always;display:flex;flex-direction:column;
+        align-items:center;justify-content:center;overflow:hidden;margin-bottom:${gap}mm}
+      .lbl:last-child{page-break-after:auto}`;
+  }else{
+    const cols=Number($("sCols").value)||3;
+    cellW=Number($("sW").value)||63.5; cellH=Number($("sH").value)||33.9;
+    const cgap=num("sGap",2.5), rgap=num("sRGap",0)||num("sGap",2.5),
+          mt=num("sMT",4.5), mb=num("sMB",4.5), ml=num("sML",7), mr=num("sMRt",7);
+    pad=num("sPad",1.5);
+    css=`@page{size:A4;margin:${mt}mm ${mr}mm ${mb}mm ${ml}mm}
+      body{margin:0}
+      .grid{display:grid;grid-template-columns:repeat(${cols},${cellW}mm);
+        column-gap:${cgap}mm;row-gap:${rgap}mm}
+      .lbl{width:${cellW}mm;height:${cellH}mm;padding:${pad}mm;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}`;
+  }
+
+  const cellHTML=p=>{
+    let h='';
+    if(showBrand)h+=`<div class="tx b">${esc(p.brand||'')}</div>`;
+    if(showModel)h+=`<div class="tx b">${esc(p.model||'')}</div>`;
+    if(CODE==='bc'||CODE==='both')h+=`<svg class="bc" data-v="${esc(p.sku)}"></svg>`;
+    if(CODE==='qr'||CODE==='both')h+=`<canvas class="qr" data-v="${esc(p.sku)}"></canvas>`;
+    if(showSku)h+=`<div class="tx">${esc(p.sku)}</div>`;
+    const bits=[];
+    if(showSize)bits.push('Size '+esc(p.size));
+    if(showMrp&&p.mrp)bits.push('₹'+p.mrp);
+    if(bits.length)h+=`<div class="tx">${bits.join(' · ')}</div>`;
+    return `<div class="lbl">${h}</div>`;
+  };
+  const body=MODE==='thermal'?picked.map(cellHTML).join('')
+    :'<div class="grid">'+picked.map(cellHTML).join('')+'</div>';
+
+  const html=`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Labels</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"><\/script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"><\/script>
+    <style>${css}
+      *{box-sizing:border-box}
+      body{font-family:Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact}
+      .tx{font-size:${fs}pt;line-height:1.15;text-align:center;width:100%;
+        white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .tx.b{font-weight:700}
+      .bc{width:100%;height:${codeH}mm;display:block}
+      .qr{width:${Math.min(codeH*1.6,cellH-6)}mm;height:${Math.min(codeH*1.6,cellH-6)}mm}
+      #bar{padding:10px;background:#eee;font-family:Arial}
+      @media print{#bar{display:none}}
+    </style></head><body>
+    <div id="bar"><button onclick="window.print()" style="padding:9px 18px;font-size:14px">🖨 Print</button>
+      <span style="margin-left:10px;font-size:13px">${picked.length} label(s) · ${MODE==='thermal'?cellW+'×'+cellH+'mm roll':'A4 sheet'}</span></div>
+    ${body}
+    <script>
+      document.querySelectorAll('.bc').forEach(function(s){
+        try{JsBarcode(s,s.dataset.v,{format:'CODE128',displayValue:false,margin:0,
+          height:${Math.round(codeH*3.78)},width:1.4});}catch(e){}});
+      document.querySelectorAll('.qr').forEach(function(c){
+        try{QRCode.toCanvas(c,c.dataset.v,{width:140,margin:0});}catch(e){}});
+    <\/script></body></html>`;
+
+  const url=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+  window.open(url,'_blank');
+  toast('Sheet opened',picked.length+' labels','ok');
+};
+$("print").style.display='none';
+</script>
+</body>
+</html>
