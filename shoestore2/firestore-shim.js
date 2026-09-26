@@ -72,6 +72,7 @@
     ALL.forEach(p => {
       p.qty = Number(p.qty) || 0; p.mrp = Number(p.mrp) || 0;
       BY_SKU[flat(p.sku)] = p;
+      if (p.code) BY_SKU[flat(p.code)] = p;      // short scan code
       if (p.brand) bs[p.brand] = 1;
       const k = gkey(p);
       (GROUPS[k] = GROUPS[k] || { brand: p.brand, model: p.model, color: p.color, sizes: [] }).sizes.push(p);
@@ -81,6 +82,25 @@
     BRANDS = Object.keys(bs).sort();
   }
   function ensure() { return ready || (ready = boot()); }
+
+  // Short numeric code used on printed barcodes. 1D laser scanners cannot
+  // resolve a 20-character SKU on a 1x2 label, so each product gets a short
+  // code; the SKU still prints as readable text.
+  async function ensureCodes() {
+    await ensure();
+    const used = {}; ALL.forEach(p => { if (p.code) used[p.code] = 1; });
+    let next = 100001, made = 0;
+    for (const p of ALL) {
+      if (p.code) continue;
+      while (used[String(next)]) next++;
+      p.code = String(next); used[p.code] = 1; made++;
+      await FB.updateDoc(FB.doc(FB.db, PRODUCTS, safeId(p.sku)), { code: p.code });
+      BY_SKU[flat(p.code)] = p;
+    }
+    return { assigned: made, total: ALL.length };
+  }
+  window.__imsEnsureCodes = ensureCodes;
+  window.__imsAll = () => ALL;
 
   /* ---------- helpers the old UI expects ---------- */
   function parseCode(raw) {
@@ -241,8 +261,9 @@
       if (!mrp) throw new Error('MRP cannot be 0');
       for (const size of sizes) {
         const sku = (brand + '-' + model + '-' + color + '-' + size).toUpperCase();
+        const code = String(100001 + ALL.length + Math.floor(Math.random() * 900));
         await FB.setDoc(FB.doc(FB.db, PRODUCTS, safeId(sku)),
-          { sku, brand, model, color, size, mrp, qty: Math.max(0, Number(p.qty) || 0),
+          { sku, code, brand, model, color, size, mrp, qty: Math.max(0, Number(p.qty) || 0),
             reorder_level: Number(p.reorder_level) || LOW, category: p.category || '', gender: p.gender || '' });
       }
       await refreshIndex();
