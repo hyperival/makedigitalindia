@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Bulk upload · Shoe IMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#161512;--card:#211f1b;--card2:#2a2823;--border:#3b382f;--text:#f3f1ea;--text2:#cbc7bb;--text3:#8b867a;
+    --accent:#f59e0b;--green:#16a34a;--red:#dc2626;--blue:#3b82f6}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;padding-bottom:40px}
+  .wrap{max-width:680px;margin:0 auto;padding:10px 14px 30px}
+  header{display:flex;align-items:center;gap:10px;padding:14px 4px}
+  h1{font-size:1.05rem;font-weight:800;flex:1}
+  button{font-family:inherit;cursor:pointer}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 18px;border-radius:10px;font-size:.84rem;font-weight:700;border:none}
+  .btn-blue{background:#1e40af;color:#fff}
+  .btn-green{background:linear-gradient(135deg,#22c55e,#15803d);color:#fff}
+  .btn-ghost{background:transparent;color:var(--text2);border:1.5px solid var(--border)}
+  .btn-full{width:100%}
+  .mini{border:1.5px solid var(--border);background:transparent;color:var(--text2);font-weight:700;font-size:.66rem;padding:7px 11px;border-radius:9px}
+  /* tabs like the reference */
+  .topbar{display:flex;align-items:center;gap:10px;justify-content:center;position:relative;margin-bottom:16px}
+  .seg{display:inline-flex;background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:3px}
+  .seg button{padding:8px 20px;border-radius:7px;border:none;background:transparent;color:var(--text3);font-weight:700;font-size:.82rem}
+  .seg button.on{background:var(--card);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+  .topbar .sample{position:absolute;right:0}
+  @media(max-width:560px){.topbar{flex-direction:column;gap:12px}.topbar .sample{position:static}}
+  .pane{display:none}.pane.on{display:block}
+  /* drop zone */
+  .drop{border:2px dashed var(--border);border-radius:14px;background:var(--card);padding:48px 20px;text-align:center;transition:.15s}
+  .drop.over{border-color:var(--accent);background:var(--card2)}
+  .drop .t{color:var(--text2);font-size:.95rem;margin-bottom:6px}
+  .drop .s{color:var(--text3);font-size:.78rem;font-style:italic;margin-bottom:18px}
+  .paste{width:100%;min-height:70px;padding:12px;border:1.5px solid var(--border);border-radius:10px;
+    background:var(--card);color:var(--text);font-size:13px;font-family:ui-monospace,monospace;margin-bottom:12px;resize:vertical}
+  /* preview */
+  .card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:15px;margin-top:14px}
+  .h2{font-size:.63rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin:16px 0 8px}
+  table{width:100%;border-collapse:collapse;font-size:.75rem}
+  th{text-align:left;color:var(--text3);font-weight:800;font-size:.6rem;text-transform:uppercase;padding:7px 6px;border-bottom:1px solid var(--border)}
+  td{padding:7px 6px;border-bottom:1px solid var(--border);white-space:nowrap}
+  tr.bad td{color:#f87171}
+  .scroll{overflow-x:auto;max-height:300px;overflow-y:auto}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:12px}
+  .stat{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center}
+  .stat .v{font-size:1.2rem;font-weight:800}
+  .stat .l{font-size:.58rem;color:var(--text3);text-transform:uppercase;font-weight:800;margin-top:2px}
+  .stat .v.g{color:#4ade80}.stat .v.r{color:#f87171}.stat .v.a{color:var(--accent)}
+  .bar{height:10px;background:var(--card2);border-radius:6px;overflow:hidden;margin-top:12px;display:none}
+  .bar.on{display:block}
+  .fill{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#16a34a);transition:width .2s}
+  .fld{margin-bottom:10px}
+  .fld label{display:block;font-size:.62rem;font-weight:800;color:var(--text3);text-transform:uppercase;margin-bottom:5px;letter-spacing:.4px}
+  .inp{width:100%;padding:11px;border:1.5px solid var(--border);border-radius:10px;font-size:16px;background:var(--bg);color:var(--text)}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .note{font-size:.68rem;color:var(--text3);line-height:1.55;margin-top:10px}
+  .msg{font-size:.78rem;color:var(--text3);margin:12px 0;text-align:center;min-height:18px}
+  #gate{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:300;text-align:center;padding:20px}
+  .spin{width:34px;height:34px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 12px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  #toasts{position:fixed;left:14px;right:14px;bottom:16px;z-index:99;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+  .toast{background:#000;color:#fff;padding:12px 15px;border-radius:11px;font-size:.79rem;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .toast.ok{background:#14532d}.toast.err{background:#7f1d1d}
+</style>
+</head>
+<body>
+
+<div id="gate"><div><div class="spin"></div><div style="font-size:.82rem;color:var(--text3)" id="gateMsg">Checking access…</div></div></div>
+
+<div class="wrap" id="app" style="display:none">
+  <header><h1>Bulk upload products</h1><button class="mini" id="back">← App</button></header>
+
+  <div class="topbar">
+    <div class="seg" id="tabs">
+      <button class="on" data-t="upload">Upload</button>
+      <button data-t="form">Form</button>
+    </div>
+    <button class="btn btn-blue sample" id="sampleBtn">Sample CSV</button>
+  </div>
+
+  <!-- ============ UPLOAD ============ -->
+  <div class="pane on" id="pane-upload">
+    <textarea class="paste" id="paste" placeholder="…or paste CSV rows here"></textarea>
+    <div class="drop" id="drop">
+      <div class="t">Drag and drop your file here</div>
+      <div class="s">Only .csv files are accepted</div>
+      <button class="btn btn-blue" id="pickBtn">Upload file</button>
+      <input type="file" id="file" accept=".csv,text/csv" hidden>
+    </div>
+    <div class="msg" id="upMsg"></div>
+
+    <div id="preview" style="display:none">
+      <div class="stats">
+        <div class="stat"><div class="v g" id="nOk">0</div><div class="l">Ready</div></div>
+        <div class="stat"><div class="v r" id="nBad">0</div><div class="l">Problems</div></div>
+        <div class="stat"><div class="v a" id="nDup">0</div><div class="l">Will update</div></div>
+      </div>
+      <div class="card" style="margin-top:0">
+        <div class="h2" style="margin-top:0">Preview</div>
+        <div class="scroll"><table id="tbl"></table></div>
+      </div>
+      <div class="bar" id="bar"><div class="fill" id="fill"></div></div>
+      <button class="btn btn-green btn-full" id="importBtn" style="margin-top:12px">Import to database</button>
+      <div class="note">Rows with problems are skipped. Existing SKUs are updated, never duplicated.</div>
+    </div>
+  </div>
+
+  <!-- ============ FORM ============ -->
+  <div class="pane" id="pane-form">
+    <div class="card" style="margin-top:0">
+      <div class="g2">
+        <div class="fld"><label>Brand *</label><input class="inp" id="fBrand" placeholder="RELAXO"></div>
+        <div class="fld"><label>Model *</label><input class="inp" id="fModel" placeholder="BHG320"></div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Colour</label><input class="inp" id="fColor" value="-"></div>
+        <div class="fld"><label>MRP *</label><input class="inp" id="fMrp" type="number" step="0.01" placeholder="199.50"></div>
+      </div>
+      <div class="fld"><label>Sizes * (comma separated)</label><input class="inp" id="fSizes" placeholder="6,7,8,9,10"></div>
+      <div class="g2">
+        <div class="fld"><label>Opening qty each</label><input class="inp" id="fQty" type="number" min="0" value="0"></div>
+        <div class="fld"><label>Reorder level</label><input class="inp" id="fLow" type="number" min="0" value="5"></div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Category</label><input class="inp" id="fCat" placeholder="Slippers"></div>
+        <div class="fld"><label>Gender</label><input class="inp" id="fGen" placeholder="Gents"></div>
+      </div>
+      <button class="btn btn-green btn-full" id="formBtn">Add product</button>
+      <div class="note">One row is created per size. SKU is built as BRAND-MODEL-COLOUR-SIZE.</div>
+    </div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, writeBatch, collection, getDocs }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const CFG={apiKey:"AIzaSyB-WPSe1SoIEC4JwednqMydhj_cvGgOOs8",authDomain:"make-digital-india-479fb.firebaseapp.com",
+  projectId:"make-digital-india-479fb",storageBucket:"make-digital-india-479fb.firebasestorage.app",
+  messagingSenderId:"356753740738",appId:"1:356753740738:web:71e098ed9d21ca911afc5b"};
+const app=initializeApp(CFG),auth=getAuth(app),db=getFirestore(app);
+const PRODUCTS='clients/shoestore/products';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const safeId=s=>String(s).replace(/[\/#?%\[\]]/g,'-');
+let ROWS=[],EXISTING={},MYAPP='shoestore2',ROLE='staff';
+
+function toast(t,m,k){const z=$("toasts"),d=document.createElement('div');d.className='toast '+(k||'');
+  d.innerHTML='<b>'+esc(t)+'</b>'+(m?'<div style="opacity:.8;font-size:.72rem;margin-top:3px">'+esc(m)+'</div>':'');
+  z.appendChild(d);setTimeout(()=>d.remove(),4000);}
+
+/* ---- gate: admins only ---- */
+onAuthStateChanged(auth,async u=>{
+  if(!u){location.replace('/login.html');return;}
+  try{const s=await getDoc(doc(db,'users',u.uid));
+    if(!s.exists()){$("gateMsg").textContent='Your account has no profile yet.';return;}
+    const p=s.data();
+    if(p.active===false){$("gateMsg").textContent='This account is disabled.';return;}
+    MYAPP=p.app||'shoestore2';ROLE=p.role||'staff';
+    if(ROLE!=='admin'){$("gateMsg").innerHTML='Admins only.<br><br><button class="btn btn-ghost" onclick="history.back()">Go back</button>';return;}
+  }catch(e){$("gateMsg").textContent='Error: '+e.message;return;}
+  try{const qs=await getDocs(collection(db,PRODUCTS));
+    qs.forEach(d=>EXISTING[d.id]=1);}catch(e){}
+  $("gate").style.display='none';$("app").style.display='block';
+});
+$("back").onclick=()=>location.href='/'+MYAPP+'/';
+
+/* ---- tabs ---- */
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  $('pane-'+b.dataset.t).classList.add('on');});
+
+/* ---- sample CSV ---- */
+const SAMPLE=`brand,model,color,size,mrp,qty,reorder_level,category,gender
+RELAXO,BHG320,NAVY,6,199.50,12,4,Slippers,Gents
+RELAXO,BHG320,NAVY,7,199.50,10,4,Slippers,Gents
+RELAXO,BHG320,NAVY,8,199.50,8,4,Slippers,Gents
+SPARX,SM734,BLACK,7,899,6,3,Sports,Gents
+SPARX,SM734,BLACK,8,899,4,3,Sports,Gents
+ASIAN,SAFARI11,BROWN,9,269,5,2,Slippers,Gents`;
+$("sampleBtn").onclick=()=>{
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([SAMPLE],{type:'text/csv'}));
+  a.download='product-upload-sample.csv';a.click();
+  toast('Sample downloaded','Fill it in and upload','ok');};
+
+/* ---- file / drop / paste ---- */
+$("pickBtn").onclick=()=>$("file").click();
+$("file").onchange=e=>{const f=e.target.files[0];if(f)readFile(f);};
+const dz=$("drop");
+['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('over');}));
+dz.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];
+  if(!f)return;
+  if(!/\.csv$/i.test(f.name))return toast('Only CSV files','Save your sheet as .csv first','err');
+  readFile(f);});
+function readFile(f){const r=new FileReader();r.onload=()=>parse(r.result);r.readAsText(f);}
+$("paste").addEventListener('input',()=>{const v=$("paste").value.trim();if(v.split('\n').length>1)parse(v);});
+
+/* ---- CSV parsing + validation ---- */
+function splitLine(l){const out=[];let cur='',q=false;
+  for(const ch of l){if(ch==='"')q=!q;else if(ch===','&&!q){out.push(cur);cur='';}else cur+=ch;}
+  out.push(cur);return out.map(x=>x.trim());}
+function parse(text){
+  const lines=text.replace(/\r/g,'').split('\n').filter(x=>x.trim());
+  if(lines.length<2){$("upMsg").textContent='Need a header row and at least one data row.';return;}
+  const head=splitLine(lines[0]).map(h=>h.toLowerCase());
+  const need=['brand','model','size','mrp'];
+  const missing=need.filter(h=>head.indexOf(h)===-1);
+  if(missing.length){$("upMsg").textContent='Missing column(s): '+missing.join(', ')+'. Download the sample CSV to see the format.';
+    $("preview").style.display='none';return;}
+  const idx={};head.forEach((h,i)=>idx[h]=i);
+  ROWS=[];
+  for(let i=1;i<lines.length;i++){
+    const c=splitLine(lines[i]);
+    const get=k=>idx[k]===undefined?'':(c[idx[k]]||'');
+    const brand=get('brand').toUpperCase(), model=get('model').toUpperCase(),
+          color=(get('color')||'-').toUpperCase(), size=get('size');
+    const mrp=parseFloat(get('mrp'))||0, qty=Math.max(0,parseInt(get('qty')||'0',10)||0);
+    const low=parseInt(get('reorder_level')||'5',10)||5;
+    const errs=[];
+    if(!brand)errs.push('brand');
+    if(!model)errs.push('model');
+    if(!size)errs.push('size');
+    if(!mrp)errs.push('mrp is 0');
+    const sku=(brand+'-'+model+'-'+color+'-'+size).toUpperCase();
+    ROWS.push({sku,brand,model,color,size,mrp,qty,reorder_level:low,
+      category:get('category'),gender:get('gender'),
+      errs,dup:!!EXISTING[safeId(sku)]});
+  }
+  showPreview();
+}
+function showPreview(){
+  const ok=ROWS.filter(r=>!r.errs.length), bad=ROWS.length-ok.length, dup=ok.filter(r=>r.dup).length;
+  $("nOk").textContent=ok.length;$("nBad").textContent=bad;$("nDup").textContent=dup;
+  $("tbl").innerHTML='<tr><th>SKU</th><th>Brand</th><th>Model</th><th>Colour</th><th>Size</th><th>MRP</th><th>Qty</th><th>Status</th></tr>'+
+    ROWS.slice(0,200).map(r=>'<tr class="'+(r.errs.length?'bad':'')+'"><td>'+esc(r.sku)+'</td><td>'+esc(r.brand)+
+      '</td><td>'+esc(r.model)+'</td><td>'+esc(r.color)+'</td><td>'+esc(r.size)+'</td><td>'+r.mrp+'</td><td>'+r.qty+
+      '</td><td>'+(r.errs.length?'missing '+r.errs.join(', '):(r.dup?'update':'new'))+'</td></tr>').join('');
+  $("preview").style.display='block';
+  $("upMsg").textContent=ROWS.length+' row(s) read'+(ROWS.length>200?' (showing first 200)':'')+'.';
+}
+
+/* ---- import ---- */
+$("importBtn").onclick=async()=>{
+  const ok=ROWS.filter(r=>!r.errs.length);
+  if(!ok.length)return toast('Nothing to import','Fix the problem rows first','err');
+  const btn=$("importBtn");btn.disabled=true;btn.textContent='Importing…';
+  $("bar").classList.add('on');
+  let done=0,failed=0;
+  for(let i=0;i<ok.length;i+=400){
+    const slice=ok.slice(i,i+400), batch=writeBatch(db);
+    slice.forEach(r=>{const {errs,dup,...rec}=r;
+      batch.set(doc(db,PRODUCTS,safeId(r.sku)),rec,{merge:true});});
+    try{await batch.commit();done+=slice.length;slice.forEach(r=>EXISTING[safeId(r.sku)]=1);}
+    catch(e){failed+=slice.length;toast('Batch failed',e.message,'err');}
+    $("fill").style.width=Math.round((i+slice.length)/ok.length*100)+'%';
+  }
+  btn.disabled=false;btn.textContent='Import to database';
+  toast(failed?'Finished with errors':'Imported',done+' product(s)'+(failed?', '+failed+' failed':''),failed?'err':'ok');
+  showPreview();
+};
+
+/* ---- single form ---- */
+$("formBtn").onclick=async()=>{
+  const brand=$("fBrand").value.trim().toUpperCase(), model=$("fModel").value.trim().toUpperCase(),
+        color=($("fColor").value.trim()||'-').toUpperCase(), mrp=parseFloat($("fMrp").value)||0,
+        qty=Math.max(0,parseInt($("fQty").value||'0',10)||0), low=parseInt($("fLow").value||'5',10)||5,
+        sizes=$("fSizes").value.split(',').map(s=>s.trim()).filter(Boolean);
+  if(!brand||!model||!sizes.length)return toast('Missing','Brand, model and sizes are required','err');
+  if(!mrp)return toast('MRP is 0','Set a price, or it will sell for free','err');
+  const btn=$("formBtn");btn.disabled=true;btn.textContent='Adding…';
+  try{
+    for(const size of sizes){
+      const sku=(brand+'-'+model+'-'+color+'-'+size).toUpperCase();
+      await setDoc(doc(db,PRODUCTS,safeId(sku)),
+        {sku,brand,model,color,size,mrp,qty,reorder_level:low,
+         category:$("fCat").value.trim(),gender:$("fGen").value.trim()},{merge:true});
+      EXISTING[safeId(sku)]=1;
+    }
+    toast('Added',model+' · '+sizes.length+' size(s)','ok');
+    $("fModel").value='';$("fSizes").value='';
+  }catch(e){toast('Error',e.message,'err');}
+  btn.disabled=false;btn.textContent='Add product';
+};
+</script>
+</body>
+</html>
